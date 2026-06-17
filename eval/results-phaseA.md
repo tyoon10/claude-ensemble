@@ -11,6 +11,19 @@ The judge is the highest-leverage part of the ensemble, so this ablation asks: *
 | J0 | control (one-shot synthesize) | 86.8 | — | 0 |
 | **J5** | **rigid 7-step procedure** | **82.1** | **−4.7** | 0 |
 
+## Verdict by lever
+
+| Lever | What it changes | Δ vs control | Verdict |
+|---|---|--:|---|
+| **Judge effort `xhigh`** | reasoning depth on the judge call — **no prompt change** | **+2.4** | **Essential — *the* lever; shipped as the default** |
+| Show the rubric | judge sees the explicit success-criteria | +1.0 (most best-votes, flat mean) | Marginal / uncertain — revisit |
+| Verify-first nudge | one open line: "verify claims before synthesizing" | +1.0 | Marginal |
+| Self-revision round | a second judge pass over its own draft | +1.1 (costs +1 model call) | Marginal — not worth the extra call |
+| One-shot synthesize | the plain judge | 0 | Control |
+| **Rigid 7-step procedure** | a prescribed, step-by-step judge process | **−4.7** | **Harmful — over-discipline backfires; avoid** |
+
+> **Lesson: the lever is effort, not instruction.** Give the judge more thinking budget and keep its prompt open; do not script its process.
+
 ## Findings
 
 1. **The judge's *effort* is the lever — not its instructions.** Raising the judge to `xhigh` effort, with **no prompt change at all**, is the single biggest improvement (+2.4). The simplest intervention is the most effective.
