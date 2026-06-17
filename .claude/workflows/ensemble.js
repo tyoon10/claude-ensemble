@@ -5,8 +5,11 @@
 // deterministic control flow, no orchestration-token tax, reproducible runs. It uses
 // only Claude models, so it runs on your Pro/Max subscription with no API key.
 //
-// Invoke with args = { task: "<your hard task>" } — accepts an object, a JSON
-// string, or the bare task text.
+// Invoke with args = { task: "<your hard task>", tier: "default" | "max" } — accepts
+// an object, a JSON string, or the bare task text (tier defaults to "default").
+//   default — Sonnet panel + Opus judge (cost-efficient; matches the /ensemble command).
+//   max     — Opus panel + critique-first Opus judge at xhigh effort (higher lift, ~2x the
+//             usage of default; closer to the "self-fusion" configuration).
 // The role prompts here mirror .claude/agents/ensemble-*.md — keep them in sync.
 
 export const meta = {
@@ -23,9 +26,21 @@ export const meta = {
 // resolve to the latest release of that tier, so the kit tracks new Claude models with
 // no edit. Pin a version (e.g. 'claude-opus-4-8') only when you want reproducibility.
 const GATE_MODEL = 'haiku'   // fast, cheap triage
-const PANEL_MODEL = 'sonnet' // balanced panel drafts
-const JUDGE_MODEL = 'opus'   // strongest available judge
+const JUDGE_MODEL = 'opus'   // strongest available judge, always
 const MIN_QUORUM = 2
+
+// 'default' (Sonnet panel) vs 'max' (Opus panel + stronger judge) — see the header.
+function readTier(a) {
+  let o = a
+  if (typeof o === 'string') {
+    const s = o.trim()
+    if (s.startsWith('{')) { try { o = JSON.parse(s) } catch (e) { o = null } } else { o = null }
+  }
+  return (o && typeof o === 'object' && o.tier === 'max') ? 'max' : 'default'
+}
+const tier = readTier(args)
+const PANEL_MODEL = tier === 'max' ? 'opus' : 'sonnet'
+const JUDGE_EFFORT = tier === 'max' ? 'xhigh' : 'high'
 
 const ROUTE_SCHEMA = {
   type: 'object', additionalProperties: false,
@@ -66,7 +81,7 @@ const gate = await agent(
   `Decide whether this task needs a multi-agent ensemble or whether a single pass answers it well. "complex" = multi-step reasoning, design, analysis, hard debugging, research, or trade-off calls; otherwise not.\n\nTASK:\n${task}`,
   { model: GATE_MODEL, effort: 'low', schema: ROUTE_SCHEMA, phase: 'Triage' }
 )
-log(`complex=${gate.complex} — ${gate.reason}`)
+log(`tier=${tier} complex=${gate.complex} — ${gate.reason}`)
 
 if (!gate.complex) {
   return await agent(`Answer this directly and well.\n\nTASK:\n${task}`, { model: PANEL_MODEL, effort: 'medium', label: 'single-pass' })
@@ -92,9 +107,10 @@ const offset = [...task].reduce((h, c) => (h + c.charCodeAt(0)) % drafts.length,
 const labelled = drafts.map((_, pos) => ({ tag: tags[pos], text: drafts[(pos + offset) % drafts.length] }))
 
 phase('Judge')
+const critiqueFirst = tier === 'max' ? 'First, internally verify each candidate for errors, gaps, and unsupported claims. ' : ''
 return await agent(
-  `You are the judge of an ensemble. Below are independent candidate answers under blind labels — do not state or guess which model wrote which. Treat each as a claim to verify: score per-criterion against the task's real success criteria (not tone, length, or label order), resolve contradictions explicitly, discard unsupported or fabricated claims, and synthesise ONE final answer better than any single candidate. You may override all candidates if they are all wrong. Prefer correctness over splitting the difference. Lead with the final answer; do not narrate your verification process before it — put any short dissent or verification notes after the answer.\n\n` +
+  `You are the judge of an ensemble. Below are independent candidate answers under blind labels — do not state or guess which model wrote which. ${critiqueFirst}Treat each as a claim to verify: score per-criterion against the task's real success criteria (not tone, length, or label order), resolve contradictions explicitly, discard unsupported or fabricated claims, and synthesise ONE final answer better than any single candidate. You may override all candidates if they are all wrong. Prefer correctness over splitting the difference. Lead with the final answer; do not narrate your verification process before it — put any short dissent or verification notes after the answer.\n\n` +
   labelled.map((d) => `--- Candidate ${d.tag} ---\n${d.text}`).join('\n\n') +
   `\n\nORIGINAL TASK:\n${task}`,
-  { model: JUDGE_MODEL, effort: 'high', label: 'judge', phase: 'Judge' }
+  { model: JUDGE_MODEL, effort: JUDGE_EFFORT, label: 'judge', phase: 'Judge' }
 )

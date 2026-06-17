@@ -80,11 +80,19 @@ Then, in Claude Code:
 
 <sub>\*Indicative, from the call structure and per-tier token rates — **not a measurement**. Actual spend depends on task and output length.</sub>
 
-**Performance — measured on a 12-task A/B eval.** On 12 hard tasks (systems design, debugging, math, coding, security, analysis, reasoning, data modeling, deep research, conceptual), the ensemble beat a single Opus pass on **11 of 12**, with a mean blind-rubric score of **94.2 vs 90.0 (+4.2 / 100)**, scored by two independent blind judges that agreed on every task. Full method, per-task scores, and caveats are in [`eval/`](eval/).
+**Performance — measured, two A/B evals (run on a subscription).** Full method, per-task scores, chart, and caveats in [`eval/`](eval/).
 
-![A/B eval results](eval/results.svg)
+- **v1 — 12 hard tasks:** ensemble **94.2 vs 90.0** single Opus (**+4.2 / 100**), 11/12 wins. The small margin was mostly a *ceiling* effect — single Opus already scored ~90, leaving little to win.
+- **v2 — 12 harder, high-headroom tasks, 3 arms:** single Opus drops to **82.2**; the ensemble lift widens to **+8.6** (Sonnet panel) / **+9.5** (Opus panel), and single Opus wins **0 of 12**.
 
-Read it honestly: **~+4 points is a real but bounded lift** — the judge/synthesis step earning its keep on hard tasks, not a dramatic jump — bought at ~3–5× the usage. The judges are Claude models (and the ensemble's synthesizer is Opus), so some same-family preference may inflate the delta; treat it as **directional, on this task set (n=12)**, not a general benchmark. Tellingly, the one task the ensemble *lost* was the most open-ended (`ship-now`), where there's no single answer to converge on. Reproduce or extend it via [`eval/run.js`](eval/run.js).
+![A/B eval results (v2)](eval/results-v2.svg)
+
+Two honest takeaways:
+
+1. **On genuinely hard tasks the lift is ~+9** — the judge/synthesis step earning its keep, in line with the fusion literature. v1's small number was a saturated-rubric artifact, not a weak system.
+2. **A pricier Opus panel barely helps (+0.9 over the Sonnet panel, and it won fewer tasks)** — likely because three Opus drafts correlate with each other and with the Opus judge, eroding the diversity the ensemble runs on. So the **cost-efficient Sonnet panel is the right default**, and `tier: "max"` is situational.
+
+Caveats: n=12 per eval, Claude judges (same-family preference possible — though both judges ranked single Opus *last* on every v2 task), this task set only. Directional, not a general benchmark. Reproduce via [`eval/run.js`](eval/run.js) / [`eval/run-v2.js`](eval/run-v2.js).
 
 ## Honest limits
 
@@ -108,6 +116,7 @@ It's all plain Markdown plus one JS file — edit to taste:
 - **Models / panel size:** edit the `model:` line in `.claude/agents/ensemble-*.md` (`sonnet` / `opus` / `haiku`), or add/remove panel members and update the list in `.claude/commands/ensemble.md`.
 - **Cheaper runs:** move a panel member to `haiku`, or drop the panel to two.
 - **Deterministic engine:** `.claude/workflows/ensemble.js` runs the same pipeline as a scripted Dynamic Workflow (no orchestration-token tax, reproducible). Invoke it with `args = { task: "…" }`.
+- **Max mode (`tier: "max"`):** run the workflow with `args = { task: "…", tier: "max" }` — an **Opus** panel + a critique-first Opus judge at `xhigh` effort. Our v2 eval found it only **+0.9** over the Sonnet default (and it won *fewer* tasks) at ~2× the usage — three Opus drafts correlate with each other and the Opus judge, eroding diversity. Use it only for the hardest design/systems tasks; **the Sonnet default is recommended.**
 
 ## Files
 

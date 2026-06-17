@@ -1,0 +1,26 @@
+{
+  "summary": {
+    "n": 12,
+    "baseMean": 82.2,
+    "sonnetMean": 90.8,
+    "opusMean": 91.7,
+    "sonnetDelta": 8.6,
+    "opusDelta": 9.5,
+    "opusOverSonnet": 0.9,
+    "bestCounts": { "baseline": 0, "sonnet": 7, "opus": 5 }
+  },
+  "rows": [
+    { "id": "scaling-plateau", "domain": "deep-research", "base": 82.5, "sonnet": 91.5, "opus": 84.5, "bestVotes": { "baseline": 0, "sonnet": 2, "opus": 0 }, "best": "sonnet" },
+    { "id": "global-counter", "domain": "systems-design", "base": 79.5, "sonnet": 88, "opus": 95, "bestVotes": { "baseline": 0, "sonnet": 0, "opus": 2 }, "best": "opus" },
+    { "id": "exactly-once", "domain": "debugging", "base": 79.5, "sonnet": 91.5, "opus": 90.5, "bestVotes": { "baseline": 0, "sonnet": 1, "opus": 1 }, "best": "sonnet" },
+    { "id": "sort-lower-bound", "domain": "math", "base": 86.5, "sonnet": 94.5, "opus": 92.5, "bestVotes": { "baseline": 0, "sonnet": 2, "opus": 0 }, "best": "sonnet" },
+    { "id": "rag-paradigms", "domain": "deep-research", "base": 82.5, "sonnet": 90, "opus": 89.5, "bestVotes": { "baseline": 0, "sonnet": 1, "opus": 1 }, "best": "sonnet" },
+    { "id": "build-vs-api", "domain": "analysis", "base": 77, "sonnet": 92, "opus": 88.5, "bestVotes": { "baseline": 0, "sonnet": 2, "opus": 0 }, "best": "sonnet" },
+    { "id": "passkey-threat", "domain": "security", "base": 80.5, "sonnet": 90.5, "opus": 93, "bestVotes": { "baseline": 0, "sonnet": 0, "opus": 2 }, "best": "opus" },
+    { "id": "coupon-collector", "domain": "math", "base": 87, "sonnet": 91.5, "opus": 94.5, "bestVotes": { "baseline": 0, "sonnet": 0, "opus": 2 }, "best": "opus" },
+    { "id": "prompt-to-token", "domain": "conceptual", "base": 86.5, "sonnet": 94, "opus": 93.5, "bestVotes": { "baseline": 0, "sonnet": 1, "opus": 1 }, "best": "sonnet" },
+    { "id": "long-context", "domain": "deep-research", "base": 81, "sonnet": 92, "opus": 91.5, "bestVotes": { "baseline": 0, "sonnet": 1, "opus": 1 }, "best": "sonnet" },
+    { "id": "contamination-eval", "domain": "methodology", "base": 82, "sonnet": 84, "opus": 93.5, "bestVotes": { "baseline": 0, "sonnet": 0, "opus": 2 }, "best": "opus" },
+    { "id": "micro-monolith", "domain": "analysis", "base": 81.5, "sonnet": 90, "opus": 93.5, "bestVotes": { "baseline": 0, "sonnet": 0, "opus": 2 }, "best": "opus" }
+  ]
+}
