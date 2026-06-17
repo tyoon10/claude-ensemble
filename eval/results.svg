@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="812" height="576" font-family="-apple-system,Segoe UI,Helvetica,Arial,sans-serif">
+<rect width="812" height="576" fill="white"/>
+<text x="168" y="28" font-size="17" font-weight="700" fill="#222">claude-ensemble — A/B eval (blind rubric scoring)</text>
+<text x="168" y="48" font-size="12" fill="#666">Mean rubric score 0–100 · two blind judges · n=12 tasks · indicative, small n</text>
+<line x1="168.0" y1="66" x2="168.0" y2="480" stroke="#e3e3e3"/>
+<text x="168.0" y="60" font-size="10" fill="#999" text-anchor="middle">0</text>
+<line x1="318.0" y1="66" x2="318.0" y2="480" stroke="#e3e3e3"/>
+<text x="318.0" y="60" font-size="10" fill="#999" text-anchor="middle">25</text>
+<line x1="468.0" y1="66" x2="468.0" y2="480" stroke="#e3e3e3"/>
+<text x="468.0" y="60" font-size="10" fill="#999" text-anchor="middle">50</text>
+<line x1="618.0" y1="66" x2="618.0" y2="480" stroke="#e3e3e3"/>
+<text x="618.0" y="60" font-size="10" fill="#999" text-anchor="middle">75</text>
+<line x1="768.0" y1="66" x2="768.0" y2="480" stroke="#e3e3e3"/>
+<text x="768.0" y="60" font-size="10" fill="#999" text-anchor="middle">100</text>
+<text x="158" y="92" font-size="11" fill="#222" text-anchor="end">ship-now</text>
+<rect x="168" y="80" width="552.0" height="12" fill="#c4622d"/>
+<text x="724.0" y="91" font-size="9" fill="#c4622d">92</text>
+<rect x="168" y="94" width="558.0" height="12" fill="#9aa0a6"/>
+<text x="730.0" y="105" font-size="9" fill="#777">93</text>
+<text x="158" y="126" font-size="11" fill="#222" text-anchor="end">custom-fields</text>
+<rect x="168" y="114" width="546.0" height="12" fill="#c4622d"/>
+<text x="718.0" y="125" font-size="9" fill="#c4622d">91</text>
+<rect x="168" y="128" width="531.0" height="12" fill="#9aa0a6"/>
+<text x="703.0" y="139" font-size="9" fill="#777">88.5</text>
+<text x="158" y="160" font-size="11" fill="#222" text-anchor="end">three-boxes</text>
+<rect x="168" y="148" width="576.0" height="12" fill="#c4622d"/>
+<text x="748.0" y="159" font-size="9" fill="#c4622d">96</text>
+<rect x="168" y="162" width="555.0" height="12" fill="#9aa0a6"/>
+<text x="727.0" y="173" font-size="9" fill="#777">92.5</text>
+<text x="158" y="194" font-size="11" fill="#222" text-anchor="end">rate-limiter</text>
+<rect x="168" y="182" width="567.0" height="12" fill="#c4622d"/>
+<text x="739.0" y="193" font-size="9" fill="#c4622d">94.5</text>
+<rect x="168" y="196" width="543.0" height="12" fill="#9aa0a6"/>
+<text x="715.0" y="207" font-size="9" fill="#777">90.5</text>
+<text x="158" y="228" font-size="11" fill="#222" text-anchor="end">hallucination-survey</text>
+<rect x="168" y="216" width="546.0" height="12" fill="#c4622d"/>
+<text x="718.0" y="227" font-size="9" fill="#c4622d">91</text>
+<rect x="168" y="230" width="522.0" height="12" fill="#9aa0a6"/>
+<text x="694.0" y="241" font-size="9" fill="#777">87</text>
+<text x="158" y="262" font-size="11" fill="#222" text-anchor="end">float-compare</text>
+<rect x="168" y="250" width="585.0" height="12" fill="#c4622d"/>
+<text x="757.0" y="261" font-size="9" fill="#c4622d">97.5</text>
+<rect x="168" y="264" width="561.0" height="12" fill="#9aa0a6"/>
+<text x="733.0" y="275" font-size="9" fill="#777">93.5</text>
+<text x="158" y="296" font-size="11" fill="#222" text-anchor="end">tuesday-boy</text>
+<rect x="168" y="284" width="582.0" height="12" fill="#c4622d"/>
+<text x="754.0" y="295" font-size="9" fill="#c4622d">97</text>
+<rect x="168" y="298" width="555.0" height="12" fill="#9aa0a6"/>
+<text x="727.0" y="309" font-size="9" fill="#777">92.5</text>
+<text x="158" y="330" font-size="11" fill="#222" text-anchor="end">order-by-injection</text>
+<rect x="168" y="318" width="567.0" height="12" fill="#c4622d"/>
+<text x="739.0" y="329" font-size="9" fill="#c4622d">94.5</text>
+<rect x="168" y="332" width="537.0" height="12" fill="#9aa0a6"/>
+<text x="709.0" y="343" font-size="9" fill="#777">89.5</text>
+<text x="158" y="364" font-size="11" fill="#222" text-anchor="end">cache-leak</text>
+<rect x="168" y="352" width="573.0" height="12" fill="#c4622d"/>
+<text x="745.0" y="363" font-size="9" fill="#c4622d">95.5</text>
+<rect x="168" y="366" width="540.0" height="12" fill="#9aa0a6"/>
+<text x="712.0" y="377" font-size="9" fill="#777">90</text>
+<text x="158" y="398" font-size="11" fill="#222" text-anchor="end">n-plus-1</text>
+<rect x="168" y="386" width="561.0" height="12" fill="#c4622d"/>
+<text x="733.0" y="397" font-size="9" fill="#c4622d">93.5</text>
+<rect x="168" y="400" width="525.0" height="12" fill="#9aa0a6"/>
+<text x="697.0" y="411" font-size="9" fill="#777">87.5</text>
+<text x="158" y="432" font-size="11" fill="#222" text-anchor="end">raft-vs-dynamo</text>
+<rect x="168" y="420" width="558.0" height="12" fill="#c4622d"/>
+<text x="730.0" y="431" font-size="9" fill="#c4622d">93</text>
+<rect x="168" y="434" width="522.0" height="12" fill="#9aa0a6"/>
+<text x="694.0" y="445" font-size="9" fill="#777">87</text>
+<text x="158" y="466" font-size="11" fill="#222" text-anchor="end">heavy-hitters</text>
+<rect x="168" y="454" width="570.0" height="12" fill="#c4622d"/>
+<text x="742.0" y="465" font-size="9" fill="#c4622d">95</text>
+<rect x="168" y="468" width="534.0" height="12" fill="#9aa0a6"/>
+<text x="706.0" y="479" font-size="9" fill="#777">89</text>
+<rect x="168" y="496" width="12" height="12" fill="#c4622d"/><text x="186" y="506" font-size="12" fill="#222">Ensemble</text>
+<rect x="278" y="496" width="12" height="12" fill="#9aa0a6"/><text x="296" y="506" font-size="12" fill="#222">Single Opus</text>
+<text x="168" y="536" font-size="13" font-weight="600" fill="#222">mean: ensemble 94.2 vs Opus 90  (Δ +4.2)   ·   W/T/L (ensemble): 11/0/1</text>
+</svg>

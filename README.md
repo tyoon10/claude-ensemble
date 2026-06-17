@@ -80,7 +80,11 @@ Then, in Claude Code:
 
 <sub>\*Indicative, from the call structure and per-tier token rates — **not a measurement**. Actual spend depends on task and output length.</sub>
 
-**Performance is an empirical question — so this kit ships no quality numbers it hasn't measured.** The ensemble/fusion pattern is well-motivated, but whether it beats a single Opus pass on *your* tasks is something to test, not assert. To get tested-and-verified numbers, run an A/B eval: the same task set through `/ensemble` and through one Opus pass, blind-scored against a rubric. A benchmark harness and a results chart are planned. Until those numbers exist, treat any "X% better" claim — here or anywhere — with suspicion.
+**Performance — measured on a 12-task A/B eval.** On 12 hard tasks (systems design, debugging, math, coding, security, analysis, reasoning, data modeling, deep research, conceptual), the ensemble beat a single Opus pass on **11 of 12**, with a mean blind-rubric score of **94.2 vs 90.0 (+4.2 / 100)**, scored by two independent blind judges that agreed on every task. Full method, per-task scores, and caveats are in [`eval/`](eval/).
+
+![A/B eval results](eval/results.svg)
+
+Read it honestly: **~+4 points is a real but bounded lift** — the judge/synthesis step earning its keep on hard tasks, not a dramatic jump — bought at ~3–5× the usage. The judges are Claude models (and the ensemble's synthesizer is Opus), so some same-family preference may inflate the delta; treat it as **directional, on this task set (n=12)**, not a general benchmark. Tellingly, the one task the ensemble *lost* was the most open-ended (`ship-now`), where there's no single answer to converge on. Reproduce or extend it via [`eval/run.js`](eval/run.js).
 
 ## Honest limits
 

@@ -1,0 +1,25 @@
+{
+  "summary": {
+    "n": 12,
+    "ensMean": 94.2,
+    "baseMean": 90,
+    "ensembleWins": 11,
+    "baselineWins": 1,
+    "ties": 0,
+    "meanDelta": 4.2
+  },
+  "rows": [
+    { "id": "rate-limiter", "domain": "systems-design", "ensAvg": 94.5, "baseAvg": 90.5, "delta": 4, "winner": "ensemble", "wins": ["ensemble", "ensemble"] },
+    { "id": "cache-leak", "domain": "debugging", "ensAvg": 95.5, "baseAvg": 90, "delta": 5.5, "winner": "ensemble", "wins": ["ensemble", "ensemble"] },
+    { "id": "tuesday-boy", "domain": "math", "ensAvg": 97, "baseAvg": 92.5, "delta": 4.5, "winner": "ensemble", "wins": ["ensemble", "ensemble"] },
+    { "id": "n-plus-1", "domain": "coding", "ensAvg": 93.5, "baseAvg": 87.5, "delta": 6, "winner": "ensemble", "wins": ["ensemble", "ensemble"] },
+    { "id": "raft-vs-dynamo", "domain": "systems-design", "ensAvg": 93, "baseAvg": 87, "delta": 6, "winner": "ensemble", "wins": ["ensemble", "ensemble"] },
+    { "id": "order-by-injection", "domain": "security", "ensAvg": 94.5, "baseAvg": 89.5, "delta": 5, "winner": "ensemble", "wins": ["ensemble", "ensemble"] },
+    { "id": "ship-now", "domain": "analysis", "ensAvg": 92, "baseAvg": 93, "delta": -1, "winner": "baseline", "wins": ["baseline", "baseline"] },
+    { "id": "three-boxes", "domain": "reasoning", "ensAvg": 96, "baseAvg": 92.5, "delta": 3.5, "winner": "ensemble", "wins": ["ensemble", "ensemble"] },
+    { "id": "custom-fields", "domain": "data-modeling", "ensAvg": 91, "baseAvg": 88.5, "delta": 2.5, "winner": "ensemble", "wins": ["ensemble", "ensemble"] },
+    { "id": "heavy-hitters", "domain": "coding", "ensAvg": 95, "baseAvg": 89, "delta": 6, "winner": "ensemble", "wins": ["ensemble", "ensemble"] },
+    { "id": "hallucination-survey", "domain": "deep-research", "ensAvg": 91, "baseAvg": 87, "delta": 4, "winner": "ensemble", "wins": ["ensemble", "ensemble"] },
+    { "id": "float-compare", "domain": "conceptual", "ensAvg": 97.5, "baseAvg": 93.5, "delta": 4, "winner": "ensemble", "wins": ["ensemble", "ensemble"] }
+  ]
+}
