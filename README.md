@@ -68,11 +68,34 @@ Then, in Claude Code:
 - The **panel** diverges by *objective* — a drafter, an adversary that avoids the tempting-but-wrong approach, and an alt-method solver. Different jobs de-correlate errors more than three copies wearing different "personas" do.
 - The **judge** sees the drafts under blind, shuffled labels (no model names) to cut judge bias, verifies rather than trusts, and synthesizes one answer better than any single draft.
 
+## Cost & performance
+
+**Cost is structural, not a price.** On a subscription you spend usage, not dollars — and the gatekeeper keeps easy work off the panel, so you only pay the ensemble premium on genuinely hard tasks:
+
+| Path | Model calls | Relative spend\* |
+|---|---|---|
+| Single model (baseline) | 1× Opus | 1× |
+| Ensemble — simple (gated out) | 1× Haiku + 1× Sonnet | < 1× |
+| Ensemble — complex | 1× Haiku + 3× Sonnet + 1× Opus | ~3–5× |
+
+<sub>\*Indicative, from the call structure and per-tier token rates — **not a measurement**. Actual spend depends on task and output length.</sub>
+
+**Performance is an empirical question — so this kit ships no quality numbers it hasn't measured.** The ensemble/fusion pattern is well-motivated, but whether it beats a single Opus pass on *your* tasks is something to test, not assert. To get tested-and-verified numbers, run an A/B eval: the same task set through `/ensemble` and through one Opus pass, blind-scored against a rubric. A benchmark harness and a results chart are planned. Until those numbers exist, treat any "X% better" claim — here or anywhere — with suspicion.
+
 ## Honest limits
 
 - **Claude-only panel = correlated errors.** Every panelist is a Claude model, so they share a training lineage and therefore some blind spots — more correlated than a true cross-vendor panel. The judge and the objective-diverse roles mitigate this; they do not erase it. Genuine cross-lab de-correlation needs non-Claude models, which needs API keys — deliberately out of scope here.
 - **It spends real usage.** A complex run is up to ~5 model calls — a cheap Haiku triage call, 3 Sonnet panel drafts, and the Opus judge — several with extended thinking. Use it for genuinely hard tasks; the triage step keeps it off easy ones. Heavy use will hit Pro/Max limits.
 - **Not a benchmarked guarantee.** It is a pragmatic pattern — strongest on decomposable, deep-reasoning work, weakest where you needed truly independent opinions on one indivisible question.
+
+## Built on Claude Code
+
+This is pure Claude Code configuration — no server, no SDK, no external service:
+
+- the `/ensemble` command and the four panel/judge roles are **[sub-agents](https://code.claude.com/docs/en/sub-agents)**;
+- the optional deterministic engine is a **[Dynamic Workflow](https://code.claude.com/docs/en/workflows)** — `agent()` / `parallel()` in a local JavaScript script that owns the control flow.
+
+**Staying on the latest models.** The agents and the workflow select models by **tier alias** — `opus`, `sonnet`, `haiku` — and each alias resolves to the newest release of that tier, so the kit follows new Claude models with no edit. Pin a specific version (e.g. `claude-opus-4-8`) only when you want reproducibility.
 
 ## Configure
 

@@ -1,4 +1,5 @@
-// claude-ensemble — optional deterministic engine (Claude Code Dynamic Workflows).
+// claude-ensemble — optional deterministic engine, built on Claude Code Dynamic Workflows.
+// Docs: https://code.claude.com/docs/en/workflows
 //
 // Plain JavaScript. This mirrors the /ensemble command but as a scripted workflow:
 // deterministic control flow, no orchestration-token tax, reproducible runs. It uses
@@ -18,9 +19,12 @@ export const meta = {
   ],
 }
 
-const GATE_MODEL = 'claude-haiku-4-5'
-const PANEL_MODEL = 'claude-sonnet-4-6'
-const JUDGE_MODEL = 'claude-opus-4-8'
+// Model TIER aliases (not pinned version IDs): 'haiku' | 'sonnet' | 'opus' each
+// resolve to the latest release of that tier, so the kit tracks new Claude models with
+// no edit. Pin a version (e.g. 'claude-opus-4-8') only when you want reproducibility.
+const GATE_MODEL = 'haiku'   // fast, cheap triage
+const PANEL_MODEL = 'sonnet' // balanced panel drafts
+const JUDGE_MODEL = 'opus'   // strongest available judge
 const MIN_QUORUM = 2
 
 const ROUTE_SCHEMA = {
