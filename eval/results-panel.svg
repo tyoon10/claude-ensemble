@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="814" height="736" font-family="-apple-system,Segoe UI,Helvetica,Arial,sans-serif">
+<rect width="814" height="736" fill="white"/>
+<text x="168" y="26" font-size="16" font-weight="700" fill="#222">Panel design — homogeneous best-of-N vs objective roles</text>
+<text x="168" y="44" font-size="12" fill="#666">Mean rubric 0–100 · two blind judges · n=12 · single Opus vs homog vs role-diverse panel</text>
+<line x1="168.0" y1="74" x2="168.0" y2="632" stroke="#e3e3e3"/>
+<text x="168.0" y="68" font-size="10" fill="#999" text-anchor="middle">0</text>
+<line x1="318.0" y1="74" x2="318.0" y2="632" stroke="#e3e3e3"/>
+<text x="318.0" y="68" font-size="10" fill="#999" text-anchor="middle">25</text>
+<line x1="468.0" y1="74" x2="468.0" y2="632" stroke="#e3e3e3"/>
+<text x="468.0" y="68" font-size="10" fill="#999" text-anchor="middle">50</text>
+<line x1="618.0" y1="74" x2="618.0" y2="632" stroke="#e3e3e3"/>
+<text x="618.0" y="68" font-size="10" fill="#999" text-anchor="middle">75</text>
+<line x1="768.0" y1="74" x2="768.0" y2="632" stroke="#e3e3e3"/>
+<text x="768.0" y="68" font-size="10" fill="#999" text-anchor="middle">100</text>
+<text x="158" y="104" font-size="11" fill="#222" text-anchor="end">scaling-plateau</text>
+<rect x="168" y="86" width="456.0" height="11" fill="#9aa0a6"/>
+<text x="628.0" y="96" font-size="8" fill="#666">76</text>
+<rect x="168" y="98" width="534.0" height="11" fill="#c4622d"/>
+<text x="706.0" y="108" font-size="8" fill="#666">89</text>
+<rect x="168" y="110" width="453.0" height="11" fill="#2d6ec4"/>
+<text x="625.0" y="120" font-size="8" fill="#666">75.5</text>
+<text x="158" y="150" font-size="11" fill="#222" text-anchor="end">coupon-collector</text>
+<rect x="168" y="132" width="543.0" height="11" fill="#9aa0a6"/>
+<text x="715.0" y="142" font-size="8" fill="#666">90.5</text>
+<rect x="168" y="144" width="555.0" height="11" fill="#c4622d"/>
+<text x="727.0" y="154" font-size="8" fill="#666">92.5</text>
+<rect x="168" y="156" width="495.0" height="11" fill="#2d6ec4"/>
+<text x="667.0" y="166" font-size="8" fill="#666">82.5</text>
+<text x="158" y="196" font-size="11" fill="#222" text-anchor="end">global-counter</text>
+<rect x="168" y="178" width="471.0" height="11" fill="#9aa0a6"/>
+<text x="643.0" y="188" font-size="8" fill="#666">78.5</text>
+<rect x="168" y="190" width="558.0" height="11" fill="#c4622d"/>
+<text x="730.0" y="200" font-size="8" fill="#666">93</text>
+<rect x="168" y="202" width="531.0" height="11" fill="#2d6ec4"/>
+<text x="703.0" y="212" font-size="8" fill="#666">88.5</text>
+<text x="158" y="242" font-size="11" fill="#222" text-anchor="end">contamination-eval</text>
+<rect x="168" y="224" width="501.0" height="11" fill="#9aa0a6"/>
+<text x="673.0" y="234" font-size="8" fill="#666">83.5</text>
+<rect x="168" y="236" width="549.0" height="11" fill="#c4622d"/>
+<text x="721.0" y="246" font-size="8" fill="#666">91.5</text>
+<rect x="168" y="248" width="522.0" height="11" fill="#2d6ec4"/>
+<text x="694.0" y="258" font-size="8" fill="#666">87</text>
+<text x="158" y="288" font-size="11" fill="#222" text-anchor="end">exactly-once</text>
+<rect x="168" y="270" width="468.0" height="11" fill="#9aa0a6"/>
+<text x="640.0" y="280" font-size="8" fill="#666">78</text>
+<rect x="168" y="282" width="552.0" height="11" fill="#c4622d"/>
+<text x="724.0" y="292" font-size="8" fill="#666">92</text>
+<rect x="168" y="294" width="534.0" height="11" fill="#2d6ec4"/>
+<text x="706.0" y="304" font-size="8" fill="#666">89</text>
+<text x="158" y="334" font-size="11" fill="#222" text-anchor="end">build-vs-api</text>
+<rect x="168" y="316" width="483.0" height="11" fill="#9aa0a6"/>
+<text x="655.0" y="326" font-size="8" fill="#666">80.5</text>
+<rect x="168" y="328" width="543.0" height="11" fill="#c4622d"/>
+<text x="715.0" y="338" font-size="8" fill="#666">90.5</text>
+<rect x="168" y="340" width="528.0" height="11" fill="#2d6ec4"/>
+<text x="700.0" y="350" font-size="8" fill="#666">88</text>
+<text x="158" y="380" font-size="11" fill="#222" text-anchor="end">passkey-threat</text>
+<rect x="168" y="362" width="501.0" height="11" fill="#9aa0a6"/>
+<text x="673.0" y="372" font-size="8" fill="#666">83.5</text>
+<rect x="168" y="374" width="555.0" height="11" fill="#c4622d"/>
+<text x="727.0" y="384" font-size="8" fill="#666">92.5</text>
+<rect x="168" y="386" width="543.0" height="11" fill="#2d6ec4"/>
+<text x="715.0" y="396" font-size="8" fill="#666">90.5</text>
+<text x="158" y="426" font-size="11" fill="#222" text-anchor="end">micro-monolith</text>
+<rect x="168" y="408" width="459.0" height="11" fill="#9aa0a6"/>
+<text x="631.0" y="418" font-size="8" fill="#666">76.5</text>
+<rect x="168" y="420" width="531.0" height="11" fill="#c4622d"/>
+<text x="703.0" y="430" font-size="8" fill="#666">88.5</text>
+<rect x="168" y="432" width="522.0" height="11" fill="#2d6ec4"/>
+<text x="694.0" y="442" font-size="8" fill="#666">87</text>
+<text x="158" y="472" font-size="11" fill="#222" text-anchor="end">rag-paradigms</text>
+<rect x="168" y="454" width="444.0" height="11" fill="#9aa0a6"/>
+<text x="616.0" y="464" font-size="8" fill="#666">74</text>
+<rect x="168" y="466" width="531.0" height="11" fill="#c4622d"/>
+<text x="703.0" y="476" font-size="8" fill="#666">88.5</text>
+<rect x="168" y="478" width="534.0" height="11" fill="#2d6ec4"/>
+<text x="706.0" y="488" font-size="8" fill="#666">89</text>
+<text x="158" y="518" font-size="11" fill="#222" text-anchor="end">long-context</text>
+<rect x="168" y="500" width="483.0" height="11" fill="#9aa0a6"/>
+<text x="655.0" y="510" font-size="8" fill="#666">80.5</text>
+<rect x="168" y="512" width="531.0" height="11" fill="#c4622d"/>
+<text x="703.0" y="522" font-size="8" fill="#666">88.5</text>
+<rect x="168" y="524" width="534.0" height="11" fill="#2d6ec4"/>
+<text x="706.0" y="534" font-size="8" fill="#666">89</text>
+<text x="158" y="564" font-size="11" fill="#222" text-anchor="end">sort-lower-bound</text>
+<rect x="168" y="546" width="510.0" height="11" fill="#9aa0a6"/>
+<text x="682.0" y="556" font-size="8" fill="#666">85</text>
+<rect x="168" y="558" width="543.0" height="11" fill="#c4622d"/>
+<text x="715.0" y="568" font-size="8" fill="#666">90.5</text>
+<rect x="168" y="570" width="552.0" height="11" fill="#2d6ec4"/>
+<text x="724.0" y="580" font-size="8" fill="#666">92</text>
+<text x="158" y="610" font-size="11" fill="#222" text-anchor="end">prompt-to-token</text>
+<rect x="168" y="592" width="525.0" height="11" fill="#9aa0a6"/>
+<text x="697.0" y="602" font-size="8" fill="#666">87.5</text>
+<rect x="168" y="604" width="543.0" height="11" fill="#c4622d"/>
+<text x="715.0" y="614" font-size="8" fill="#666">90.5</text>
+<rect x="168" y="616" width="558.0" height="11" fill="#2d6ec4"/>
+<text x="730.0" y="626" font-size="8" fill="#666">93</text>
+<rect x="168" y="650" width="12" height="12" fill="#9aa0a6"/><text x="186" y="660" font-size="12" fill="#222">Single Opus</text>
+<rect x="336" y="650" width="12" height="12" fill="#c4622d"/><text x="354" y="660" font-size="12" fill="#222">Homogeneous best-of-N</text>
+<rect x="504" y="650" width="12" height="12" fill="#2d6ec4"/><text x="522" y="660" font-size="12" fill="#222">Role-diverse</text>
+<text x="168" y="690" font-size="12.5" font-weight="600" fill="#222">mean: Opus 81.2 · homog 90.6 (+9.4) · roles 87.6 (+6.4)   ·   homog − roles +3 · head-to-head 8–4</text>
+</svg>

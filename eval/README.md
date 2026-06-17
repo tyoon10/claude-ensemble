@@ -45,3 +45,4 @@ Run the workflow (no args — the task set is embedded in `run.js`), then render
 - [`results-v2.md`](results-v2.md) · `results-v2.svg` — v2 (3-arm: single Opus vs Sonnet-panel vs Opus-panel, harder tasks).
 - [`results-phaseA.md`](results-phaseA.md) — Phase A (judge-essentials ablation: what actually improves the judge).
 - [`results-phaseB.md`](results-phaseB.md) · `results-phaseB.svg` — Phase B (does draft diversity predict the lift? — the answer is no).
+- [`results-panel.md`](results-panel.md) · `results-panel.svg` — panel design (homogeneous best-of-N vs objective roles — homog wins, so the kit dropped the roles).

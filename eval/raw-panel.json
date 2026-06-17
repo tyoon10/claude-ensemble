@@ -1,0 +1,26 @@
+{
+  "summary": {
+    "n": 12,
+    "baseMean": 81.2,
+    "homogMean": 90.6,
+    "rolesMean": 87.6,
+    "homogLift": 9.4,
+    "rolesLift": 6.4,
+    "homogMinusRolesMean": 3,
+    "headToHead": { "homogWins": 8, "rolesWins": 4, "ties": 0 }
+  },
+  "rows": [
+    { "id": "scaling-plateau", "baseline": 76, "homog": 89, "roles": 75.5, "homogVsRoles": 13.5 },
+    { "id": "global-counter", "baseline": 78.5, "homog": 93, "roles": 88.5, "homogVsRoles": 4.5 },
+    { "id": "exactly-once", "baseline": 78, "homog": 92, "roles": 89, "homogVsRoles": 3 },
+    { "id": "sort-lower-bound", "baseline": 85, "homog": 90.5, "roles": 92, "homogVsRoles": -1.5 },
+    { "id": "rag-paradigms", "baseline": 74, "homog": 88.5, "roles": 89, "homogVsRoles": -0.5 },
+    { "id": "build-vs-api", "baseline": 80.5, "homog": 90.5, "roles": 88, "homogVsRoles": 2.5 },
+    { "id": "passkey-threat", "baseline": 83.5, "homog": 92.5, "roles": 90.5, "homogVsRoles": 2 },
+    { "id": "coupon-collector", "baseline": 90.5, "homog": 92.5, "roles": 82.5, "homogVsRoles": 10 },
+    { "id": "prompt-to-token", "baseline": 87.5, "homog": 90.5, "roles": 93, "homogVsRoles": -2.5 },
+    { "id": "long-context", "baseline": 80.5, "homog": 88.5, "roles": 89, "homogVsRoles": -0.5 },
+    { "id": "contamination-eval", "baseline": 83.5, "homog": 91.5, "roles": 87, "homogVsRoles": 4.5 },
+    { "id": "micro-monolith", "baseline": 76.5, "homog": 88.5, "roles": 87, "homogVsRoles": 1.5 }
+  ]
+}

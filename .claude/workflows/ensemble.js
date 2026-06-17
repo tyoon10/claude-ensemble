@@ -7,11 +7,11 @@
 //
 // Invoke with args = { task: "<your hard task>" } — accepts an object, a JSON
 // string, or the bare task text.
-// The role prompts here mirror .claude/agents/ensemble-*.md — keep them in sync.
+// The panelist/judge prompts here mirror .claude/agents/ensemble-*.md — keep them in sync.
 
 export const meta = {
   name: 'ensemble',
-  description: 'Diverse Claude panel drafts in parallel; an Opus judge synthesizes one best answer — subscription-only, no API keys',
+  description: 'Best-of-N Claude panel drafts in parallel; an Opus judge verifies and synthesizes one best answer — subscription-only, no API keys',
   phases: [
     { title: 'Triage' },
     { title: 'Panel' },
@@ -37,12 +37,11 @@ const ROUTE_SCHEMA = {
   required: ['complex', 'reason'],
 }
 
-// Objective-diverse roles — divergence by JOB, not persona (persona alone is a weak de-correlator).
-const PANEL = [
-  { tag: 'drafter', instruction: 'Give your single best, complete first-principles answer. State key assumptions. Commit to one answer; do not hedge.' },
-  { tag: 'adversary', instruction: 'First name the tempting-but-wrong approach in one sentence and why it fails; then give your best answer that deliberately sidesteps it, hunting edge cases and hidden assumptions.' },
-  { tag: 'alt-method', instruction: 'Solve via a deliberately DIFFERENT method than the obvious one (work backwards, solve a sub-case first, or use a different framework). Name the method in one line, then give the complete answer.' },
-]
+// Best-of-N: N independent drafts of the SAME task. Measured: objective-role "diversity"
+// did not beat a homogeneous panel, and intra-Claude diversity doesn't predict lift — the
+// lift is best-of-N + a strong judge. See eval/results-panel.md and eval/results-phaseB.md.
+const PANEL_N = 3
+const PANELIST = 'Give your single best, complete answer to the task. Reason from first principles, state key assumptions, and commit to one answer; do not hedge.'
 
 const COMMON = 'Ground every claim; never fabricate facts, APIs, citations, or numbers. Your answer is one of several an independent judge will compare and synthesize — optimize for correctness and completeness, not length.'
 
@@ -75,9 +74,9 @@ if (!gate.complex) {
 
 phase('Panel')
 const drafts = (await parallel(
-  PANEL.map((p) => () =>
-    agent(`${p.instruction}\n\n${COMMON}\n\nTASK:\n${task}`,
-      { model: PANEL_MODEL, effort: 'high', label: `panel-${p.tag}`, phase: 'Panel' })
+  Array.from({ length: PANEL_N }, (_, i) => () =>
+    agent(`${PANELIST}\n\n${COMMON}\n\nTASK:\n${task}`,
+      { model: PANEL_MODEL, effort: 'high', label: `panel-${i + 1}`, phase: 'Panel' })
   )
 )).filter(Boolean) // a panelist that errors resolves to null and is dropped
 
