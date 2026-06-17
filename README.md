@@ -89,11 +89,11 @@ Then, in Claude Code:
 
 Three honest takeaways:
 
-1. **On genuinely hard tasks the lift is ~+9** — the judge/synthesis step earning its keep, in line with the fusion literature. v1's small number was a saturated-rubric artifact, not a weak system.
-2. **A pricier Opus panel doesn't help (+0.9 over the Sonnet panel, winning fewer tasks)** — three Opus drafts correlate with each other and with the Opus judge, eroding the diversity the ensemble runs on. So the kit keeps the **cost-efficient Sonnet panel** and ships no Opus-panel mode.
-3. **The judge's *effort* is the real lever — not the panel's tier or rigid instructions.** A focused ablation ([`eval/results-phaseA.md`](eval/results-phaseA.md)) found raising the judge to `xhigh` adds **+2.4** (the biggest single lever), while a deliberately rigid multi-step judge *subtracts* 4.7. So the default judge runs at `xhigh` and stays prompt-light.
+1. **On genuinely hard tasks the lift is ~+9 to +11** — the panel→judge process earning its keep, in line with the fusion literature. v1's small number was a saturated-rubric artifact, not a weak system.
+2. **It isn't diversity, and it isn't model tier.** A dedicated test ([`eval/results-phaseB.md`](eval/results-phaseB.md)) varied draft diversity from a homogeneous panel to a cross-tier one and found **no diversity→lift relationship (r = −0.11)** — the *lowest*-diversity panel actually had the *highest* lift. An Opus panel adds only +0.9 over Sonnet ([v2](eval/results-v2.md)). So the kit keeps the simple, cost-efficient Sonnet panel and ships no Opus-panel mode.
+3. **The judge's *effort* is the real lever — not the panel's diversity, tier, or rigid instructions.** A focused ablation ([`eval/results-phaseA.md`](eval/results-phaseA.md)) found raising the judge to `xhigh` adds **+2.4** (the biggest single lever), while a deliberately rigid multi-step judge *subtracts* 4.7. So the default judge runs at `xhigh` and stays prompt-light.
 
-Caveats: n=8–12 per eval, Claude judges (same-family preference possible — though both judges ranked single Opus *last* on every v2 task), these task sets only. Directional, not a general benchmark. Reproduce via [`eval/run.js`](eval/run.js) / [`eval/run-v2.js`](eval/run-v2.js) / [`eval/phaseA.js`](eval/phaseA.js).
+Caveats: n=6–12 per eval, Claude judges (same-family preference possible — though both judges ranked single Opus *last* on every v2 task), these task sets only. Directional, not a general benchmark. Reproduce via [`eval/run.js`](eval/run.js) / [`run-v2.js`](eval/run-v2.js) / [`phaseA.js`](eval/phaseA.js) / [`phaseB.js`](eval/phaseB.js).
 
 ## Honest limits
 

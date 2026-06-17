@@ -1,0 +1,48 @@
+{
+  "summary": {
+    "n": 6,
+    "baselineMean": 78.1,
+    "arms": {
+      "homog": { "score": 89, "lift": 10.9, "diversity": 15.5 },
+      "roles": { "score": 87.7, "lift": 9.6, "diversity": 21.2 },
+      "effort": { "score": 87.3, "lift": 9.2, "diversity": 17 },
+      "crosstier": { "score": 87.1, "lift": 9, "diversity": 32 }
+    },
+    "diversityLiftPearson": -0.11,
+    "cellCount": 24
+  },
+  "rows": [
+    { "id": "scaling-plateau", "baseline": 79.5, "homog": { "score": 91.5, "lift": 12, "diversity": 18 }, "roles": { "score": 89.5, "lift": 10, "diversity": 18 }, "effort": { "score": 87, "lift": 7.5, "diversity": 12 }, "crosstier": { "score": 85.5, "lift": 6, "diversity": 28 } },
+    { "id": "global-counter", "baseline": 69.5, "homog": { "score": 90, "lift": 20.5, "diversity": 13 }, "roles": { "score": 83.5, "lift": 14, "diversity": 18 }, "effort": { "score": 84.5, "lift": 15, "diversity": 18 }, "crosstier": { "score": 86.5, "lift": 17, "diversity": 62 } },
+    { "id": "build-vs-api", "baseline": 77.5, "homog": { "score": 85.5, "lift": 8, "diversity": 18 }, "roles": { "score": 88, "lift": 10.5, "diversity": 28 }, "effort": { "score": 87.5, "lift": 10, "diversity": 18 }, "crosstier": { "score": 89.5, "lift": 12, "diversity": 18 } },
+    { "id": "contamination-eval", "baseline": 87, "homog": { "score": 86, "lift": -1, "diversity": 18 }, "roles": { "score": 87, "lift": 0, "diversity": 28 }, "effort": { "score": 88.5, "lift": 1.5, "diversity": 18 }, "crosstier": { "score": 92.5, "lift": 5.5, "diversity": 28 } },
+    { "id": "rag-paradigms", "baseline": 73, "homog": { "score": 91.5, "lift": 18.5, "diversity": 8 }, "roles": { "score": 90, "lift": 17, "diversity": 7 }, "effort": { "score": 83.5, "lift": 10.5, "diversity": 18 }, "crosstier": { "score": 80.5, "lift": 7.5, "diversity": 28 } },
+    { "id": "micro-monolith", "baseline": 82, "homog": { "score": 89.5, "lift": 7.5, "diversity": 18 }, "roles": { "score": 88, "lift": 6, "diversity": 28 }, "effort": { "score": 92.5, "lift": 10.5, "diversity": 18 }, "crosstier": { "score": 88, "lift": 6, "diversity": 28 } }
+  ],
+  "cells": [
+    { "arm": "homog", "id": "scaling-plateau", "diversity": 18, "lift": 12 },
+    { "arm": "roles", "id": "scaling-plateau", "diversity": 18, "lift": 10 },
+    { "arm": "effort", "id": "scaling-plateau", "diversity": 12, "lift": 7.5 },
+    { "arm": "crosstier", "id": "scaling-plateau", "diversity": 28, "lift": 6 },
+    { "arm": "homog", "id": "global-counter", "diversity": 13, "lift": 20.5 },
+    { "arm": "roles", "id": "global-counter", "diversity": 18, "lift": 14 },
+    { "arm": "effort", "id": "global-counter", "diversity": 18, "lift": 15 },
+    { "arm": "crosstier", "id": "global-counter", "diversity": 62, "lift": 17 },
+    { "arm": "homog", "id": "build-vs-api", "diversity": 18, "lift": 8 },
+    { "arm": "roles", "id": "build-vs-api", "diversity": 28, "lift": 10.5 },
+    { "arm": "effort", "id": "build-vs-api", "diversity": 18, "lift": 10 },
+    { "arm": "crosstier", "id": "build-vs-api", "diversity": 18, "lift": 12 },
+    { "arm": "homog", "id": "contamination-eval", "diversity": 18, "lift": -1 },
+    { "arm": "roles", "id": "contamination-eval", "diversity": 28, "lift": 0 },
+    { "arm": "effort", "id": "contamination-eval", "diversity": 18, "lift": 1.5 },
+    { "arm": "crosstier", "id": "contamination-eval", "diversity": 28, "lift": 5.5 },
+    { "arm": "homog", "id": "rag-paradigms", "diversity": 8, "lift": 18.5 },
+    { "arm": "roles", "id": "rag-paradigms", "diversity": 7, "lift": 17 },
+    { "arm": "effort", "id": "rag-paradigms", "diversity": 18, "lift": 10.5 },
+    { "arm": "crosstier", "id": "rag-paradigms", "diversity": 28, "lift": 7.5 },
+    { "arm": "homog", "id": "micro-monolith", "diversity": 18, "lift": 7.5 },
+    { "arm": "roles", "id": "micro-monolith", "diversity": 28, "lift": 6 },
+    { "arm": "effort", "id": "micro-monolith", "diversity": 18, "lift": 10.5 },
+    { "arm": "crosstier", "id": "micro-monolith", "diversity": 28, "lift": 6 }
+  ]
+}
