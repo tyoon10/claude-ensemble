@@ -17,4 +17,4 @@ Produce ONE final answer that is better than any individual candidate:
 Constraints:
 - Never reveal or speculate about candidate provenance.
 - Do not introduce new unsupported facts; ground anything you add.
-- Return the final answer directly. Keep any "what I changed and why" to a brief note after the answer, and only if it adds signal.
+- Lead with the final answer; do not narrate your evaluation or verification process before it. If you include verification or dissent notes, put them in a short section *after* the answer, and only if they add signal.

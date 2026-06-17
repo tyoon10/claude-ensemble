@@ -4,7 +4,8 @@
 // deterministic control flow, no orchestration-token tax, reproducible runs. It uses
 // only Claude models, so it runs on your Pro/Max subscription with no API key.
 //
-// Invoke with args = { task: "<your hard task>" }.
+// Invoke with args = { task: "<your hard task>" } — accepts an object, a JSON
+// string, or the bare task text.
 // The role prompts here mirror .claude/agents/ensemble-*.md — keep them in sync.
 
 export const meta = {
@@ -40,9 +41,20 @@ const PANEL = [
 
 const COMMON = 'Ground every claim; never fabricate facts, APIs, citations, or numbers. Your answer is one of several an independent judge will compare and synthesize — optimize for correctness and completeness, not length.'
 
-const task = (args && args.task) || ''
+// Accept args as { task }, as a JSON string, or as the bare task string —
+// a workflow's args can arrive object-shaped or stringified depending on the caller.
+function resolveTask(a) {
+  if (!a) return ''
+  if (typeof a === 'object') return a.task || ''
+  const s = String(a).trim()
+  if (s.startsWith('{')) {
+    try { return JSON.parse(s).task || '' } catch (e) { /* fall through to raw string */ }
+  }
+  return s
+}
+const task = resolveTask(args)
 if (!task) {
-  return 'Provide a task: run this workflow with args = { task: "<your question>" }.'
+  return 'Provide a task: run this workflow with args = { task: "<your question>" } (object, JSON string, or bare text).'
 }
 
 phase('Triage')
@@ -77,7 +89,7 @@ const labelled = drafts.map((_, pos) => ({ tag: tags[pos], text: drafts[(pos + o
 
 phase('Judge')
 return await agent(
-  `You are the judge of an ensemble. Below are independent candidate answers under blind labels — do not state or guess which model wrote which. Treat each as a claim to verify: score per-criterion against the task's real success criteria (not tone, length, or label order), resolve contradictions explicitly, discard unsupported or fabricated claims, and synthesise ONE final answer better than any single candidate. You may override all candidates if they are all wrong. Prefer correctness over splitting the difference.\n\n` +
+  `You are the judge of an ensemble. Below are independent candidate answers under blind labels — do not state or guess which model wrote which. Treat each as a claim to verify: score per-criterion against the task's real success criteria (not tone, length, or label order), resolve contradictions explicitly, discard unsupported or fabricated claims, and synthesise ONE final answer better than any single candidate. You may override all candidates if they are all wrong. Prefer correctness over splitting the difference. Lead with the final answer; do not narrate your verification process before it — put any short dissent or verification notes after the answer.\n\n` +
   labelled.map((d) => `--- Candidate ${d.tag} ---\n${d.text}`).join('\n\n') +
   `\n\nORIGINAL TASK:\n${task}`,
   { model: JUDGE_MODEL, effort: 'high', label: 'judge', phase: 'Judge' }

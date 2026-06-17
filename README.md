@@ -25,7 +25,7 @@ The *ensemble* (a.k.a. fusion) pattern — several models answer, a judge synthe
 ## Install (drop-in)
 
 ```bash
-git clone https://github.com/<you>/claude-ensemble
+git clone https://github.com/tyoon10/claude-ensemble
 # into one project:
 cp -r claude-ensemble/.claude/* /path/to/your/project/.claude/
 # …or make it available everywhere. This writes into your global config; -n avoids
