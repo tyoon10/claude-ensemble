@@ -1,0 +1,32 @@
+# Results — Phase A: what makes the judge better?
+
+The judge is the highest-leverage part of the ensemble, so this ablation asks: **which judge interventions actually matter — and does over-instructing it help or hurt?** We hold the panel fixed (the same 3 Sonnet drafts per task, generated once) and run **six judge variants on the identical drafts**, then blind-score all six (rotated A–F, strict calibration) with two judges (Opus + Sonnet). 8 harder/open tasks. Harness: [`phaseA.js`](phaseA.js); raw: [`raw-phaseA.json`](raw-phaseA.json).
+
+| Arm | Judge variant | Mean | Δ vs control | best-votes (of 16) |
+|---|---|--:|--:|--:|
+| **J4** | **effort `xhigh`** (no prompt change) | **89.2** | **+2.4** | 5 |
+| J3 | + one self-revision pass | 87.9 | +1.1 | 2 |
+| J1 | + light "verify claims first" nudge | 87.8 | +1.0 | 3 |
+| J2 | + show the rubric | 87.8 | +1.0 | 6 |
+| J0 | control (one-shot synthesize) | 86.8 | — | 0 |
+| **J5** | **rigid 7-step procedure** | **82.1** | **−4.7** | 0 |
+
+## Findings
+
+1. **The judge's *effort* is the lever — not its instructions.** Raising the judge to `xhigh` effort, with **no prompt change at all**, is the single biggest improvement (+2.4). The simplest intervention is the most effective.
+2. **Over-instructing the judge *hurts*, clearly.** The rigid 7-step procedure was the worst arm by a wide margin (−4.7, below even the control, 0 best-votes). Disciplining the judge into a fixed process makes it worse, not better. Keep the judge open.
+3. **Prompt micro-interventions are marginal.** A light verify-nudge, showing the rubric, or a self-revision round each add ~+1 and are statistically indistinguishable (within noise at n=8). The extra self-revision round costs an extra model call for roughly a one-line nudge's effect — not worth it. (Showing the rubric won the most best-votes but at a flat mean — it sharpens individual wins without lifting the average; flagged for a future look.)
+
+## Why this also explains the "Opus panel" result
+
+The [3-arm eval](results-v2.md) found an Opus panel + xhigh judge beat the Sonnet panel + `high` judge by only **+0.9**. Phase A decomposes that: the xhigh judge alone adds **~+2.4**, so the Opus panel was actually *costing* ~−1.5 (it reduces diversity — three Opus drafts correlate with each other and the Opus judge). The judge effort was carrying the whole gain. The best configuration is therefore **Sonnet panel + `xhigh` judge** — cheaper than an Opus panel and better than every config measured.
+
+## Decision (applied)
+
+- **The default judge now runs at `xhigh` effort** (`JUDGE_EFFORT` in [`../.claude/workflows/ensemble.js`](../.claude/workflows/ensemble.js)). Modest extra thinking on the single judge call, for the largest measured quality lever.
+- **The judge prompt stays open and light** — no rigid multi-step procedure (it measurably hurts).
+- **No "max" / Opus-panel preset.** An earlier `tier:"max"` (Opus panel) was removed: it didn't beat Sonnet + xhigh-judge, and the simpler kit is the better one. The lift comes from the judge and panel *diversity*, not the panel's model tier.
+
+## Caveats
+
+n=8, this task set only; both judges are Claude models (same-family preference possible). Only the J4 (+2.4) and J5 (−4.7) effects clear the noise at this n; J1/J2/J3 (~+1) are indistinguishable. A larger-n confirmation is a sensible follow-up. Reproduce via [`phaseA.js`](phaseA.js).

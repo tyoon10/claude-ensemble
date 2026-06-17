@@ -41,4 +41,6 @@ Run the workflow (no args — the task set is embedded in `run.js`), then render
 
 ## Results
 
-Generated from the latest run — see [`results.md`](results.md) and `results.svg`.
+- [`results.md`](results.md) · `results.svg` — v1 (ensemble vs single Opus).
+- [`results-v2.md`](results-v2.md) · `results-v2.svg` — v2 (3-arm: single Opus vs Sonnet-panel vs Opus-panel, harder tasks).
+- [`results-phaseA.md`](results-phaseA.md) — Phase A (judge-essentials ablation: what actually improves the judge).

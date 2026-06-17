@@ -87,12 +87,13 @@ Then, in Claude Code:
 
 ![A/B eval results (v2)](eval/results-v2.svg)
 
-Two honest takeaways:
+Three honest takeaways:
 
 1. **On genuinely hard tasks the lift is ~+9** — the judge/synthesis step earning its keep, in line with the fusion literature. v1's small number was a saturated-rubric artifact, not a weak system.
-2. **A pricier Opus panel barely helps (+0.9 over the Sonnet panel, and it won fewer tasks)** — likely because three Opus drafts correlate with each other and with the Opus judge, eroding the diversity the ensemble runs on. So the **cost-efficient Sonnet panel is the right default**, and `tier: "max"` is situational.
+2. **A pricier Opus panel doesn't help (+0.9 over the Sonnet panel, winning fewer tasks)** — three Opus drafts correlate with each other and with the Opus judge, eroding the diversity the ensemble runs on. So the kit keeps the **cost-efficient Sonnet panel** and ships no Opus-panel mode.
+3. **The judge's *effort* is the real lever — not the panel's tier or rigid instructions.** A focused ablation ([`eval/results-phaseA.md`](eval/results-phaseA.md)) found raising the judge to `xhigh` adds **+2.4** (the biggest single lever), while a deliberately rigid multi-step judge *subtracts* 4.7. So the default judge runs at `xhigh` and stays prompt-light.
 
-Caveats: n=12 per eval, Claude judges (same-family preference possible — though both judges ranked single Opus *last* on every v2 task), this task set only. Directional, not a general benchmark. Reproduce via [`eval/run.js`](eval/run.js) / [`eval/run-v2.js`](eval/run-v2.js).
+Caveats: n=8–12 per eval, Claude judges (same-family preference possible — though both judges ranked single Opus *last* on every v2 task), these task sets only. Directional, not a general benchmark. Reproduce via [`eval/run.js`](eval/run.js) / [`eval/run-v2.js`](eval/run-v2.js) / [`eval/phaseA.js`](eval/phaseA.js).
 
 ## Honest limits
 
@@ -115,8 +116,7 @@ It's all plain Markdown plus one JS file — edit to taste:
 
 - **Models / panel size:** edit the `model:` line in `.claude/agents/ensemble-*.md` (`sonnet` / `opus` / `haiku`), or add/remove panel members and update the list in `.claude/commands/ensemble.md`.
 - **Cheaper runs:** move a panel member to `haiku`, or drop the panel to two.
-- **Deterministic engine:** `.claude/workflows/ensemble.js` runs the same pipeline as a scripted Dynamic Workflow (no orchestration-token tax, reproducible). Invoke it with `args = { task: "…" }`.
-- **Max mode (`tier: "max"`):** run the workflow with `args = { task: "…", tier: "max" }` — an **Opus** panel + a critique-first Opus judge at `xhigh` effort. Our v2 eval found it only **+0.9** over the Sonnet default (and it won *fewer* tasks) at ~2× the usage — three Opus drafts correlate with each other and the Opus judge, eroding diversity. Use it only for the hardest design/systems tasks; **the Sonnet default is recommended.**
+- **Deterministic engine:** `.claude/workflows/ensemble.js` runs the same pipeline as a scripted Dynamic Workflow (no orchestration-token tax, reproducible). Invoke it with `args = { task: "…" }`. The judge runs at `xhigh` effort — the biggest quality lever we measured (see [`eval/results-phaseA.md`](eval/results-phaseA.md)).
 
 ## Files
 
