@@ -32,13 +32,15 @@ The judge is the highest-leverage part of the ensemble, so this ablation asks: *
 
 ## Why this also explains the "Opus panel" result
 
-The [3-arm eval](results-v2.md) found an Opus panel + xhigh judge beat the Sonnet panel + `high` judge by only **+0.9**. Phase A decomposes that: the xhigh judge alone adds **~+2.4**, so the Opus panel was actually *costing* ~−1.5 (it reduces diversity — three Opus drafts correlate with each other and the Opus judge). The judge effort was carrying the whole gain. The best configuration is therefore **Sonnet panel + `xhigh` judge** — cheaper than an Opus panel and better than every config measured.
+The [3-arm eval](results-v2.md) found an Opus panel + xhigh judge beat the Sonnet panel + `high` judge by only **+0.9**. Phase A decomposes that: the xhigh judge alone adds **~+2.4**, so at an `xhigh` judge the Opus panel was roughly break-even. The best configuration *measured here* is **Sonnet panel + `xhigh` judge** — cheaper than an Opus panel.
+
+> **Update (2026-06-19):** this "Opus panel ≈ break-even" conclusion held only at an `xhigh` *paraphrasing* judge under a saturating absolute rubric. A later pairwise, `max`-*verifying*-judge, externally cross-graded eval found the **Opus panel pulls clearly ahead** on verification-heavy work (see the update in [`results-v2.md`](results-v2.md)). The Opus-panel advantage needs a *verifying* judge to surface; **`xhigh` judge is the throughput default, but a `max` judge — and, for the hardest checkable work, an Opus panel — is the quality-max path.**
 
 ## Decision (applied)
 
 - **The default judge now runs at `xhigh` effort** (`JUDGE_EFFORT` in [`../.claude/workflows/ensemble.js`](../.claude/workflows/ensemble.js)). Modest extra thinking on the single judge call, for the largest measured quality lever.
 - **The judge prompt stays open and light** — no rigid multi-step procedure (it measurably hurts).
-- **No "max" / Opus-panel preset.** An earlier `tier:"max"` (Opus panel) was removed: it didn't beat Sonnet + xhigh-judge, and the simpler kit is the better one. The lift comes from the judge and panel *diversity*, not the panel's model tier.
+- **Default judge = `xhigh`; a `max` judge is the quality-max lever on hard work.** *(Updated 2026-06-19.)* An earlier `tier:"max"` Opus-panel preset was dropped because it didn't beat Sonnet + `xhigh`-judge *under this eval's xhigh-paraphrasing-judge regime*. A later, better-instrumented pass (pairwise + `max` verifying judge + non-Claude cross-grader) reversed that for verification-heavy work — the Opus panel + `max` judge is the quality-max config. The Sonnet panel + `xhigh` judge remains the cost/throughput default; re-adding an opt-in Opus-panel/`max` preset is the natural follow-up.
 
 ## Caveats
 

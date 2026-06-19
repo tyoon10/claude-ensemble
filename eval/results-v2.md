@@ -26,6 +26,8 @@ A follow-up to [`results.md`](results.md). The v1 eval showed only a +4.2 ensemb
 
 The Opus panel does win the hardest **design / systems / methodology** tasks (`global-counter` +7, `contamination-eval` +9.5, `micro-monolith`, `passkey`, `coupon`) — so "max" is situational, not a general upgrade.
 
+> **Update (2026-06-19) — finding #2 was partly reversed by a more rigorous pass.** The "+0.9, Opus panel barely helps" result above was measured with an `xhigh` judge under an **absolute** rubric that *saturates* on strong-vs-strong answers (it can't separate two already-excellent drafts). A later evaluation using **blind pairwise** scoring (no saturation), a **`max` *verifying* judge** (with tools, so it runs the checks), and an **independent non-Claude cross-grader (Gemini 3.5 Flash)** found the **Opus panel pulls clearly ahead** on verification-heavy technical tasks — ≈**73% (Claude) / 82% (Gemini)** pairwise win-rate over the Sonnet panel, ~9–10 of 11 tasks, consistent across both labs' graders and both answer orders. The reconciliation: the Opus panel's edge only surfaces with a *verifying* judge; at an `xhigh` paraphrasing judge it ≈ ties (hence +0.9 here). **Corrected product picture: Sonnet panel = cheap throughput default; Opus panel + `max` judge = the quality-max preset for hard, checkable work.** Note the "diversity isn't the lever" result is unchanged — draft **tier** (Opus vs Sonnet) is a different axis from draft **diversity**.
+
 ## Per task (sorted by baseline, most headroom first)
 
 | Task | Domain | Single Opus | Sonnet panel | Opus panel | Best |
@@ -45,9 +47,10 @@ The Opus panel does win the hardest **design / systems / methodology** tasks (`g
 
 ## What this means for the kit
 
-- **Keep the Sonnet panel as the default.** It captures essentially all the lift at a fraction of the Opus-panel cost.
-- **`tier: "max"` is situational, not recommended by default.** +0.9 aggregate at ~2× usage; reach for it only on the hardest design/systems work.
-- **The lever for more lift is diversity + the judge, not panel tier** — which, on a subscription, means objective-role diversity and a stronger judging step, since true cross-lab diversity needs API keys.
+*(Revised per the 2026-06-19 update above.)*
+- **Sonnet panel = throughput default.** It captures most of the lift at a fraction of the Opus-panel cost and conserves Opus usage under rate limits — the right default for everyday and high-volume use.
+- **Opus panel + `max` judge = quality-max preset.** On verification-heavy / checkable work it pulls clearly ahead (73–82% pairwise, externally cross-graded) — reach for it when quality matters more than usage budget. It looked merely "situational (+0.9)" here only because this eval used an `xhigh` judge and a saturating absolute rubric.
+- **The levers are panel *breadth* + a *verifying* (`max`) judge — not draft diversity.** Diversity still doesn't predict lift (r=−0.11); but more drafts and a higher-tier panel *do* help once the judge actually verifies. Cross-lab diversity remains untested (needs API keys).
 
 ## Caveats (unchanged)
 
