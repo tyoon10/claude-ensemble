@@ -34,8 +34,17 @@ Baseline (single Opus) mean: **78.1**. **Diversity↔lift correlation: r = −0.
 
 ## What this decides
 
-- **The kit keeps the simple Sonnet panel.** The lift doesn't come from panel diversity or model tier (an Opus panel adds only +0.9; see [results-v2.md](results-v2.md)). It comes from the judge process + the judge's effort (see [results-phaseA.md](results-phaseA.md)).
+- **The kit keeps the simple Sonnet panel as the default.** The lift doesn't come from panel *diversity* (draft *tier* is a separate axis — see the update in [results-v2.md](results-v2.md)). It comes from the judge process + the judge's effort (see [results-phaseA.md](results-phaseA.md)).
 - **No cross-vendor "diversity" feature is planned.** Adding non-Claude models *to increase diversity* is not supported by this evidence — and it would break the subscription-only design for no measured gain.
+
+## Update — panel-size sweep + duplicate control
+
+A later, more discriminating pass (blind **pairwise** scoring, which doesn't saturate the way an absolute rubric can, on verification-heavy tasks) swept the panel size *N* and added a duplicate-context control. Two clean results:
+
+- **Breadth has diminishing returns and plateaus by ~N=5.** A 3-draft panel beats 1-draft-plus-judge by a wide margin; **5 beats 3 only modestly; 9 ≈ 5 (no further gain).** Each extra independent draft adds less than the last — the concave saturation a best-of-N *coverage* model predicts.
+- **It's independent samples, not context.** Feeding the judge **one draft copied three times** gives **no lift** over a single draft, and loses decisively to a real 3-*independent*-draft panel. So the lever is genuinely *more independent attempts to synthesise from* — not just more text in the judge's context.
+
+Together with the diversity result above, this pins the mechanism: the panel helps because **independent draws raise the chance the correct claim is present for the judge to verify and keep** (coverage), and that saturates fast. So the kit fixes a small **N=3** panel as the cost-optimal point on the curve.
 
 ## Caveats (read these)
 
