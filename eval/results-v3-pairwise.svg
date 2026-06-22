@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="660" height="250" font-family="-apple-system,Segoe UI,Roboto,sans-serif">
+<rect width="660" height="250" fill="#ffffff"/>
+<text x="220" y="30" font-size="17" font-weight="700" fill="#111">Ensemble vs single Opus — pairwise win-rate</text>
+<text x="220" y="50" font-size="12.5" fill="#666">Opus panel + max verifying judge vs one matched-effort Opus pass · n=8 · both answer-orders</text>
+<line x1="415.0" y1="60" x2="415.0" y2="224" stroke="#9ca3af" stroke-width="1.5" stroke-dasharray="4 3"/>
+<text x="415.0" y="242" text-anchor="middle" font-size="12" fill="#9ca3af">50% = tie</text>
+<rect x="220.0" y="70" width="234.0" height="32" rx="4" fill="#4f46e5"/>
+<text x="208" y="91.0" text-anchor="end" font-size="15" fill="#111">Opus judge</text>
+<text x="462.0" y="91.0" font-size="15" font-weight="700" fill="#111">60%</text>
+<rect x="220.0" y="126" width="237.9" height="32" rx="4" fill="#4f46e5"/>
+<text x="208" y="147.0" text-anchor="end" font-size="15" fill="#111">Sonnet judge</text>
+<text x="465.9" y="147.0" font-size="15" font-weight="700" fill="#111">61%</text>
+<rect x="220.0" y="182" width="241.8" height="32" rx="4" fill="#4f46e5"/>
+<text x="208" y="203.0" text-anchor="end" font-size="15" fill="#111">Gemini-Flash (non-Claude)</text>
+<text x="469.8" y="203.0" font-size="15" font-weight="700" fill="#111">62%</text>
+</svg>

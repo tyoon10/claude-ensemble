@@ -21,6 +21,8 @@ For each task, both answers are scored by **two independent judges** (Opus and S
 
 Per task, the two judges' scores are averaged and the majority winner is taken.
 
+**Update (v3 — current metric of record).** The 0–100 rubric above *saturates* on strong answers (everything piles up near the ceiling), so score deltas over-state the gap. v3 moves to **blind pairwise win-rate** — winner per pair, graded in **both answer-orders** to cancel position bias — and adds an **independent non-Claude grader** (Gemini-Flash) to test for same-family preference. See [`results-v3-pairwise.md`](results-v3-pairwise.md).
+
 ## Reproduce
 
 Run the workflow (no args — the task set is embedded in `run.js`), then render the chart:
@@ -41,6 +43,7 @@ Run the workflow (no args — the task set is embedded in `run.js`), then render
 
 ## Results
 
+- [`results-v3-pairwise.md`](results-v3-pairwise.md) · `results-v3-pairwise.svg` — **v3 (current): blind pairwise win-rate, three graders incl. a non-Claude one** (canonical Opus panel vs single matched-effort Opus, ~60%). Supersedes the absolute-rubric magnitude below.
 - [`results.md`](results.md) · `results.svg` — v1 (ensemble vs single Opus).
 - [`results-v2.md`](results-v2.md) · `results-v2.svg` — v2 (3-arm: single Opus vs Sonnet-panel vs Opus-panel, harder tasks).
 - [`results-phaseA.md`](results-phaseA.md) — Phase A (judge-essentials ablation: what actually improves the judge).
