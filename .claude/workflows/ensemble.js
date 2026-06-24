@@ -31,7 +31,7 @@ const MIN_QUORUM = 2
 
 // Auto verify-loop (the model decides — not an opt-in flag). On CHECKABLE tasks the gate flags,
 // the judge's answer is iteratively verified-by-running-code and corrected. Measured to roughly
-// HALVE real defects on convergent tasks — the AB-MCTS "deeper" lever ported into the kit. Two
+// HALVE real defects on convergent tasks — the "go deeper" lever (iterate on the finished answer). Two
 // findings drive the design: (1) the gate FRAMING is decisive — a prosecutorial verifier ("assume
 // defects exist, hunt with code") is ~5x more effective than a lenient "is this acceptable?" one;
 // (2) tool-grounded verification (running code on the finished answer) is what a single pass — even

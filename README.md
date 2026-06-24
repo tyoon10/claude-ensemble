@@ -9,7 +9,7 @@
 
 ## Why this exists
 
-The *ensemble* (a.k.a. fusion) pattern — several models answer, a judge synthesizes — can match or approach a single frontier model on hard, open-ended reasoning. Much of that lift appears to come from the **judge/synthesis step itself** rather than from how many models sit on the panel — that's the bet this kit makes. If it holds, you can capture most of the benefit with Claude models only, which is exactly what a subscription gives you without any API key.
+The *ensemble* pattern — several models answer, a judge synthesizes — can match or approach a single frontier model on hard, open-ended reasoning. Much of that lift appears to come from the **judge/synthesis step itself** rather than from how many models sit on the panel — that's the bet this kit makes. If it holds, you can capture most of the benefit with Claude models only, which is exactly what a subscription gives you without any API key.
 
 `claude-ensemble` wires this up as a drop-in Claude Code kit: a few sub-agent definitions and one slash command.
 

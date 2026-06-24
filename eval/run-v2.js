@@ -2,7 +2,7 @@
 //
 // Tests two hypotheses about why v1's lift was small:
 //   (ceiling)  v1 tasks saturated the rubric (~90) — use HARDER, high-headroom tasks here.
-//   (config)   v1 panel was Sonnet, not the self-fusion Opus config — add an Opus-panel arm.
+//   (config)   v1 panel was Sonnet, not the self-ensemble Opus config — add an Opus-panel arm.
 //
 // Arms (all subscription-only, Claude models):
 //   A baseline      — one Opus pass (high effort).

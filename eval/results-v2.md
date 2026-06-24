@@ -1,6 +1,6 @@
 # Results — v2, 3-arm eval on harder tasks
 
-A follow-up to [`results.md`](results.md). The v1 eval showed only a +4.2 ensemble edge — but its baseline already scored ~90/100, so the rubric had saturated. v2 uses **harder, higher-headroom tasks** and adds a third arm to test whether a **stronger (Opus) panel** closes the gap to the fusion literature.
+A follow-up to [`results.md`](results.md). The v1 eval showed only a +4.2 ensemble edge — but its baseline already scored ~90/100, so the rubric had saturated. v2 uses **harder, higher-headroom tasks** and adds a third arm to test whether a **stronger (Opus) panel** closes the gap to the multi-model ensemble literature.
 
 - **A — baseline:** one Opus pass (high effort).
 - **B — Sonnet panel:** the default ensemble (3 Sonnet objective-diverse drafts → Opus judge).
@@ -20,7 +20,7 @@ A follow-up to [`results.md`](results.md). The v1 eval showed only a +4.2 ensemb
 
 ## Two findings
 
-**1. The ceiling hypothesis holds — the real lift is ~+9, not +4.2.** On harder tasks the single-Opus baseline fell to **82.2** (vs ~90 in v1), and the ensemble edge widened to **+8.6 / +9.5**. Single Opus won **0 of 12**. v1's small margin was a saturated-rubric artifact, not a weak system — the lift is in line with the fusion literature once there is headroom to measure it.
+**1. The ceiling hypothesis holds — the real lift is ~+9, not +4.2.** On harder tasks the single-Opus baseline fell to **82.2** (vs ~90 in v1), and the ensemble edge widened to **+8.6 / +9.5**. Single Opus won **0 of 12**. v1's small margin was a saturated-rubric artifact, not a weak system — the lift is in line with the multi-model ensemble literature once there is headroom to measure it.
 
 **2. A pricier Opus panel barely helps — and is not the lever.** The Opus panel beat the Sonnet panel by only **+0.9** in aggregate and won **fewer** tasks (5 vs 7), at ~2× the usage. The most likely reason is the project's own thesis turned on itself: three Opus drafts correlate more with each other *and* with the Opus judge, so individual draft quality rises but **panel diversity falls**, and the two roughly cancel. The value of the ensemble is the **judge + objective-diversity**, not the panel's model tier. (Note `scaling-plateau`, where the Opus panel scored *worse*, 84.5 vs 91.5 — consistent with reduced diversity producing a narrower, weaker synthesis.)
 
