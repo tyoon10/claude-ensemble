@@ -43,6 +43,7 @@ Run the workflow (no args — the task set is embedded in `run.js`), then render
 
 ## Results
 
+- [`results-v5-verify-loop.md`](results-v5-verify-loop.md) — **v5: the auto verify-loop** (model-determined verify→revise on checkable tasks; ~halves real defects — the kit's strongest quality lever).
 - [`results-v4-length-controlled.md`](results-v4-length-controlled.md) — **v4 (most honest): length-controlled correctness audit.** Pairwise grading has a residual length bias; once controlled, the arms are roughly **tied** (Sonnet panel ≈ single Opus; Opus panel only marginally ahead). The panel's real correctness edge is small.
 - [`results-v3-pairwise.md`](results-v3-pairwise.md) · `results-v3-pairwise.svg` — v3: blind pairwise win-rate, three graders incl. a non-Claude one (Opus panel vs single matched-effort Opus, ~60% — refined by v4). Supersedes the absolute-rubric magnitude below.
 - [`results.md`](results.md) · `results.svg` — v1 (ensemble vs single Opus).

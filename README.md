@@ -86,6 +86,8 @@ Then, in Claude Code:
 
 - **v4 — length-controlled (most honest):** pairwise grading carries a residual **length bias** — shorter answers lose even when equally correct. A length-controlled correctness audit shows the ~60% mostly reduces to **ties**, a **Sonnet panel ≈ a single Opus pass**, and the **Opus panel only marginally ahead**. The real correctness edge of the panel is **small**. See [`results-v4-length-controlled.md`](eval/results-v4-length-controlled.md).
 
+- **v5 — the auto verify-loop (the real lever):** the biggest correctness gain isn't the panel — it's *iterating*. On **checkable** tasks the kit now auto-runs a verify→revise loop after the judge (a harsh verifier **runs code** to find confirmed defects, a reviser fixes exactly those, repeat ≤3×), which **roughly halves real defects** (length-controlled; the refined answer was preferred on **100%** of pairwise comparisons). It's **model-determined** — the triage gate decides checkability, no flag — so users get it automatically on the hard work that benefits and pay nothing on tasks that don't. See [`results-v5-verify-loop.md`](eval/results-v5-verify-loop.md).
+
 ![Ensemble vs single Opus — pairwise win-rate, three graders](eval/results-v3-pairwise.svg)
 
 - **v1 / v2 — absolute rubric (superseded magnitude):** earlier 0–100 rubric runs reported +4.2 (v1) and +8.6 / +9.5 (v2). That rubric saturates near the ceiling, so those deltas over-state the real gap — kept as a methodology trail, magnitude superseded by v3.
