@@ -1,28 +1,37 @@
 # claude-ensemble
 
-**Frontier-style answers from a Claude subscription alone.** Several Claude sub-agents answer a hard task independently in parallel (best-of-N); an Opus judge then verifies and synthesizes one best answer. It runs entirely inside Claude Code on your Pro/Max subscription — **no Anthropic API key, no other provider keys, nothing metered separately.**
-
 ```
-/ensemble <your hard task>
+/ensemble <your most challenging task>
 ```
-→ N panelists answer in parallel → Opus judge verifies &amp; synthesizes → you get one answer.
 
-## Why this exists
+---
 
-The *ensemble* pattern — several models answer, a judge synthesizes — can match or approach a single frontier model on hard, open-ended reasoning. Much of that lift appears to come from the **judge/synthesis step itself** rather than from how many models sit on the panel — that's the bet this kit makes. If it holds, you can capture most of the benefit with Claude models only, which is exactly what a subscription gives you without any API key.
+Claude Ensemble is an open source agentic tool for Claude Code to push the model capability to tackle the hardest challenges.
+Claude Ensemble leverages agentic orchestration and [dynamic workflows](https://code.claude.com/docs/en/workflows) to achieve the model's maximum intellectual capabilities, made accessible through a Claude subscription (Pro, Max) alone.
+It runs entirely inside Claude Code on your Pro/Max subscription — **no API key needed.**
 
-`claude-ensemble` wires this up as a drop-in Claude Code kit: a few sub-agent definitions and one slash command.
+---
+
+## Why this matters to you
+
+1. It is built for **the most challenging tasks**
+Whether it is designing a software architecture or solving a business problem, the *ensemble* pattern — multi-layer orchestration of autonomous agents — can match or approach a single frontier model on the most challenging problems and ambitious tasks.
+
+2. It is built for **Claude Code**
+With [Claude Pro or Max subscription](https://claude.ai/settings/billing), you can capture the benefit of maximum intelligence of Claude at the expense of extra [usage](https://claude.ai/settings/usage). No need to commit an API key, so you won't be billed on token-based pricing.
+
+3. It is built to **adapt to new model release**
+Unlike model-dependent tools that gets dominated by a more intelligent model, the ensemble is designed to push the most intelligent model's capability even further, so you're ensured to have the most frontier model capability at any point in time.
 
 ## What you need
 
-- **Claude Code**, logged in with a **Claude Pro or Max** account (`/login` → subscription, not an API key).
-- **No `ANTHROPIC_API_KEY`** set, and no other provider keys.
+- **Claude Code**, logged in with a **Claude Pro or Max** account
 - Opus access for the judge — best on **Max** (Opus is the default and limits are higher); Pro works, but Opus usage is tighter.
 - The optional deterministic engine (`.claude/workflows/ensemble.js`) needs the Dynamic Workflows feature (Claude Code 2.1.x+). The default `/ensemble` command needs only sub-agents, which are universal.
 
 > Claude Fable 5 is **not** used or required.
 
-## Install (drop-in)
+## To start using Claude Ensemble
 
 ```bash
 git clone https://github.com/tyoon10/claude-ensemble
@@ -37,7 +46,7 @@ cp -rn claude-ensemble/.claude/* ~/.claude/
 Then, in Claude Code:
 
 ```
-/ensemble Design a rate limiter that stays fair under bursty multi-tenant traffic, and justify the trade-offs.
+/ensemble <Describe your task — add your context, goals, constraints, etc.>
 ```
 
 ## How it works
