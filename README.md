@@ -15,12 +15,15 @@ It runs entirely inside Claude Code on your Pro/Max subscription — **no API ke
 ## Why this matters to you
 
 1. It is built for **the most challenging tasks**
+
 > Whether it is designing a software architecture or solving a business problem, the *ensemble* pattern — multi-layer orchestration of autonomous agents — can match or approach a single frontier model on the most challenging problems and ambitious tasks.
 
 2. It is built for **Claude Code**
+
 > With [Claude Pro or Max subscription](https://claude.ai/settings/billing), you can capture the benefit of maximum intelligence of Claude at the expense of extra [usage](https://claude.ai/settings/usage). No need to commit an API key, so you won't be billed on token-based pricing.
 
 3. It is built to **adapt to new model release**
+
 > Unlike model-dependent tools that gets dominated by a more intelligent model, the ensemble is designed to push the most intelligent model's capability even further, so you're ensured to have the most frontier model capability at any point in time.
 
 ## What you need
