@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="780" height="440" font-family="-apple-system,Segoe UI,Roboto,sans-serif">
+<rect width="780" height="440" fill="#ffffff"/>
+<text x="64" y="34" font-size="19" font-weight="700" fill="#111">Cost vs quality</text>
+<text x="64" y="54" font-size="12.5" fill="#666">More verification buys more quality, at more cost. The verify-loop (checkable tasks) is the biggest lever.</text>
+<line x1="64" y1="376.0" x2="580.0" y2="376.0" stroke="#cbd5e1" stroke-width="1.2"/>
+<line x1="64" y1="64" x2="64" y2="376.0" stroke="#cbd5e1" stroke-width="1.2"/>
+<line x1="122.4" y1="376.0" x2="122.4" y2="381.0" stroke="#cbd5e1"/>
+<text x="122.4" y="396.0" text-anchor="middle" font-size="12" fill="#64748b">1×</text>
+<line x1="317.1" y1="376.0" x2="317.1" y2="381.0" stroke="#cbd5e1"/>
+<text x="317.1" y="396.0" text-anchor="middle" font-size="12" fill="#64748b">3×</text>
+<line x1="511.8" y1="376.0" x2="511.8" y2="381.0" stroke="#cbd5e1"/>
+<text x="511.8" y="396.0" text-anchor="middle" font-size="12" fill="#64748b">5×</text>
+<text x="322.0" y="422.0" text-anchor="middle" font-size="12.5" fill="#475569">relative cost (× a single model call)</text>
+<text x="22" y="223.0" text-anchor="middle" font-size="12.5" fill="#475569" transform="rotate(-90 22 223.0)">relative quality →</text>
+<polyline points="122.4,323.5 336.6,227.4 511.8,113.7" fill="none" stroke="#cbd5e1" stroke-width="2.5" stroke-dasharray="2 5"/>
+<circle cx="122.4" cy="323.5" r="9" fill="#64748b"/>
+<text x="138.4" y="321.5" font-size="13.5" font-weight="700" fill="#111">Single pass</text>
+<text x="138.4" y="337.5" font-size="11.5" fill="#64748b">simple tasks (gated)</text>
+<circle cx="336.6" cy="227.4" r="9" fill="#7c3aed"/>
+<text x="352.6" y="225.4" font-size="13.5" font-weight="700" fill="#111">Panel + judge</text>
+<text x="352.6" y="241.4" font-size="11.5" fill="#64748b">complex tasks</text>
+<circle cx="511.8" cy="113.7" r="9" fill="#16a34a"/>
+<text x="527.8" y="111.7" font-size="13.5" font-weight="700" fill="#111">Panel + judge + verify-loop</text>
+<text x="527.8" y="127.7" font-size="11.5" fill="#64748b">checkable tasks</text>
+</svg>

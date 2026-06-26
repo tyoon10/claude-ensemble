@@ -76,6 +76,8 @@ Then run the ensemble:
 
 <sub>\*Indicative, from the call structure and per-tier token rates — **not a measurement**. Actual spend depends on task and output length.</sub>
 
+![Cost vs quality](assets/cost-performance.svg)
+
 **Performance (honest).** We A/B-tested this on a subscription — blind pairwise win-rate, with an independent non-Claude cross-grader. The headline: the panel's edge over a single strong pass is **modest and length-sensitive**; the real correctness lever is the **auto verify-loop** on checkable tasks, where a harsh verifier runs code to catch and fix real defects. It's a small, real, fact-checking-driven edge on hard *checkable* work — **not** a blanket "ensembles beat single models." Full method, per-version results (v1–v5, including the length-controlled audit and the cross-grader), per-task data, charts, and caveats live in **[`eval/`](eval/)**.
 
 **Honest limits:**
