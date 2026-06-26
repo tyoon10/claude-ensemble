@@ -1,25 +1,49 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="780" height="440" font-family="-apple-system,Segoe UI,Roboto,sans-serif">
-<rect width="780" height="440" fill="#ffffff"/>
-<text x="64" y="34" font-size="19" font-weight="700" fill="#111">Cost vs quality</text>
-<text x="64" y="54" font-size="12.5" fill="#666">More verification buys more quality, at more cost. The verify-loop (checkable tasks) is the biggest lever.</text>
-<line x1="64" y1="376.0" x2="580.0" y2="376.0" stroke="#cbd5e1" stroke-width="1.2"/>
-<line x1="64" y1="64" x2="64" y2="376.0" stroke="#cbd5e1" stroke-width="1.2"/>
-<line x1="122.4" y1="376.0" x2="122.4" y2="381.0" stroke="#cbd5e1"/>
-<text x="122.4" y="396.0" text-anchor="middle" font-size="12" fill="#64748b">1×</text>
-<line x1="317.1" y1="376.0" x2="317.1" y2="381.0" stroke="#cbd5e1"/>
-<text x="317.1" y="396.0" text-anchor="middle" font-size="12" fill="#64748b">3×</text>
-<line x1="511.8" y1="376.0" x2="511.8" y2="381.0" stroke="#cbd5e1"/>
-<text x="511.8" y="396.0" text-anchor="middle" font-size="12" fill="#64748b">5×</text>
-<text x="322.0" y="422.0" text-anchor="middle" font-size="12.5" fill="#475569">relative cost (× a single model call)</text>
-<text x="22" y="223.0" text-anchor="middle" font-size="12.5" fill="#475569" transform="rotate(-90 22 223.0)">relative quality →</text>
-<polyline points="122.4,323.5 336.6,227.4 511.8,113.7" fill="none" stroke="#cbd5e1" stroke-width="2.5" stroke-dasharray="2 5"/>
-<circle cx="122.4" cy="323.5" r="9" fill="#64748b"/>
-<text x="138.4" y="321.5" font-size="13.5" font-weight="700" fill="#111">Single pass</text>
-<text x="138.4" y="337.5" font-size="11.5" fill="#64748b">simple tasks (gated)</text>
-<circle cx="336.6" cy="227.4" r="9" fill="#7c3aed"/>
-<text x="352.6" y="225.4" font-size="13.5" font-weight="700" fill="#111">Panel + judge</text>
-<text x="352.6" y="241.4" font-size="11.5" fill="#64748b">complex tasks</text>
-<circle cx="511.8" cy="113.7" r="9" fill="#16a34a"/>
-<text x="527.8" y="111.7" font-size="13.5" font-weight="700" fill="#111">Panel + judge + verify-loop</text>
-<text x="527.8" y="127.7" font-size="11.5" fill="#64748b">checkable tasks</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="470" font-family="-apple-system,Segoe UI,Roboto,sans-serif">
+<rect width="800" height="470" fill="#ffffff"/>
+<text x="66" y="34" font-size="19" font-weight="700" fill="#111">Cost vs quality</text>
+<text x="66" y="54" font-size="12.5" fill="#666">Each design at its true cost and quality — the panel tier and the verify-loop are the levers.</text>
+<line x1="66" y1="400.0" x2="752.0" y2="400.0" stroke="#333" stroke-width="1.2"/>
+<line x1="66" y1="76" x2="66" y2="400.0" stroke="#333" stroke-width="1.2"/>
+<line x1="66.0" y1="400.0" x2="66.0" y2="405.0" stroke="#333"/>
+<text x="66.0" y="419.0" text-anchor="middle" font-size="11.5" fill="#555">0u</text>
+<line x1="175.8" y1="400.0" x2="175.8" y2="405.0" stroke="#333"/>
+<text x="175.8" y="419.0" text-anchor="middle" font-size="11.5" fill="#555">2u</text>
+<line x1="285.5" y1="400.0" x2="285.5" y2="405.0" stroke="#333"/>
+<text x="285.5" y="419.0" text-anchor="middle" font-size="11.5" fill="#555">4u</text>
+<line x1="395.3" y1="400.0" x2="395.3" y2="405.0" stroke="#333"/>
+<text x="395.3" y="419.0" text-anchor="middle" font-size="11.5" fill="#555">6u</text>
+<line x1="505.0" y1="400.0" x2="505.0" y2="405.0" stroke="#333"/>
+<text x="505.0" y="419.0" text-anchor="middle" font-size="11.5" fill="#555">8u</text>
+<line x1="614.8" y1="400.0" x2="614.8" y2="405.0" stroke="#333"/>
+<text x="614.8" y="419.0" text-anchor="middle" font-size="11.5" fill="#555">10u</text>
+<line x1="724.6" y1="400.0" x2="724.6" y2="405.0" stroke="#333"/>
+<text x="724.6" y="419.0" text-anchor="middle" font-size="11.5" fill="#555">12u</text>
+<text x="409.0" y="440.0" text-anchor="middle" font-size="12.5" fill="#475569">relative cost (compute units)</text>
+<text x="409.0" y="456.0" text-anchor="middle" font-size="10.5" fill="#94a3b8">u: Sonnet draft 0.3 · Opus draft 1.0 · Opus-max call 1.2</text>
+<line x1="61.0" y1="400.0" x2="66" y2="400.0" stroke="#333"/>
+<text x="57.0" y="404.0" text-anchor="end" font-size="11.5" fill="#555">40</text>
+<line x1="61.0" y1="348.4" x2="66" y2="348.4" stroke="#333"/>
+<text x="57.0" y="352.4" text-anchor="end" font-size="11.5" fill="#555">50</text>
+<line x1="61.0" y1="296.8" x2="66" y2="296.8" stroke="#333"/>
+<text x="57.0" y="300.8" text-anchor="end" font-size="11.5" fill="#555">60</text>
+<line x1="61.0" y1="245.2" x2="66" y2="245.2" stroke="#333"/>
+<text x="57.0" y="249.2" text-anchor="end" font-size="11.5" fill="#555">70</text>
+<line x1="61.0" y1="193.5" x2="66" y2="193.5" stroke="#333"/>
+<text x="57.0" y="197.5" text-anchor="end" font-size="11.5" fill="#555">80</text>
+<line x1="61.0" y1="141.9" x2="66" y2="141.9" stroke="#333"/>
+<text x="57.0" y="145.9" text-anchor="end" font-size="11.5" fill="#555">90</text>
+<line x1="61.0" y1="90.3" x2="66" y2="90.3" stroke="#333"/>
+<text x="57.0" y="94.3" text-anchor="end" font-size="11.5" fill="#555">100</text>
+<text x="22" y="240.0" text-anchor="middle" font-size="12.5" fill="#475569" transform="rotate(-90 22 240.0)">relative quality</text>
+<line x1="66" y1="348.4" x2="752.0" y2="348.4" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="4 4"/>
+<text x="752.0" y="342.4" text-anchor="end" font-size="10" fill="#94a3b8">single self-verify pass = 50</text>
+<polyline points="131.9,348.4 296.5,172.9 691.6,111.0" fill="none" stroke="#16a34a" stroke-width="2" opacity="0.55" stroke-dasharray="6 4"/>
+<circle cx="131.9" cy="348.4" r="8" fill="#64748b"/>
+<text x="123.9" y="334.4" text-anchor="start" font-size="13" font-weight="700" fill="#111">Single pass</text>
+<circle cx="181.2" cy="348.4" r="8" fill="#ea580c"/>
+<text x="173.2" y="370.4" text-anchor="start" font-size="13" font-weight="700" fill="#111">Sonnet panel</text>
+<circle cx="296.5" cy="172.9" r="8" fill="#7c3aed"/>
+<text x="310.5" y="177.9" text-anchor="start" font-size="13" font-weight="700" fill="#111">Opus panel</text>
+<circle cx="691.6" cy="111.0" r="8" fill="#16a34a"/>
+<text x="677.6" y="129.0" text-anchor="end" font-size="13" font-weight="700" fill="#111">Opus panel + verify-loop</text>
 </svg>
