@@ -26,7 +26,7 @@ export const meta = {
 const GATE_MODEL = 'haiku'    // fast, cheap triage
 const PANEL_MODEL = 'sonnet'  // diverse, cost-efficient panel drafts
 const JUDGE_MODEL = 'opus'    // strongest available judge
-const JUDGE_EFFORT = 'xhigh'  // judge effort is the biggest measured lever — see eval/results-phaseA.md
+const JUDGE_EFFORT = 'max'    // judge effort is the biggest measured lever — run it at max; see eval/results-phaseA.md
 const MIN_QUORUM = 2
 
 // Auto verify-loop (the model decides — not an opt-in flag). On CHECKABLE tasks the gate flags,
