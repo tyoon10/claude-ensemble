@@ -88,15 +88,15 @@ Then run the ensemble:
 This is pure Claude Code configuration — no server, no SDK, no external service:
 
 - the `/ensemble` command runs a **[Dynamic Workflow](https://code.claude.com/docs/en/workflows)** — `agent()` / `parallel()` in a local JavaScript script that owns the control flow;
-- the panelist + judge are **[sub-agents](https://code.claude.com/docs/en/sub-agents)** orchestrated programmatically by the workflow.
+- the panel + judge run as **[sub-agents](https://code.claude.com/docs/en/sub-agents)** the workflow spawns programmatically — their prompts live inline in the script.
 
-**Staying on the latest models.** The agents and the workflow select models by **tier alias** — `opus`, `sonnet`, `haiku` — and each alias resolves to the newest release of that tier, so the kit follows new Claude models with no edit. Pin a specific version (e.g. `claude-opus-4-8`) only when you want reproducibility.
+**Staying on the latest models.** The workflow selects models by **tier alias** — `opus`, `sonnet`, `haiku` — and each alias resolves to the newest release of that tier, so the kit follows new Claude models with no edit. Pin a specific version (e.g. `claude-opus-4-8`) only when you want reproducibility.
 
 ## Configure
 
 It's all plain Markdown plus one JS file — edit to taste:
 
-- **Models / panel size / effort:** edit the constants in `.claude/workflows/ensemble.js` — `PANEL_MODEL`, `JUDGE_MODEL`, `GATE_MODEL` (`sonnet` / `opus` / `haiku`), `JUDGE_EFFORT`, and `PANEL_N`. (The `.claude/agents/ensemble-*.md` files hold the canonical panelist/judge prompts, which the workflow mirrors inline — edit those to change the prompts.)
+- **Models / panel size / effort:** edit the constants in `.claude/workflows/ensemble.js` — `PANEL_MODEL`, `JUDGE_MODEL`, `GATE_MODEL` (`sonnet` / `opus` / `haiku`), `JUDGE_EFFORT`, and `PANEL_N`. **Prompts** (panelist, judge, verifier) live inline in the same file.
 - **Cheaper runs:** set `PANEL_MODEL = 'haiku'`, or drop `PANEL_N` to two.
 - **Deterministic engine:** `.claude/workflows/ensemble.js` runs the pipeline as a scripted Dynamic Workflow (no orchestration-token tax, reproducible). The judge runs at `max` effort — the biggest quality lever we measured (see [`eval/results-phaseA.md`](eval/results-phaseA.md)).
 
@@ -105,9 +105,7 @@ It's all plain Markdown plus one JS file — edit to taste:
 ```
 .claude/
   commands/ensemble.md            # the /ensemble slash command — thin wrapper that runs the workflow
-  workflows/ensemble.js           # the deterministic engine (triage · panel · judge · verify-loop)
-  agents/ensemble-panelist.md     # canonical panelist prompt (the workflow mirrors it inline)
-  agents/ensemble-judge.md        # canonical judge prompt (the workflow mirrors it inline)
+  workflows/ensemble.js           # the self-contained engine (triage · panel · judge · verify-loop; prompts inline)
 ```
 
 ## License

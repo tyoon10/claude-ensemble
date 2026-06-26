@@ -1,13 +1,13 @@
-// claude-ensemble — optional deterministic engine, built on Claude Code Dynamic Workflows.
+// claude-ensemble — the /ensemble engine, built on Claude Code Dynamic Workflows.
 // Docs: https://code.claude.com/docs/en/workflows
 //
-// Plain JavaScript. This mirrors the /ensemble command but as a scripted workflow:
+// Plain JavaScript. This is the engine the /ensemble command runs — a scripted workflow with
 // deterministic control flow, no orchestration-token tax, reproducible runs. It uses
 // only Claude models, so it runs on your Pro/Max subscription with no API key.
 //
 // Invoke with args = { task: "<your hard task>" } — accepts an object, a JSON
 // string, or the bare task text.
-// The panelist/judge prompts here mirror .claude/agents/ensemble-*.md — keep them in sync.
+// Self-contained: the panelist, judge, and verifier prompts are all defined inline below.
 
 export const meta = {
   name: 'ensemble',
