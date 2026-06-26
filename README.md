@@ -2,10 +2,6 @@
 
 ![claude-ensemble running in Claude Code](assets/banner.png)
 
-```
-/ensemble <your most challenging task>
-```
-
 ---
 
 Claude Ensemble is an open source agentic tool for Claude Code to push the model capability to tackle the hardest challenges.
