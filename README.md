@@ -1,5 +1,7 @@
 # claude-ensemble
 
+![claude-ensemble running in Claude Code](assets/banner.png)
+
 ```
 /ensemble <your most challenging task>
 ```
