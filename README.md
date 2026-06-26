@@ -72,17 +72,17 @@ Then run the ensemble:
 |---|---|---|
 | Single model (baseline) | 1× Opus | 1× |
 | Ensemble — simple (gated out) | 1× Haiku + 1× Sonnet | < 1× |
-| Ensemble — complex | 1× Haiku + 3× Sonnet + 1× Opus (+ verify-loop on checkable tasks) | ~3–5× |
+| Ensemble — complex | 1× Haiku + 3× Opus panel + 1× Opus judge (+ verify-loop on checkable) | ~5–10× |
 
 <sub>\*Indicative, from the call structure and per-tier token rates — **not a measurement**. Actual spend depends on task and output length.</sub>
 
 ![Cost vs quality](assets/cost-performance.svg)
 
-**Performance (honest).** We A/B-tested this on a subscription — blind pairwise win-rate, with an independent non-Claude cross-grader. The headline: the panel's edge over a single strong pass is **modest and length-sensitive**; the real correctness lever is the **auto verify-loop** on checkable tasks, where a harsh verifier runs code to catch and fix real defects. It's a small, real, fact-checking-driven edge on hard *checkable* work — **not** a blanket "ensembles beat single models." Full method, per-version results (v1–v5, including the length-controlled audit and the cross-grader), per-task data, charts, and caveats live in **[`eval/`](eval/)**.
+**Performance (honest).** We A/B-tested this on a subscription — blind pairwise win-rate, length-controlled, with an independent non-Claude cross-grader. Two findings shaped the design: (1) a **Sonnet panel ≈ a single pass** (no real quality gain), so the kit *skips* it — simple tasks get one cheap pass, and genuinely hard tasks go straight to an **Opus panel** (the real quality jump); (2) the **verify-loop** — on checkable tasks, where a harsh verifier runs code to fix real defects — is the **biggest lever**, and it pays off most on the strong Opus-panel answer. So the kit spends Opus where it counts and gates cheap work away. Full method, per-version results, per-task data, and caveats live in **[`eval/`](eval/)**.
 
 **Honest limits:**
 - **Claude-only panel = correlated errors.** Every panelist is a Claude model, so they share blind spots — more correlated than a true cross-vendor panel. Whether genuine cross-vendor diversity would help *more* is untested (it needs non-Claude API keys — out of scope here).
-- **It spends real usage.** A complex run is up to ~5 model calls plus the verify-loop, several with extended thinking. The triage step keeps it off easy tasks, but heavy use will hit Pro/Max limits — so reach for it on genuinely hard work.
+- **It spends real Opus usage.** A complex run is an Opus panel (3 Opus drafts) + an Opus judge + the verify-loop — Opus-heavy, so **Max is recommended**. The triage gate keeps easy tasks on a cheap single pass; for a lighter footprint set `PANEL_MODEL='sonnet'` (the cost-efficient panel).
 - **Not a benchmarked guarantee.** A pragmatic pattern — strongest on decomposable, deep-reasoning, and checkable work; weakest where you needed truly independent opinions on one indivisible question. Directional on these task sets (n = 6–12), not a general benchmark.
 
 ## Built on Claude Code
@@ -98,8 +98,8 @@ This is pure Claude Code configuration — no server, no SDK, no external servic
 
 It's all plain Markdown plus one JS file — edit to taste:
 
-- **Models / panel size / effort:** edit the constants in `.claude/workflows/ensemble.js` — `PANEL_MODEL`, `JUDGE_MODEL`, `GATE_MODEL` (`sonnet` / `opus` / `haiku`), `JUDGE_EFFORT`, and `PANEL_N`. **Prompts** (panelist, judge, verifier) live inline in the same file.
-- **Cheaper runs:** set `PANEL_MODEL = 'haiku'`, or drop `PANEL_N` to two.
+- **Models / panel size / effort:** edit the constants in `.claude/workflows/ensemble.js` — `PANEL_MODEL` (panel tier, default `opus`), `SIMPLE_MODEL` (the gated single pass, default `sonnet`), `JUDGE_MODEL`, `GATE_MODEL`, `JUDGE_EFFORT`, and `PANEL_N`. **Prompts** (panelist, judge, verifier) live inline in the same file.
+- **Cheaper runs:** set `PANEL_MODEL = 'sonnet'` (the cost-efficient panel — ≈ a single pass on quality, but far lighter on Opus limits), or drop `PANEL_N` to two.
 - **Deterministic engine:** `.claude/workflows/ensemble.js` runs the pipeline as a scripted Dynamic Workflow (no orchestration-token tax, reproducible). The judge runs at `max` effort — the biggest quality lever we measured (see [`eval/results-phaseA.md`](eval/results-phaseA.md)).
 
 ## Files

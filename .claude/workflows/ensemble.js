@@ -24,7 +24,8 @@ export const meta = {
 // resolve to the latest release of that tier, so the kit tracks new Claude models with
 // no edit. Pin a version (e.g. 'claude-opus-4-8') only when you want reproducibility.
 const GATE_MODEL = 'haiku'    // fast, cheap triage
-const PANEL_MODEL = 'sonnet'  // diverse, cost-efficient panel drafts
+const PANEL_MODEL = 'opus'    // panel drafts — the panel TIER is the quality lever (a Sonnet panel ≈ a single pass; see eval/)
+const SIMPLE_MODEL = 'sonnet' // cheap single pass for simple tasks the gate routes around the panel
 const JUDGE_MODEL = 'opus'    // strongest available judge
 const JUDGE_EFFORT = 'max'    // judge effort is the biggest measured lever — run it at max; see eval/results-phaseA.md
 const MIN_QUORUM = 2
@@ -85,14 +86,14 @@ if (!task) {
 phase('Triage')
 const gate = await agent(
   `Decide two things about this task.\n` +
-  `1) "complex" = needs multi-step reasoning, design, analysis, hard debugging, research, or trade-off calls (vs a single pass suffices).\n` +
+  `1) "complex" = genuinely hard work — multi-step reasoning, system/architecture design, hard debugging, research, or real trade-off calls — where a single strong pass would likely leave gaps that a panel + verification would catch. If a single pass would already do a good job, it is NOT complex (the panel is the premium path — reserve it for tasks that need it).\n` +
   `2) "checkable" = the answer has verifiable/technical content — code, math, logic, quantitative or factual claims, or a design/protocol with explicit correctness criteria — that running code or computations could actually check. NOT open-ended judgment, strategy, creative, or opinion work that has no single right answer.\n\nTASK:\n${task}`,
   { model: GATE_MODEL, effort: 'low', schema: ROUTE_SCHEMA, phase: 'Triage' }
 )
 log(`complex=${gate.complex} checkable=${gate.checkable} — ${gate.reason}`)
 
 if (!gate.complex) {
-  return await agent(`Answer this directly and well.\n\nTASK:\n${task}`, { model: PANEL_MODEL, effort: 'medium', label: 'single-pass' })
+  return await agent(`Answer this directly and well.\n\nTASK:\n${task}`, { model: SIMPLE_MODEL, effort: 'medium', label: 'single-pass' })
 }
 
 phase('Panel')
