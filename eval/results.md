@@ -1,5 +1,7 @@
 # Results — claude-ensemble A/B eval
 
+> **Methodology trail — findings stand, but any "default/shipped" config named below is superseded.** The shipped kit now defaults to a best-of-N **Opus** panel → **max-effort Opus judge** → verify→revise loop. See the [eval index](README.md) and the [top-level README](../README.md).
+
 12 tasks, single-Opus baseline vs the ensemble pipeline. Each answer blind-scored 0–100 against its rubric by two independent judges (Opus + Sonnet), with answers under randomized X/Y labels and provenance stripped. Method and caveats: [README](README.md). Raw data: [raw.json](raw.json).
 
 ![A/B results](results.svg)

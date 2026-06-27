@@ -2,10 +2,12 @@
 
 An honest, reproducible A/B comparison of the two systems on a fixed task set, run entirely on a Claude subscription.
 
+**What the kit ships today:** triage → simple tasks get one Sonnet pass; hard tasks get a best-of-N **Opus** panel → a **max-effort Opus judge** → a **verify→revise loop** (runs code, on checkable tasks). The results below trace how the design got there: **v3–v5 reflect the current kit**, while v1/v2 and Phase A/B/panel are the earlier methodology trail (cheaper or different configs), kept for honesty — any "default/shipped" config they name is superseded.
+
 ## What's compared
 
 - **Baseline** — a single Claude Opus pass (high effort).
-- **Ensemble** — the claude-ensemble pipeline: three objective-diverse Sonnet drafts (drafter / adversary / alt-method) synthesized by an Opus judge. The triage gate is skipped here — every eval task is "complex" by construction, which is the regime where the ensemble is meant to help.
+- **Ensemble** — the claude-ensemble pipeline. *Today:* a best-of-N **Opus** panel → a **max-effort Opus judge** → a verify→revise loop on checkable tasks. *(Earlier versions tested a Sonnet / role-diverse panel — see the per-version notes under Results.)* The triage gate is skipped in these evals — every task is "complex" by construction, the regime where the ensemble is meant to help.
 
 ## Task set
 

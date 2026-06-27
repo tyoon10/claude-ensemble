@@ -1,5 +1,7 @@
 # Results — Phase A: what makes the judge better?
 
+> **Methodology trail — findings stand, but any "default/shipped" config named below is superseded.** The shipped kit now defaults to a best-of-N **Opus** panel → **max-effort Opus judge** → verify→revise loop. See the [eval index](README.md) and the [top-level README](../README.md).
+
 The judge is the highest-leverage part of the ensemble, so this ablation asks: **which judge interventions actually matter — and does over-instructing it help or hurt?** We hold the panel fixed (the same 3 Sonnet drafts per task, generated once) and run **six judge variants on the identical drafts**, then blind-score all six (rotated A–F, strict calibration) with two judges (Opus + Sonnet). 8 harder/open tasks. Harness: [`phaseA.js`](phaseA.js); raw: [`raw-phaseA.json`](raw-phaseA.json).
 
 | Arm | Judge variant | Mean | Δ vs control | best-votes (of 16) |
@@ -15,7 +17,7 @@ The judge is the highest-leverage part of the ensemble, so this ablation asks: *
 
 | Lever | What it changes | Δ vs control | Verdict |
 |---|---|--:|---|
-| **Judge effort `xhigh`** | reasoning depth on the judge call — **no prompt change** | **+2.4** | **Essential — *the* lever; shipped as the default** |
+| **Judge effort `xhigh`** | reasoning depth on the judge call — **no prompt change** | **+2.4** | **Essential — *the* lever (the kit now ships `max`)** |
 | Show the rubric | judge sees the explicit success-criteria | +1.0 (most best-votes, flat mean) | Marginal / uncertain — revisit |
 | Verify-first nudge | one open line: "verify claims before synthesizing" | +1.0 | Marginal |
 | Self-revision round | a second judge pass over its own draft | +1.1 (costs +1 model call) | Marginal — not worth the extra call |
@@ -38,7 +40,7 @@ The [3-arm eval](results-v2.md) found an Opus panel + xhigh judge beat the Sonne
 
 ## Decision (applied)
 
-- **The default judge now runs at `xhigh` effort** (`JUDGE_EFFORT` in [`../.claude/workflows/ensemble.js`](../.claude/workflows/ensemble.js)). Modest extra thinking on the single judge call, for the largest measured quality lever.
+- **The judge runs at high effort by design — the kit ships `max`** (`JUDGE_EFFORT` in [`../.claude/workflows/ensemble.js`](../.claude/workflows/ensemble.js)). Effort is the largest measured quality lever; this ablation found `xhigh` the biggest single win, and a later verifying-judge pass pushed the shipped default to `max`.
 - **The judge prompt stays open and light** — no rigid multi-step procedure (it measurably hurts).
 - **Default judge = `xhigh`; a `max` judge is the quality-max lever on hard work.** *(Updated 2026-06-19.)* An earlier `tier:"max"` Opus-panel preset was dropped because it didn't beat Sonnet + `xhigh`-judge *under this eval's xhigh-paraphrasing-judge regime*. A later, better-instrumented pass (pairwise + `max` verifying judge + non-Claude cross-grader) reversed that for verification-heavy work — the Opus panel + `max` judge is the quality-max config. The Sonnet panel + `xhigh` judge remains the cost/throughput default; re-adding an opt-in Opus-panel/`max` preset is the natural follow-up.
 

@@ -1,9 +1,11 @@
 # Results — v2, 3-arm eval on harder tasks
 
+> **Methodology trail — findings stand, but any "default/shipped" config named below is superseded.** The shipped kit now defaults to a best-of-N **Opus** panel → **max-effort Opus judge** → verify→revise loop. See the [eval index](README.md) and the [top-level README](../README.md).
+
 A follow-up to [`results.md`](results.md). The v1 eval showed only a +4.2 ensemble edge — but its baseline already scored ~90/100, so the rubric had saturated. v2 uses **harder, higher-headroom tasks** and adds a third arm to test whether a **stronger (Opus) panel** closes the gap to the multi-model ensemble literature.
 
 - **A — baseline:** one Opus pass (high effort).
-- **B — Sonnet panel:** the default ensemble (3 Sonnet objective-diverse drafts → Opus judge).
+- **B — Sonnet panel:** the then-default ensemble (3 Sonnet objective-diverse drafts → Opus judge).
 - **C — Opus panel:** the "max" preset (3 Opus drafts → critique-first Opus judge, xhigh).
 
 12 harder tasks (deep research, distributed-systems design, security threat-modeling, proofs, methodology). Each of the three answers blind-scored 0–100 by two judges (Opus + Sonnet) under a randomized X/Y/Z permutation, with a strict anti-saturation calibration. Method + caveats: [README](README.md). Raw: [raw-v2.json](raw-v2.json).
@@ -48,7 +50,7 @@ The Opus panel does win the hardest **design / systems / methodology** tasks (`g
 ## What this means for the kit
 
 *(Revised per the 2026-06-19 update above.)*
-- **Sonnet panel = throughput default.** It captures most of the lift at a fraction of the Opus-panel cost and conserves Opus usage under rate limits — the right default for everyday and high-volume use.
+- **Sonnet panel = the cost-efficient option** (then the default). It captures much of the lift at a fraction of the Opus-panel cost and conserves Opus usage under rate limits — the kit now exposes it as the cheaper opt-in (`PANEL_MODEL='sonnet'`) and defaults to the Opus panel.
 - **Opus panel + `max` judge = quality-max preset.** On verification-heavy / checkable work it pulls clearly ahead (73–82% pairwise, externally cross-graded) — reach for it when quality matters more than usage budget. It looked merely "situational (+0.9)" here only because this eval used an `xhigh` judge and a saturating absolute rubric.
 - **The levers are panel *breadth* + a *verifying* (`max`) judge — not draft diversity.** Diversity still doesn't predict lift (r=−0.11); but more drafts and a higher-tier panel *do* help once the judge actually verifies. Cross-lab diversity remains untested (needs API keys).
 

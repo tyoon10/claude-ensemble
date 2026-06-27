@@ -6,8 +6,8 @@
 //
 // Arms (all subscription-only, Claude models):
 //   A baseline      — one Opus pass (high effort).
-//   B ensemble-sonnet — 3 Sonnet objective-diverse drafts → Opus judge.            (current default)
-//   C ensemble-opus   — 3 Opus objective-diverse drafts → Opus judge, critique-first. (the "max" preset)
+//   B ensemble-sonnet — 3 Sonnet objective-diverse drafts → Opus judge.            (then-default; now superseded)
+//   C ensemble-opus   — 3 Opus objective-diverse drafts → Opus judge, critique-first. (now the kit's default panel tier)
 //
 // Each task's three answers are blind-scored by two independent judges (Opus + Sonnet) under a
 // randomized X/Y/Z permutation, with a strict anti-saturation calibration. Reproduce: run this

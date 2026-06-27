@@ -1,5 +1,7 @@
 # Results — panel design: are the objective roles load-bearing?
 
+> **Methodology trail — findings stand, but any "default/shipped" config named below is superseded.** The shipped kit now defaults to a best-of-N **Opus** panel → **max-effort Opus judge** → verify→revise loop. See the [eval index](README.md) and the [top-level README](../README.md).
+
 The kit originally used an *objective-diverse* panel — a drafter, an adversary, and an alt-method solver — on the theory that different jobs de-correlate errors. Phase B already showed diversity doesn't predict lift; this test asks the sharper product question directly: **does the role panel beat a plain homogeneous best-of-N panel** (3× the same Sonnet, identical "give your best answer" prompt)?
 
 **Design.** single Opus baseline vs **homog** (3× Sonnet, identical prompt) vs **roles** (drafter/adversary/alt-method), all → Opus `xhigh` judge; blind 3-way scoring (randomized labels, two judges, strict calibration), n=12. *(A first attempt was truncated by the monthly spend limit, n=4; this is the clean full run.)* Harness: [`panel.js`](panel.js); raw: [`raw-panel.json`](raw-panel.json).
@@ -41,7 +43,7 @@ Baseline (single Opus) mean **81.2**. **Homog − roles = +3.0; head-to-head 8�
 
 ## Decision (applied)
 
-The kit's default panel is now **homogeneous best-of-N** — N× identical Sonnet (best-answer prompt) → Opus `xhigh` judge. Simpler *and* measured-higher. The drafter/adversary/alt-method sub-agents were removed in favor of a single `ensemble-panelist`.
+The kit dropped the objective roles for a **homogeneous best-of-N** panel — N× identical best-effort drafts → judge. Simpler *and* measured-higher. *(Panel tier and judge effort were set separately and later: the kit now runs an **Opus** panel → a **`max`** judge. Prompts live inline in the workflow — there are no separate sub-agent files.)*
 
 ## Caveats
 

@@ -1,5 +1,7 @@
 # Results — Phase B: is diversity the lever?
 
+> **Methodology trail — findings stand, but any "default/shipped" config named below is superseded.** The shipped kit now defaults to a best-of-N **Opus** panel → **max-effort Opus judge** → verify→revise loop. See the [eval index](README.md) and the [top-level README](../README.md).
+
 The natural assumption about an ensemble is that it works because the panel members *disagree* — diverse viewpoints the judge reconciles. This experiment tests that **directly**, because it decides something concrete: if diversity drives the lift, then adding genuinely different (e.g. non-Claude) models would be worth pursuing; if it doesn't, that's effort wasted.
 
 **Design.** Baseline = single Opus. Four panel arms span low→high draft diversity, each synthesized by an Opus `xhigh` judge:
@@ -34,7 +36,7 @@ Baseline (single Opus) mean: **78.1**. **Diversity↔lift correlation: r = −0.
 
 ## What this decides
 
-- **The kit keeps the simple Sonnet panel as the default.** The lift doesn't come from panel *diversity* (draft *tier* is a separate axis — see the update in [results-v2.md](results-v2.md)). It comes from the judge process + the judge's effort (see [results-phaseA.md](results-phaseA.md)).
+- **The kit keeps a simple homogeneous best-of-N panel** (no designed diversity). The lift doesn't come from panel *diversity* (draft *tier* is a separate axis — the kit's panel tier is now Opus). It comes from the judge process + the judge's effort (see [results-phaseA.md](results-phaseA.md)).
 - **No cross-vendor "diversity" feature is planned — but note the scope of this null.** This result is **within-Claude only**: diversity here varied by role, effort, and model *tier*, never by *vendor*. It does **not** speak to cross-vendor error-decorrelation among comparably-strong models — a branch this subscription-only project doesn't test (it would need non-Claude API keys). A public data point on that branch (a 2026 cross-vendor inference-scaling benchmark — see [`REFERENCES.md`](../REFERENCES.md)) reports a small gain from adding a different-vendor model to a same-model panel (e.g. Opus+Opus → Opus+GPT) — consistent with *either* a stronger second model *or* genuine cross-vendor decorrelation, and the data can't separate the two. So cross-vendor is **untested, not rejected**; within Claude, diversity is not the lever (the judge process + effort is). Notably, that same source's *same-model* self-ensemble (Opus+Opus beating solo Opus, zero cross-model diversity) independently reproduces this file's core finding.
 
 ## Update — panel-size sweep + duplicate control
