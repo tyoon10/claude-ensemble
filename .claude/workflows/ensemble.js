@@ -11,7 +11,7 @@
 
 export const meta = {
   name: 'ensemble',
-  description: 'Best-of-N Claude panel drafts in parallel; an Opus judge verifies and synthesizes one best answer — subscription-only, no API keys',
+  description: 'claude-ensemble: panel + judge',
   phases: [
     { title: 'Triage' },
     { title: 'Panel' },

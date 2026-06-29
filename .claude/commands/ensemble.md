@@ -14,6 +14,6 @@ Invoke it with the **Workflow** tool:
 $ARGUMENTS
 </task>
 
-When the workflow returns, give the user its final answer. You may add at most one short line if the workflow surfaced a caveat or dissent.
+Do not narrate launching or waiting for the workflow. When it returns, output its final answer directly, with no preamble (no "running…", no "here is the answer"). Add at most one short line only if the workflow surfaced a real caveat or dissent.
 
 If the Workflow tool isn't available, Dynamic Workflows aren't enabled in this Claude Code — tell the user to run `/config workflows=true` and retry.
