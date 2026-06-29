@@ -27,7 +27,7 @@ It runs entirely inside Claude Code on your Pro/Max subscription — **no API ke
 ## What you need
 
 - **Claude Pro or Max subscription.** Max is recommended for sufficient Opus usage.
-- **Claude Code v2.1.154 or later.** The deterministic engine (`.claude/workflows/ensemble.js`) requires the Dynamic Workflows feature
+- **Claude Code v2.1.154 or later.** `/ensemble` runs as a Dynamic Workflow (`.claude/workflows/ensemble.js`), which requires that version.
 
 > Claude Fable 5 is **not** used or required.
 
@@ -44,7 +44,7 @@ mkdir -p ~/.claude
 cp -rn claude-ensemble/.claude/* ~/.claude/
 ```
 
-Custom commands load when Claude Code starts, so after copying either **restart Claude Code** or run `/reload-skills` so it picks up `/ensemble`. Confirm by typing `/` and checking that `ensemble` appears in the list.
+The `/ensemble` command loads when Claude Code starts, so after copying either **restart Claude Code** or run `/reload-skills` so it picks it up. Confirm by typing `/` and checking that `ensemble` appears in the list.
 
 Then ensure dynamic workflows are enabled (one-time configuration):
 
@@ -60,7 +60,7 @@ Then run the ensemble:
 
 ### Troubleshooting
 
-- **`Unknown command: /ensemble`** — Claude Code hasn't loaded the command. Launch Claude Code from a project that has `.claude/commands/ensemble.md` (or do the global `~/.claude/` install above), and make sure the session was started or `/reload-skills`-ed *after* you copied the files. Type `/` and check that `ensemble` is listed. (Custom commands are a Claude Code feature; they don't exist in claude.ai web chat.)
+- **`Unknown command: /ensemble`** — Claude Code hasn't registered the command. Check, in order: you're in a project that has `.claude/workflows/ensemble.js` (run Claude Code from the project you installed into, or do the global `~/.claude/` install above); the session was started or `/reload-skills`-ed *after* you copied the files; dynamic workflows are enabled (`/config workflows=true`); and you're on Claude Code v2.1.154+. Type `/` and confirm `ensemble` is listed. (This is a Claude Code feature; it doesn't exist in claude.ai web chat.)
 - **It runs but reports the Workflow tool isn't available** — dynamic workflows are off: run `/config workflows=true`, then retry.
 
 ## How it works
@@ -114,8 +114,7 @@ It's all plain Markdown plus one JS file — edit to taste:
 
 ```
 .claude/
-  commands/ensemble.md            # the /ensemble slash command — thin wrapper that runs the workflow
-  workflows/ensemble.js           # the self-contained engine (triage · panel · judge · verify-loop; prompts inline)
+  workflows/ensemble.js           # provides /ensemble — self-contained engine (triage · panel · judge · verify-loop; prompts inline)
 ```
 
 ## License
