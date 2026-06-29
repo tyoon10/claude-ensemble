@@ -1,5 +1,5 @@
 ---
-description: Run claude-ensemble — a best-of-N Claude panel + an Opus judge, with an automatic verify-loop on checkable tasks, on a hard task. Subscription-only, no API keys.
+description: Run claude-ensemble (best-of-N panel + a verifying Opus judge) on a hard task.
 argument-hint: <a hard question or task>
 ---
 
