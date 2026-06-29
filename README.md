@@ -35,15 +35,18 @@ It runs entirely inside Claude Code on your Pro/Max subscription — **no API ke
 
 ```bash
 git clone https://github.com/tyoon10/claude-ensemble
-# into one project:
+# into one project (then launch Claude Code FROM this project):
+mkdir -p /path/to/your/project/.claude
 cp -r claude-ensemble/.claude/* /path/to/your/project/.claude/
-# …or make it available everywhere. This writes into your global config; -n avoids
-# overwriting same-named files (the kit's files are all ensemble-* namespaced, so
-# collisions are unlikely):
+# …or make it available everywhere (works from any project). Writes into your global
+# config; -n avoids overwriting same-named files (collisions are unlikely):
+mkdir -p ~/.claude
 cp -rn claude-ensemble/.claude/* ~/.claude/
 ```
 
-Then, in Claude Code, ensure you have enabled dynamic workflows (one-time configuration):
+Custom commands load when Claude Code starts, so after copying either **restart Claude Code** or run `/reload-skills` so it picks up `/ensemble`. Confirm by typing `/` and checking that `ensemble` appears in the list.
+
+Then ensure dynamic workflows are enabled (one-time configuration):
 
 ```
 /config workflows=true
@@ -54,6 +57,11 @@ Then run the ensemble:
 ```
 /ensemble <Describe your task — add your context, goals, constraints, etc.>
 ```
+
+### Troubleshooting
+
+- **`Unknown command: /ensemble`** — Claude Code hasn't loaded the command. Launch Claude Code from a project that has `.claude/commands/ensemble.md` (or do the global `~/.claude/` install above), and make sure the session was started or `/reload-skills`-ed *after* you copied the files. Type `/` and check that `ensemble` is listed. (Custom commands are a Claude Code feature; they don't exist in claude.ai web chat.)
+- **It runs but reports the Workflow tool isn't available** — dynamic workflows are off: run `/config workflows=true`, then retry.
 
 ## How it works
 
