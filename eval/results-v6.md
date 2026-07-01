@@ -79,6 +79,31 @@ ahead"; length-controlled correctness is a **tie**. (The fix also improves the a
   Opus-panel residual-edge probe on hard *checkable* tasks (flat-default vs gate-routed panel tier). The
   judge-format confound is now cleared.
 
+## Residual-edge probe (v6c) — the Opus panel is cleaner on hard checkable work
+
+v6/v6b measured panels by pairwise correctness (they tied). But a pairwise tie can hide a real gap on the
+hardest *checkable* work, where Sonnet 5 trails Opus most on benchmarks. So v6c uses a length-independent
+metric: run the kit's prosecutorial verifier (the one the verify-loop uses) on each panel's clean-judge
+answer and count **confirmed defects**. Tasks: the 4 checkable/reasoning tasks (systems / debugging /
+proof / probability). Harness [run-v6c-residual.js](run-v6c-residual.js), raw
+[raw-v6c-residual.json](raw-v6c-residual.json).
+
+**Result: Opus panel 0 confirmed defects, Sonnet-5 panel 3 (across 4 tasks).** The Opus panel was clean
+on all four; the Sonnet-5 panel introduced confirmed technical errors on two — `global-counter` (two
+order-of-magnitude mistakes in the throughput/consensus math) and `sort-lower-bound` (a false claim that
+radix sort "lands back at Ω(n log n)"). So on hard checkable work the Opus panel produces cleaner
+*drafts*, even though the two panels tie on the general pairwise audit.
+
+**But the verify-loop mitigates this on checkable tasks** — these are exactly the defects the loop is
+built to catch and fix, and it runs on checkable tasks. So the shipped pipeline (Sonnet-5 panel → Opus
+judge → verify-loop) likely cleans up the Sonnet-5 panel's extra defects on checkable work; the residual
+edge bites hardest where the loop doesn't run or caps out. Whether the loop fully closes the gap
+(Sonnet-5-panel + loop vs Opus-panel + loop, final-defect count) is **untested**.
+
+**Implication.** The flat `PANEL_MODEL='sonnet'` default leans on the verify-loop as the safety net on
+checkable tasks; `PANEL_MODEL='opus'` (or a future gate-routing of hard-checkable work to an Opus panel)
+buys cleaner drafts on that narrow class. n = 4 — directional.
+
 ## Caveats
 
 - **n = 12, these tasks only.** Directional. Families uneven (knowledge 8 / reasoning 4).

@@ -74,3 +74,4 @@ The chronological trail, every reversal kept — this is where "we changed our m
 | v5 | [results-v5-verify-loop.md](results-v5-verify-loop.md) | the auto verify-loop — the biggest correctness lever |
 | v6 | [results-v6.md](results-v6.md) | Sonnet 5 re-run — a Sonnet-5 panel *ties* the Opus panel (cheap panel now viable); length confound re-confirmed; caught a judge-format confound |
 | v6b | [results-v6.md](results-v6.md) | confound re-check with a clean judge — the leak fully drove v6's "single ahead" (single wins 0/32), so single Opus ≈ both panels, a tie. Judge fix shipped to `ensemble.js` |
+| v6c | [results-v6.md](results-v6.md) | residual-edge probe — Opus panel 0 confirmed defects on hard checkable tasks vs 3 for the Sonnet-5 panel; a real draft-cleanliness edge the verify-loop mitigates on checkable work |

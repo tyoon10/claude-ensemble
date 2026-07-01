@@ -1,0 +1,68 @@
+{
+ "summary": {
+  "n": 4,
+  "sonnet5Defects": 3,
+  "opusDefects": 0,
+  "tasksOpusFewerDefects": 2,
+  "tasksSonnet5FewerDefects": 0
+ },
+ "rows": [
+  {
+   "id": "global-counter",
+   "sonnet5": {
+    "clean": false,
+    "defectCount": 2,
+    "defects": [
+     "Section 1 (rejected-models, CRDT-gossip bullet) overstates the cross-region network reduction as '~5-6 orders of magnitude less.' Using the answer's own topology (~5 regions x 50-200 shards = 250-1000 total shards, each shipping absolute per-shard state at >=1/sec), the reduction from 1M raw events/sec is only ~1000-4000x, i.e. ~3 orders of magnitude. Reaching 5-6 OOM would require ~1-10 aggregate messages/sec, which contradicts the stated shard count at a per-second shipping cadence. Overstated by roughly 2-3 orders of magnitude.",
+     "Section 0 states cross-region consensus is 'roughly 10,000-100,000x short' of 1M/sec, but this is inconsistent with the answer's own stated ceiling of 7-20 commits/s: 1M/20 = 50,000x and 1M/7 = 142,857x, so the true shortfall is ~50,000x-143,000x. The '10,000x' low bound understates by ~5x. (The separately-stated '4-5 orders of magnitude' framing is correct at 4.7-5.2 OOM, making this a self-inconsistency in the answer's numbers.)"
+    ]
+   },
+   "opus": {
+    "clean": true,
+    "defectCount": 0,
+    "defects": []
+   }
+  },
+  {
+   "id": "exactly-once",
+   "sonnet5": {
+    "clean": true,
+    "defectCount": 0,
+    "defects": []
+   },
+   "opus": {
+    "clean": true,
+    "defectCount": 0,
+    "defects": []
+   }
+  },
+  {
+   "id": "sort-lower-bound",
+   "sonnet5": {
+    "clean": false,
+    "defectCount": 1,
+    "defects": [
+     "Radix section, point 2 (\"The apparent speedup is paid for in a hidden parameter\"): the sub-argument is mathematically self-contradictory and states a false conclusion. It correctly derives that choosing radix b \u2248 n to sort integers in [0, n^c) gives d = O(c) passes and total work O(c\u00b7n), but then claims \"c = \u0398(log n / log b) when the universe is genuinely unbounded, so the general case lands back at \u03a9(n log n).\" With b \u2248 n we have log b = log n, so that very formula yields c = \u0398(1) \u2014 a constant \u2014 giving O(n), NOT \u03a9(n log n). The standard CLRS result confirms radix sort runs n integers in [0, n^c) for constant c in \u0398(cn) = O(n) time, which genuinely beats n log n. Verified: even the minimal 'n arbitrary distinct integers' case (universe ~n, w = \u2308log\u2082 n\u2309 bits) sorts in O(n) via a single counting-sort pass with b \u2248 n. So the claim that radix's actual cost 'lands back at \u03a9(n log n)' for polynomially-bounded universes is false \u2014 the \u03a9(n log n) figure only reappears under the comparison-SIMULATION accounting described in the separate 'consistency check' paragraph (which is correct), or when the universe is super-polynomial in n (c growing). Point 2 conflates radix's real RAM-model cost with the comparison-simulated cost."
+    ]
+   },
+   "opus": {
+    "clean": true,
+    "defectCount": 0,
+    "defects": []
+   }
+  },
+  {
+   "id": "coupon-collector",
+   "sonnet5": {
+    "clean": true,
+    "defectCount": 0,
+    "defects": []
+   },
+   "opus": {
+    "clean": true,
+    "defectCount": 0,
+    "defects": []
+   }
+  }
+ ]
+}
