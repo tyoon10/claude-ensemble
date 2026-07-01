@@ -72,4 +72,5 @@ The chronological trail, every reversal kept — this is where "we changed our m
 | v3 | [results-v3-pairwise.md](results-v3-pairwise.md) | blind pairwise + non-Claude cross-grader (≈60%) — supersedes the rubric magnitude |
 | v4 | [results-v4-length-controlled.md](results-v4-length-controlled.md) | length-controlled — the edge mostly reduces to ties |
 | v5 | [results-v5-verify-loop.md](results-v5-verify-loop.md) | the auto verify-loop — the biggest correctness lever |
-| v6 | [results-v6.md](results-v6.md) | Sonnet 5 re-run — a Sonnet-5 panel *ties* the Opus panel (cheap panel now viable); neither beats a single Opus@max pass; length confound re-confirmed. Judge-format confound flagged |
+| v6 | [results-v6.md](results-v6.md) | Sonnet 5 re-run — a Sonnet-5 panel *ties* the Opus panel (cheap panel now viable); length confound re-confirmed; caught a judge-format confound |
+| v6b | [results-v6.md](results-v6.md) | confound re-check with a clean judge — the leak fully drove v6's "single ahead" (single wins 0/32), so single Opus ≈ both panels, a tie. Judge fix shipped to `ensemble.js` |

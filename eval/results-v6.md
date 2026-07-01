@@ -43,31 +43,41 @@ By family — vs single: **knowledge** single 6 / tie 8 / panel 2 (single ahead)
    a single pass **68.8%**; length-controlled it *loses* (4 win / 8 loss). The panel just writes +58%
    more (on reasoning: raw 87.5% → a dead tie, at +69% words). Re-validates v4's central
    methodological finding on the new model.
-3. **A single Opus@max pass is not beaten by the panel** — length-controlled it is *ahead* (single 8 /
-   panel 4 / tie 12), concentrated in knowledge. **But this is partly a judge-output artifact** (below),
-   so read it as "the panel does not beat a single strong pass," not a clean single-pass win.
+3. **On the leaky judge single looked ahead — but that was the artifact below, and it *reverses* under a
+   clean judge.** v6's raw read was single 8 / panel 4 / tie 12 (single ahead, all in knowledge). A
+   re-check ([v6b](run-v6b.js), the fixed judge, the 8 knowledge tasks) flips it: **the single pass wins
+   0 of 32 verdicts** across both panels — Opus panel vs single = **0/16/0 (a dead tie)**, Sonnet-5 panel
+   vs single = **5/11/0** (panel ahead; 3 of the 5 length-driven). Corrected: **a single Opus@max pass
+   never beats a clean-judge panel; the arms are tied** (Opus panel matches single exactly; the Sonnet-5
+   panel ties-to-slightly-ahead, partly on length).
 
 ## Methodological catch — the judge leaks its scaffolding
 
-The audits repeatedly penalized the *panel* answers (both tiers) for grader-facing meta-commentary:
-"Candidate A/B/C", "verification notes", "the three candidates converge". The `max` Opus judge is
-**echoing the blind-candidate framing into its synthesis**, which a clean single pass never does. This
-disadvantages *both panels vs the single pass* (consistent with the panels tying each other but both
-losing to single), so the "single ≥ panel" gap is **partly a judge-prompt artifact, not pure
-capability**. It is fixable: tighten the judge prompt to emit a clean, standalone answer with no
-candidate/verification scaffolding, then re-check. Until then the single-vs-panel *magnitude* is not a
-clean read.
+v6's audits repeatedly penalized the *panel* answers (both tiers) for grader-facing meta-commentary:
+"Candidate A/B/C", "verification notes", "the three candidates converge". The `max` Opus judge was
+**echoing its blind-candidate framing into the synthesis**, which a clean single pass never does — so
+the leak disadvantaged *both panels vs the single pass* and drove v6's apparent "single ahead."
 
-## What it means for the kit (provisional)
+**Confirmed and fixed.** The judge prompt was tightened to emit a clean, standalone answer (no
+candidate/verification scaffolding; shipped in [`ensemble.js`](../.claude/workflows/ensemble.js)), and
+the re-check ([v6b](run-v6b.js), [raw-v6b.json](raw-v6b.json)) re-ran the single-vs-panel audit on the 8
+knowledge tasks with that clean judge. Decisive: **single went from winning 6/16 verdicts (leaky) to
+0/16 (clean)** vs the Sonnet-5 panel, and **0/16** vs the Opus panel. The leak fully drove v6's "single
+ahead"; length-controlled correctness is a **tie**. (The fix also improves the answer users see.)
 
-- **`PANEL_MODEL='sonnet'` (Sonnet 5) is supported** as the cost-efficient panel default (ties the
-  Opus panel at ~0.4× cost). The README "a Sonnet panel ≈ a single pass, skip it" line is now wrong for
-  Sonnet 5 — a *Sonnet-5* panel ties the *Opus* panel.
-- **The case for running any panel over a single Opus@max pass stays weak** — length-controlled, the
-  single pass is at least as good. The triage gate (route most tasks to a single pass) is reinforced.
-- **Hold** the flat config flip and any cost-performance chart change until (a) the judge-prompt
-  confound is cleared, and (b) the Opus-panel residual-edge probe on hard *checkable* tasks settles
-  flat-default vs gate-routed panel tier.
+## What it means for the kit (after the v6b re-check)
+
+- **`PANEL_MODEL='sonnet'` (Sonnet 5) is the cost-efficient panel** (ties the Opus panel at ~0.4× cost).
+  The README "a Sonnet panel ≈ a single pass, skip it" line is now wrong for Sonnet 5 — a *Sonnet-5*
+  panel ties the *Opus* panel.
+- **On genuine correctness the three arms are tied** (clean judge): single Opus@max ≈ Opus panel ≈
+  Sonnet-5 panel; no arm loses. A panel neither clearly *beats* nor *trails* a single strong pass on
+  correctness alone — its real payoff is the **verify-loop** on checkable tasks (v5), not the panel tier.
+  The triage gate (route most to a single pass; reserve the panel for where the loop can act) stays
+  well-justified.
+- **Remaining open item** before a flat `PANEL_MODEL` flip / any cost-performance chart change: the
+  Opus-panel residual-edge probe on hard *checkable* tasks (flat-default vs gate-routed panel tier). The
+  judge-format confound is now cleared.
 
 ## Caveats
 
@@ -77,5 +87,6 @@ clean read.
   an out-of-family anchor.
 - **Knowledge backfilled** serially after the first pass hit a server-side request throttle (a burst of
   ~250 `max`-effort calls); the backfill ran one task at a time to stay under it.
-- The **judge-format confound** above is unresolved; the single-vs-panel result is provisional pending
-  the fix + re-check.
+- The **judge-format confound** is resolved (fixed in `ensemble.js` + re-checked in v6b); the
+  single-vs-panel result is a tie. The v6b re-check covered the 8 knowledge tasks only (where v6's gap
+  was largest); reasoning was already even under the leaky judge.
