@@ -24,7 +24,7 @@ export const meta = {
 // resolve to the latest release of that tier, so the kit tracks new Claude models with
 // no edit. Pin a version (e.g. 'claude-opus-4-8') only when you want reproducibility.
 const GATE_MODEL = 'haiku'    // fast, cheap triage
-const PANEL_MODEL = 'opus'    // panel drafts — the panel TIER is the quality lever (a Sonnet panel ≈ a single pass; see eval/)
+const PANEL_MODEL = 'sonnet'  // panel drafts (Sonnet 5) — a Sonnet-5 panel ties the Opus panel at ~0.4x cost (eval/results-v6.md); set 'opus' for a marginal edge on the hardest checkable work
 const SIMPLE_MODEL = 'sonnet' // cheap single pass for simple tasks the gate routes around the panel
 const JUDGE_MODEL = 'opus'    // strongest available judge
 const JUDGE_EFFORT = 'max'    // judge effort is the biggest measured lever — run it at max; see eval/results-phaseA.md
