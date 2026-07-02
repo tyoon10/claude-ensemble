@@ -200,7 +200,29 @@ missed by all; the ceiling is *raised, not eliminated*. (4) The known-defect met
 V2 flagged 2 *other* genuine defects on global-counter (a TTL/retry over-count race; a >10× literal
 error) — the arms hunt effectively, just don't always surface the specific cataloged defect.
 
-**Caveat (being addressed).** n=1 per cell — V1's 0-flag on global-counter and the two universal
-misses may be single-draw attention artifacts (each pass reports the most salient defect and stops).
-A robustness re-run at **n=3** (zero Fable) is confirming whether V3's edge and the universal misses
-are stable before the arm is chosen for the Fable-graded end-to-end test (P4b).
+### n=3 robustness (zero Fable) — [`raw-v8-p4a-n3.json`](raw-v8-p4a-n3.json)
+
+Re-ran each arm ×3 on both finals. Per-known-defect detection rate (caught / 3):
+
+| Known defect | baseline | V1 (Fable) | V2 (min) | V3 (lens) |
+|---|---|---|---|---|
+| global-K1 (retrier co-location / self-contradiction) | 0/3 | 1/3 | 1/3 | **0/3** |
+| global-K2 (dual-path divergence — the acceptance test) | 0/3 | 1/3 | 1/3 | **3/3** |
+| sort-K1 (odd-n parity) | 0/3 | 3/3 | 3/3 | 2/3 |
+| sort-K2 (literal ≥ n log n) | 0/3 | 0/3 | 0/3 | 0/3 |
+| **mean known caught / run (of 4)** | **0.0** | **1.67** | **1.67** | **1.67** |
+
+Refined reads:
+- **All three arms tie on aggregate (1.67/4) vs baseline 0** — pointed prompts robustly help, but no
+  arm dominates on volume.
+- **Profiles differ and matter more than the aggregate.** V3 catches the acceptance-test defect
+  (`global-K2`) **reliably (3/3)** — its edge is real, not n=1 noise — but has a **blind spot on
+  `global-K1`** (0/3: its mechanism lens locks onto the dual-path and never the self-contradiction).
+  V1/V2 spread: reliable on parity (3/3), intermittent on both global defects (1/3).
+- **Two stable residual limits.** `global-K1` is only intermittently caught (1/3) by any arm;
+  `sort-K2` (literal ≥ n log n) is **robustly missed by ALL** (0/3) despite every arm priming "read
+  bounds literally" — the verifier charitably reads ≥ as ≈. **The ceiling is raised, not closed.**
+- **Implication for P4b.** V3's multi-lens is the strongest direction for the deepest defects but
+  needs a cross-section-consistency lens to close its `global-K1` gap; single-pass V1 is the cheapest
+  comparable. Both go into the Fable-graded end-to-end residual test — the metric that decides what
+  ships, since detection is only a proxy for the loop's actual residual reduction.
