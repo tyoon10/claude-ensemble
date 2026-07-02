@@ -158,3 +158,49 @@ over-instruction hazard (−4.7). Threading that needle is exactly what the P0 c
 capability-vs-stance analysis, which answered the transferability question directly. Heavy
 trace-mining closed → **proceed to P3** (author VERIFY variants: V1 Fable-authored, V2 taxonomy /
 check-set derived, V3 multi-lens).
+
+---
+
+## P3 — Three VERIFY arms (all in [`run-v8-p4a-detect.js`](run-v8-p4a-detect.js))
+
+Candidate replacements for the shipped `VERIFY` prompt, from the P0 check-set under the P2 constraint
+(pointed yet minimal):
+
+- **V1 (Fable-authored)** — Fable's own rewrite, given the actual missed-defect strings + the
+  constraints. Reframes to "hunt one level below the headline," installs both checks as prose, and
+  rules that a literally-false precise claim is a defect (not a style nitpick). The AUTHOR
+  teacher-execution (~1 Fable call).
+- **V2 (minimal, human)** — the same two checks at ~half V1's length; a dose-control on the
+  over-instruction axis.
+- **V3 (multi-lens)** — two *single-lens* Opus verifiers (one traces guarantees through the
+  mechanism, one audits steps/boundary-cases), union of confirmed defects. Tests whether the ceiling
+  is attention *coverage* rather than wording.
+
+## P4a — Detection A/B: do the arms catch what baseline missed? (n=1; zero Fable)
+
+Each arm run as a single verify pass on the exact two v7 finals baseline declared *clean*; an Opus
+matcher scored catches against the 4 cataloged P0 defects. Raw: [`raw-v8-p4a.json`](raw-v8-p4a.json).
+
+| Arm | global-counter | sort-lower-bound | known caught |
+|---|---|---|---|
+| baseline (shipped) | 0/2 (0 flags) | 0/2 (0 flags) | **0/4** ✓ reproduces v7 blindness |
+| V1 (Fable) | 0/2 (0 flags) | 1/2 (parity) | 1/4 |
+| V2 (minimal) | 0/2 (**+2 other real defects**) | 1/2 (parity) | 1/4 |
+| V3 (multi-lens) | **1/2** (dual-path — the acceptance test) | 1/2 (parity) | **2/4** |
+
+Per known defect: `sort-K1` (odd-n parity) — caught by all three interventions, missed by baseline;
+`global-K2` (dual-path divergence, the acceptance test) — caught **only by V3**; `global-K1`
+(retrier co-location) and `sort-K2` (literal ≥ n log n) — **missed by all**.
+
+**Reads.** (1) **Pointed prompts beat baseline** (0/4 → 1–2/4); baseline reproduces its v7 blindness
+(sanity check passed) — the stance transplants. (2) **V3 (multi-lens) is best** (2/4) and uniquely
+catches the acceptance-test defect — the attention-coverage hypothesis is supported: a dedicated
+mechanism-tracing pass surfaces what a combined prosecutor misses. (3) **Not a full fix** — 2/4
+missed by all; the ceiling is *raised, not eliminated*. (4) The known-defect metric **under-counts**:
+V2 flagged 2 *other* genuine defects on global-counter (a TTL/retry over-count race; a >10× literal
+error) — the arms hunt effectively, just don't always surface the specific cataloged defect.
+
+**Caveat (being addressed).** n=1 per cell — V1's 0-flag on global-counter and the two universal
+misses may be single-draw attention artifacts (each pass reports the most salient defect and stops).
+A robustness re-run at **n=3** (zero Fable) is confirming whether V3's edge and the universal misses
+are stable before the arm is chosen for the Fable-graded end-to-end test (P4b).

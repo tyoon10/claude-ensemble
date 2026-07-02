@@ -1,0 +1,199 @@
+{
+"rows": [
+{
+"task": "global-counter",
+"arm": "baseline",
+"nFlagged": 0,
+"caughtKnown": 0,
+"totalKnown": 2,
+"flagged": [],
+"match": [
+{
+"known": "K1",
+"caught": false,
+"evidence": "Verifier flagged NOTHING (declared the answer clean), so the region-loss retrier-contradiction defect was not caught."
+},
+{
+"known": "K2",
+"caught": false,
+"evidence": "Verifier flagged NOTHING (declared the answer clean), so the acked-events-dropped-from-invoice defect was not caught."
+}
+]
+},
+{
+"task": "global-counter",
+"arm": "v1-fable",
+"nFlagged": 0,
+"caughtKnown": 0,
+"totalKnown": 2,
+"flagged": [],
+"match": [
+{
+"known": "K1",
+"caught": false,
+"evidence": "Verifier flagged 0 findings (declared the answer clean), so the region-loss contradiction between 'not data loss' and the retrier-co-located-in-failed-region reality was not identified."
+},
+{
+"known": "K2",
+"caught": false,
+"evidence": "Verifier flagged 0 findings (declared the answer clean), so the acked-events-dropped-from-invoice gap between the cross-region gate and single-region Kafka-fed ledger was not identified."
+}
+]
+},
+{
+"task": "global-counter",
+"arm": "v2-min",
+"nFlagged": 2,
+"caughtKnown": 0,
+"totalKnown": 2,
+"flagged": [
+"Over-count guarantee broken on the live counter by the answer's own TTL parameters. The dedup gate's state is TTL'd at '24-48h' while the client retry window is stated as 48h. If TTL is set to the low end (24h) while clients retry up to 48h, a legitimate retry arriving in (24h, 48h] finds no dedup entry, is treated as first-seen, and increments the shard's G-Counter a second time -> the live/CRDT counter OVER-counts. (Even at TTL=retry=48h the boundary equality is a race.) The blanket claim 'Over-counting is structurally impossible regardless of how messy the failure/retry sequence gets' is therefore literally false for the live path; it holds only for the unbounded ledger-replay billing path, but the claim is stated universally. Correctness requires TTL strictly greater than the max retry window, which the stated overlapping ranges do not enforce.",
+"Boundary-literal falsehood: 'One Raft/Paxos leader tops out around 10k-100k log appends/sec ... already >10x short of 1M/sec.' At the top of its own cited capacity (100k/sec), 1M/100k = exactly 10x, not >10x. Read literally the '>10x short' claim is false at the upper bound of the range it cites (true only for leaders below 100k/sec)."
+],
+"match": [
+{
+"known": "K1",
+"caught": false,
+"evidence": "Neither flagged finding addresses the full-region-failure data-loss contradiction. F1 is about over-counting on the live CRDT path via TTL/retry-window mismatch; F2 is a '>10x' numeric-literal nit about Raft leader throughput. Neither identifies that the retrier (ad server) is co-located in the failed region, breaking the retry-on-timeout invariant and making in-flight events unrecoverable — contradicting the 'not data loss' claim."
+},
+{
+"known": "K2",
+"caught": false,
+"evidence": "No flagged finding identifies that acked events can be dropped from the invoice because the ack gates on the cross-region idempotency record while the billed number is replayed from the single-region Kafka-fed ledger. F1 concerns the opposite direction (over-count on the live counter from a retry after dedup TTL expiry), a different mechanism and path; it does not touch the ack-vs-ledger-replay attribution loss. F2 is unrelated."
+}
+]
+},
+{
+"task": "global-counter",
+"arm": "v3-lens",
+"nFlagged": 2,
+"caughtKnown": 1,
+"totalKnown": 2,
+"flagged": [
+"Billing-source store is in a different failure domain than the ack-durability store, breaking 'Zero loss of acked data' / never-under-count on region loss. The client ack is gated ONLY on the step-[3] cross-region consensus commit, but the invoiced number is read (step [7]) from the step-[6] immutable object-storage log, which is fed by ASYNC compaction from the step-[2] regional Kafka (`acks=all, min.insync.replicas>=2 across 3 AZs` = intra-region only). Nothing gates the ack on compaction, so an event can be acked (cross-region committed) while its record still exists only in the dying region's Kafka. A full region failure destroys all 3 in-region AZs, so that acked event never reaches object storage and is absent from `COUNT(DISTINCT event_id)` -> under-count of committed data, contradicting the answer's own 'Zero loss of acked data' guarantee.",
+"Reinforcing the same defect: billing is per-advertiser/campaign, but the surviving cross-region dedup registry is described as event_id-only (`INSERT event_id IF NOT EXISTS`). The only store holding `campaign_id`/attributes is the intra-region-sourced Kafka->object-storage log. So even when the dedup registry survives a region loss, the un-compacted acked events lose their billing attributes and cannot be attributed/invoiced. The sole holder of the billing-relevant copy of an acked event is a region-local store, so committed data does not survive region loss on the billing path."
+],
+"match": [
+{
+"known": "K1",
+"caught": false,
+"evidence": "Neither F1 nor F2 addresses K1's defect. K1 is about the internal contradiction in the full-region-failure claim ('coverage gap, not data loss') whose supporting invariant relies on the client's retry-on-timeout logic, which requires the retrier (the ad server) to survive — but the ad server is co-located in the failed region, so in-flight/un-acked events have no retry path and are lost. F1 and F2 exclusively concern ACKED events whose raw billing tuple sits un-compacted in the region-local Kafka (the K2 defect). They never mention the retry path, the ad server co-location, the ~100k in-flight commit-window tail, or the 'not data loss' misframing. The retry-survivability contradiction is untouched."
+},
+{
+"known": "K2",
+"caught": true,
+"evidence": "F1 directly matches: it identifies that the ack is gated only on the cross-region consensus commit while the invoiced number is read from object storage fed by async compaction from the intra-region Kafka, so an acked event can exist only in the dying region's Kafka and be absent from COUNT(DISTINCT event_id) — an under-count of committed data violating 'Zero loss of acked data.' F2 reinforces the same defect by noting the surviving dedup registry is event_id-only and cannot supply campaign_id/attributes, so acked events lose billing attribution — capturing the 'gate cannot backfill attribution' aspect of K2."
+}
+]
+},
+{
+"task": "sort-lower-bound",
+"arm": "baseline",
+"nFlagged": 0,
+"caughtKnown": 0,
+"totalKnown": 2,
+"flagged": [],
+"match": [
+{
+"known": "K1",
+"caught": false,
+"evidence": "Verifier flagged nothing (declared answer clean); no flagged item addresses the odd-n counting gap in the n! elementary bound."
+},
+{
+"known": "K2",
+"caught": false,
+"evidence": "Verifier flagged nothing (declared answer clean); no flagged item addresses the literal '>= n log n' overstatement vs. log2(n!)."
+}
+]
+},
+{
+"task": "sort-lower-bound",
+"arm": "v1-fable",
+"nFlagged": 1,
+"caughtKnown": 1,
+"totalKnown": 2,
+"flagged": [
+"In the elementary lower bound for log2(n!), the answer claims the top factors 'n, n-1, ..., ⌈n/2⌉+1' number 'at least n/2 of them.' This count is literally n − ⌈n/2⌉ = ⌊n/2⌋, which is strictly LESS than n/2 for every odd n (e.g. n=5 gives 2 factors, not ≥2.5; n=7 gives 3, not ≥3.5), so the stated count is false for odd n. (Verified numerically.) The final inequality n! ≥ (n/2)^{n/2} nevertheless still holds for all n because each top factor is ⌈n/2⌉+1 > n/2, which over-compensates for the smaller exponent — so the Ω(n log n) conclusion is unaffected; only the intermediate justification 'at least n/2 of them' is literally incorrect at odd sizes."
+],
+"match": [
+{
+"known": "K1",
+"caught": true,
+"evidence": "F1 precisely identifies the odd-n counting gap: the factors n..⌈n/2⌉+1 number ⌊n/2⌋ = n−⌈n/2⌉, which is < n/2 for odd n (n=5→2 not ≥2.5, n=7→3 not ≥3.5), matching K1's flaw exactly."
+},
+{
+"known": "K2",
+"caught": false,
+"evidence": "F1 only addresses the elementary lower-bound counting gap (K1). It never mentions the information-theoretic recap claim 'a comparison sort needs ≥ n log n operations' being a false literal inequality (should be ≥ log2(n!)). K2 is entirely unaddressed."
+}
+]
+},
+{
+"task": "sort-lower-bound",
+"arm": "v2-min",
+"nFlagged": 1,
+"caughtKnown": 1,
+"totalKnown": 2,
+"flagged": [
+"Elementary n! bound, odd-n boundary: the answer claims the factors 'n, n−1, …, ⌈n/2⌉+1' number 'at least n/2 of them,' but that set has exactly ⌊n/2⌋ elements, which for odd n equals (n−1)/2 < n/2 (e.g. n=5 gives {4,5}, only 2 factors, not ≥2.5). So the precisely-stated count claim is literally false for odd n, and the derivation as written only yields n! ≥ (n/2)^((n−1)/2), not the asserted n! ≥ (n/2)^(n/2). The asserted inequality is in fact true (include ⌈n/2⌉, giving ⌊n/2⌋+1 ≥ n/2 factors each ≥ n/2) and the Ω(n log n) conclusion is unaffected — this is a minor derivation-step error, not a failure of the theorem."
+],
+"match": [
+{
+"known": "K1",
+"caught": true,
+"evidence": "F1 precisely identifies the odd-n counting gap: the factor set n..ceil(n/2)+1 has floor(n/2) elements not >=n/2, uses the same n=5 -> {4,5}=2 not >=2.5 example, notes the derivation only yields (n/2)^((n-1)/2), and gives the same fix (include ceil(n/2) for floor(n/2)+1 factors). Matches K1."
+},
+{
+"known": "K2",
+"caught": false,
+"evidence": "No flagged finding addresses the information-theoretic recap. F1 is solely about the elementary n! bound's odd-n step. The literal overstatement 'a comparison sort needs >= n log n operations' (should be >= log2(n!)) is not mentioned anywhere."
+}
+]
+},
+{
+"task": "sort-lower-bound",
+"arm": "v3-lens",
+"nFlagged": 1,
+"caughtKnown": 1,
+"totalKnown": 2,
+"flagged": [
+"Factorial estimate over-claims at odd n: the answer states the top-half factors 'n, n-1, ..., ceil(n/2)+1' number 'at least n/2 of them', but this set has only floor(n/2) elements, which is < n/2 for odd n (e.g., n=5 gives {5,4}, 2 factors < 2.5; n=7 gives {7,6,5}, 3 < 3.5). The 'each >= n/2' part is fine, but the count is literally false for odd n, so the given reasoning only establishes n! >= (n/2)^{floor(n/2)}, strictly weaker than the displayed n! >= (n/2)^{n/2} (since base n/2 > 1). The displayed inequality is independently true and Omega(n log n) still follows via floor(n/2), so the conclusion is unaffected, but the step does not establish exactly what it claims at odd n."
+],
+"match": [
+{
+"known": "K1",
+"caught": true,
+"evidence": "F1 precisely identifies the odd-n counting gap: the top-half factor set has only floor(n/2) elements (< n/2 for odd n), with correct examples (n=5 gives 2<2.5, n=7 gives 3<3.5), notes the reasoning only establishes n!>=(n/2)^floor(n/2), strictly weaker than the displayed (n/2)^(n/2), and that Omega(n log n) still follows. Matches K1."
+},
+{
+"known": "K2",
+"caught": false,
+"evidence": "F1 addresses only the factorial-estimate step. It says nothing about the information-theoretic recap's literal claim 'a comparison sort needs >= n log n operations' being false (should be >= log2(n!)). K2 is entirely unmentioned."
+}
+]
+}
+],
+"summary": {
+"baseline": {
+"caught": 0,
+"total": 4,
+"flagged": 0
+},
+"v1-fable": {
+"caught": 1,
+"total": 4,
+"flagged": 1
+},
+"v2-min": {
+"caught": 1,
+"total": 4,
+"flagged": 3
+},
+"v3-lens": {
+"caught": 2,
+"total": 4,
+"flagged": 3
+}
+},
+"fableSpent": 0
+}
