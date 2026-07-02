@@ -1,0 +1,62 @@
+{
+ "source": "v7 journal wf_888a90d0-e30",
+ "note": "Fable neutral-grader defects on ensemble finals the loop verifier declared clean",
+ "missed": [
+  {
+   "task": "global-counter",
+   "final": "opusStd",
+   "verifier_missed": "opus",
+   "fable_defects": [
+    "Internal contradiction on the headline requirement: the full-region-failure section claims 'under a full region loss you lose neither committed nor in-flight events; the exposure is a ... coverage gap ..., not data loss,' but its supporting invariant ('the client never got an ack — so its own retry-on-timeout logic resends it') requires the retrier to survive. Per the design's own data path, the retrier is the ad server, which is co-located in the failed region along with the regional Kafka log (all 3 AZs in one region). So all events minted in the failed region that hadn't reached cross-region quorum (~100k in the commit window by the answer's own Little's-law figure, plus any Kafka backlog awaiting the Flink-to-gate commit) are lost with no retry path. The answer itself concedes this exact loss in 'The one honest limit' (ad server dies before retrying) but misframes it as a rare conjunction, when a full region failure makes it the common case for that region's in-flight tail — directly contradicting the 'not data loss' claim.",
+    "Acked events can be dropped from the invoice, contradicting 'Zero loss of acked data': the load-bearing invariant gates the client ack only on the idempotency record (INSERT event_id IF NOT EXISTS) reaching a cross-region majority, but the invoiced number is computed by replaying the immutable ledger in object storage (step 7), which is fed by asynchronous compaction from the single-region Kafka log (step 6). An event can be acked (gate-committed cross-region) while its raw billing tuple {event_id, campaign_id, ...} exists only in the failed region's Kafka awaiting compaction; a region loss then removes it from the billing source of truth. The gate cannot backfill — it is described as an ID store (Photon analogy) with dedup state TTL'd at 24–48h and no campaign attribution. The hourly reconciliation compares global per-shard CRDT sums vs. replay, so it can detect the drift and hold invoices but cannot recover per-advertiser attribution — and the answer incorrectly asserts that backstop 'catches implementation bugs, not the primary correctness mechanism,' when in this scenario it is load-bearing. Net effect: 'acked ⇒ survives any single-region loss' does not hold for the number that is actually billed, violating the never-under-count guarantee for acknowledged events."
+   ],
+   "n": 2
+  },
+  {
+   "task": "global-counter",
+   "final": "sonnetDeep",
+   "verifier_missed": "sonnet",
+   "fable_defects": [
+    "Under-count under the exact stipulated failure (single full region loss): per the stated data path, an impression's only copy between client beacon and quorum commit is the edge server's LOCAL DISK buffer, and retry responsibility rests solely with the edge ('the edge's own retry logic (disk-backed, same event_id) resends'); the client is explicitly a pure echo device that never retries. Therefore when one region fails, every not-yet-quorum-committed event buffered on that region's edges is permanently and silently lost — the same 'un-replicated tail lost in a regional failure... silent and permanent' mode the answer uses to reject fire-and-forget. Even a few seconds of buffered backlog at a region carrying 20% of 1M/s is ~10^5–10^6 lost events. This directly contradicts the answer's invariant claim that \"'Never under-count' therefore doesn't depend on any specific region surviving\" — it does depend on the edge's region surviving for the un-forwarded tail.",
+    "The 'one genuinely irreducible edge case' is mischaracterized as a compound correlated catastrophe ('the edge device itself is destroyed AND every region it reached is destroyed'). For events still sitting only in an edge's disk buffer (which the data path guarantees exists for every event, since the edge buffers to disk BEFORE any network call), no region has been 'reached' yet, so destroying just the edge's own region suffices. The exposure is triggered by the single-region failure the task requires surviving, not by a rare multi-region coincidence — and it is partially reducible (e.g., client/SDK retry-until-quorum-ack using the already-minted event_id, which the design sets up but never uses), so calling it 'a physical limit of any system' is overstated.",
+    "The Bloom-filter compaction of the cross-period billed-id archive builds a designed, nonzero, systematic under-count into the exact billing path: every event in every period-close is checked against ALL prior-period filters, so any genuinely new id that false-positives against any compacted filter is deterministically dropped and never billed. Expected loss = total volume (~31.5T events/year) x cumulative FP rate, growing as filters accumulate (e.g., combined FP of 1e-9 already wrongly drops ~31.5K events/year; 1e-7 drops ~3.2M/year). This violates the absolute 'never under-count' requirement via an avoidable optimization (exact ids cost only ~1.4TB/day ≈ ~505TB/year of cold object storage, or the check could exploit UUIDv7 time-ordering to scope filters), yet the answer claims the archive-based correctness story holds while framing this as 'rarely' affecting events — understating a check applied to the entire event stream — and justifies it by importing the under-count bias that was argued only for the physically irreducible case.",
+    "Minor/unsupported claim: 'a single shard can clear >1M events/sec in isolation' is justified solely by Little's Law (concurrency x latency), which removes only the RTT-imposed ceiling; it silently assumes the shard's Raft leader can apply, fsync, replicate, and perform unique-key conditional-insert index lookups at >1M ops/sec, a per-node CPU/IO bottleneck the argument never addresses. The pipelining math (verified: 100 batches x 1,000 events / 10-20ms = 5-10M/s) bounds network concurrency, not leader apply throughput, so the stated justification does not establish the conclusion (the overall design survives this because it uses ~3,000 shards at ~333 ev/s each, but the single-shard claim as argued is unsupported)."
+   ],
+   "n": 4
+  },
+  {
+   "task": "exactly-once",
+   "final": "opusStd",
+   "verifier_missed": "opus",
+   "fable_defects": [],
+   "n": 0
+  },
+  {
+   "task": "exactly-once",
+   "final": "sonnetDeep",
+   "verifier_missed": "sonnet",
+   "fable_defects": [],
+   "n": 0
+  },
+  {
+   "task": "sort-lower-bound",
+   "final": "opusStd",
+   "verifier_missed": "opus",
+   "fable_defects": [
+    "Odd-n counting gap in the elementary bound for n!: the proof says the factors n, n-1, ..., ceil(n/2)+1 are 'at least n/2 of them', but that count is n - ceil(n/2) = floor(n/2), which is < n/2 for every odd n (e.g. n=5 gives 2 factors, not >= 2.5). As written the argument only proves n! >= (n/2)^floor(n/2), strictly weaker than the claimed n! >= (n/2)^(n/2) for odd n (n=5: argument yields 6.25 vs claimed 9.88). The claimed inequality is true and the Omega(n log n) conclusion still follows, but the stated derivation does not establish it for odd n; the fix is to include the factor ceil(n/2) (range ceil(n/2)..n has floor(n/2)+1 >= n/2 factors, each >= n/2).",
+    "Literal overstatement in the information-theoretic recap: 'a comparison sort needs >= n log n operations' is false as a literal inequality — the correct floor is ceil(log2 n!) < n log2 n. Verified counterexamples: n=4 optimal worst-case is 5 comparisons while n log2 n = 8; the strict inequality fails for all n in 2..12 against known optimal comparison counts. It should read >= log2(n!) = Omega(n log n). Minor, since adjacent text uses the approximation symbol, but the >= claim as written is provably wrong."
+   ],
+   "n": 2
+  },
+  {
+   "task": "sort-lower-bound",
+   "final": "sonnetDeep",
+   "verifier_missed": "sonnet",
+   "fable_defects": [
+    "Part 2, point 4: the clause 'the total bits examined converge back to Θ(n log n) unless extra space is spent to enlarge b' is false. Total bits examined = n·d·log2(b) = n·log2(b^d) ≥ n·log2(n) for ALL choices of b (since b^d ≥ n), verified numerically for b = n^0.1, n^0.5, n^1.0 (all ≈ n log2 n). Enlarging b reduces the pass/operation count, not the bits examined; the 'unless' exception inverts this and contradicts the answer's own bottom-line paragraph.",
+    "Part 1, counting argument: the induction step 'a height-h tree is a root with two height-(h−1) subtrees, each with at most 2^(h−1) leaves' is false as stated — subtrees have height AT MOST h−1 (counterexample: root with one leaf child and one height-(h−1) subtree), and in a tree pruned to realized paths a node may have a single child. The ≤2^h leaf bound still holds by monotonicity, so the conclusion is unaffected, but the stated induction is incorrect as written."
+   ],
+   "n": 2
+  }
+ ]
+}

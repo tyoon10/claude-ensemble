@@ -90,6 +90,32 @@ Whatever budget remains before the window closes goes to widening the Fable-grad
 base for whichever config ships (old or new). Grading is the one thing that cannot be done
 after Jul 7; mining and writing can.
 
+## Secondary track — open-ended / the JUDGE (preference-grounded, softer claims)
+
+Fable-as-teacher is asymmetric by task type. On checkable work all three Fable executions
+ground (SOLVE runs code, GRADE confirms defects by execution, AUTHOR targets VERIFY). On
+open-ended work there is no oracle: Fable's SOLVE is just prose, and the verify-loop never
+fires — so the only lever is the **JUDGE**, and the only grounded Fable signal is its pairwise
+**preference + rationale**. We run this as a distinct, deliberately weaker track:
+- **MINE (zero Fable):** reuse v7's already-persisted Fable judgments on the 3 divergent tasks
+  (`raw-v7.json` holds Fable's verdicts *and* the answer texts) — what did the strongest grader
+  reward that our Opus judge under-weighted (steelman, calibrated uncertainty,
+  contradiction-resolution, commit-over-hedge)?
+- **AUTHOR (light Fable):** a minimal JUDGE-prompt refinement from that.
+- **VALIDATE (moderate Fable):** Fable pairwise preference, both orders, length-controlled, vs
+  the current judge, on held-out divergent tasks.
+
+Claims here are **preference-based, not oracle-based**; the track ships under a lower bar, must
+pass the same do-no-harm check against checkable, and **never gates the VERIFY change**.
+
+## "How Fable works" — a living model, not an assumption
+
+The three-kinds-of-work model — **SOLVE** → behavioral traces, **GRADE** → missed-defect texts,
+**AUTHOR** → prompt revisions — is a **baseline hypothesis**, not settled fact. P2 tests and
+refines it against real traces (e.g., is "construct a failing interleaving, then execute it" an
+actual recurrent Fable behavior, or an observer projection?). Maintained in `how-fable-works.md`
+and corrected each phase; a refuted claim is a finding, not an embarrassment.
+
 ## Operational safeguards (pre-committed)
 
 - **Model pinning.** Every `agent()` call in every v8 harness pins `model:` explicitly; the
