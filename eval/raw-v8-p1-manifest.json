@@ -1,0 +1,98 @@
+[
+{
+"agent": "a2187a7766455a3ee",
+"task": "global-counter",
+"model": "opus",
+"sample": 0,
+"tool_use": 0,
+"tool_result": 0
+},
+{
+"agent": "a330ffc3003a99145",
+"task": "sort-lower-bound",
+"model": "opus",
+"sample": 0,
+"tool_use": 0,
+"tool_result": 0
+},
+{
+"agent": "a425f27f0ddca0d37",
+"task": "coupon-collector",
+"model": "claude-fable-5",
+"sample": 1,
+"tool_use": 1,
+"tool_result": 1
+},
+{
+"agent": "a4bfe0f209e4ee10d",
+"task": "global-counter",
+"model": "claude-fable-5",
+"sample": 0,
+"tool_use": 0,
+"tool_result": 0
+},
+{
+"agent": "a50776f734d558eff",
+"task": "coupon-collector",
+"model": "opus",
+"sample": 0,
+"tool_use": 0,
+"tool_result": 0
+},
+{
+"agent": "a564fc52be2add5da",
+"task": "global-counter",
+"model": "opus",
+"sample": 1,
+"tool_use": 0,
+"tool_result": 0
+},
+{
+"agent": "a58f8c52c69d9b197",
+"task": "coupon-collector",
+"model": "opus",
+"sample": 1,
+"tool_use": 0,
+"tool_result": 0
+},
+{
+"agent": "a5e788124fe9d0d49",
+"task": "coupon-collector",
+"model": "claude-fable-5",
+"sample": 0,
+"tool_use": 0,
+"tool_result": 0
+},
+{
+"agent": "a792c0a2387f8f6aa",
+"task": "sort-lower-bound",
+"model": "opus",
+"sample": 1,
+"tool_use": 0,
+"tool_result": 0
+},
+{
+"agent": "a890e47d5f8ae9858",
+"task": "sort-lower-bound",
+"model": "claude-fable-5",
+"sample": 1,
+"tool_use": 0,
+"tool_result": 0
+},
+{
+"agent": "a9c4ea0f629c37f0e",
+"task": "global-counter",
+"model": "claude-fable-5",
+"sample": 1,
+"tool_use": 0,
+"tool_result": 0
+},
+{
+"agent": "ab3ff2173e2a5c125",
+"task": "sort-lower-bound",
+"model": "claude-fable-5",
+"sample": 0,
+"tool_use": 0,
+"tool_result": 0
+}
+]

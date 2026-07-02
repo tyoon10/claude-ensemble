@@ -99,3 +99,62 @@ Opus-loop misses. V2 (trace-derived) seeds directly from this taxonomy; V1 (Fabl
 this taxonomy as input; `global-counter`/opusStd defect 2 is the acceptance test. P1 next: do
 Fable's *solve* traces actually exhibit these checks, or is mechanism-tracing only visible when it
 *grades*? (see [`how-fable-works.md`](how-fable-works.md)).
+
+---
+
+## P1 — Solve traces: no tool use, and solving ≠ the grading stance (6 Fable + 6 Opus solves)
+
+Fable 5 and Opus 4.8 each solved the 3 checkable archetypes (`global-counter`/design,
+`sort-lower-bound` + `coupon-collector`/proof), 2 samples each, **matched effort (high)**, tools
+available, minimal neutral prompt. Answers + attribution manifest in
+[`raw-v8-p1.json`](raw-v8-p1.json) / [`raw-v8-p1-manifest.json`](raw-v8-p1-manifest.json). *(Pre-reg
+deviation: `args` arrived JSON-stringified, so the intended 2-solve smoke preflight ran as the full
+12-solve matrix. No over-spend — full P1 was the planned next step; 6 Fable calls, ledger at 6/40;
+harness arg-parsing fixed.)*
+
+**Finding 1 — neither model ran code.** **1 tool call across all 12 solves**, despite tools and a
+"you may write and run code" prompt. Both solved these design/proof tasks analytically. So the
+pre-registered P2 premise (mine tool-execution *traces*) is **void** — there are no tool traces to
+mine; the only signal is the answer's reasoning structure. It also flags a kit assumption to check
+in P4: the shipped VERIFY prompt says "hunt by RUNNING code," but if verify agents behave like
+these solve agents, the verifier isn't actually executing either.
+
+**Finding 2 — solving is not the grading stance.** The mechanism-tracing + small-case-testing Fable
+shows when it GRADES (P0) is not what either model does when it SOLVES — first evidence the lever is
+the verifier *posture*, not the solver. Sharpened decisively in P2.
+
+## P2 — Capability vs. stance: **STANCE** (zero Fable)
+
+The load-bearing question: when the Fable-grader catches a defect the Opus verifier missed, is that
+**(CAPABILITY)** Fable being a stronger reasoner (a prompt won't transplant it) or **(STANCE)** an
+adversarial-posture effect a VERIFY prompt can install? Tested by reading the 8 P1 solve answers
+(Fable×2, Opus×2 on `sort-lower-bound` + `global-counter`) for the exact P0 defect classes.
+
+| Defect class | Fable solves exhibiting | Opus solves exhibiting | Read |
+|---|---|---|---|
+| (A) odd-n parity slip | 0 (1 partial) | 0 (1 partial) | symmetric; **opus#0 the most rigorous** (explicit ⌈n/2⌉) |
+| (B) literal ≥ n log n | 0 | 0 | absent everywhere; both write `log₂(n!) = Ω(n log n)` — non-discriminating |
+| (C) guarantee-vs-mechanism | 0 (1 partial) | 0 | both confront the RPO gap honestly; Opus marginally cleaner |
+
+**Verdict: STANCE. Capability is decisively refuted.** In no defect class do Fable's solves beat
+Opus's; in 2 of 3, Opus's are equal-or-cleaner. **Opus already possesses the reasoning the
+Fable-grader surfaces** — the v7 "CLEAN" verdict was a posture deficit, not a reasoning ceiling. So
+a VERIFY-prompt change should transplant to Opus.
+
+**Honesty caveat.** The textbook stance signal ("both solvers openly commit the defect") is only
+*weakly* present — at high effort both models largely AVOID all three classes (2 mild partials:
+fable#1's parity gloss, fable#0's closing overreach). The verdict rests on **refuting capability**
+(Opus solves clean/cleanest), not on catching both red-handed. Presented that way.
+
+**Design constraint for P3 (the real residual).** The risk is prompt **coverage**, not capability.
+Because the parity slip is subtle enough that the *solvers themselves* glossed it, a vague "look for
+errors" VERIFY prompt will reproduce the v7 miss. The stance must be **pointed** — prime the
+specific behaviors (parity / odd-even / off-by-one in inequality justifications; "does the stated
+guarantee survive the described failure *co-location*?") — while staying minimal enough to dodge the
+over-instruction hazard (−4.7). Threading that needle is exactly what the P0 check-set
+(behavior-eliciting, not step-scripted) is shaped for.
+
+**P2 status.** Pre-registered as tool-trace mining; premise void (no traces). Pivoted to answer-text
+capability-vs-stance analysis, which answered the transferability question directly. Heavy
+trace-mining closed → **proceed to P3** (author VERIFY variants: V1 Fable-authored, V2 taxonomy /
+check-set derived, V3 multi-lens).

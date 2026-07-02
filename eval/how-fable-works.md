@@ -12,7 +12,7 @@ yielding a different artifact we distill into an Opus/Sonnet-run prompt:
 
 | # | Execution | What we observe | Artifact distilled | Status |
 |---|---|---|---|---|
-| **SOLVE** | Fable solves a hard task with tools | tool-call sequence: code written + run, edge cases exercised, revisions | the *checks* it ran that our verifier didn't | baseline — P1 tests it |
+| **SOLVE** | Fable solves a hard task with tools | ~no tool use — solves analytically; only the answer's reasoning structure | (little to mine — see P1/P2) | **refined P1/P2 — struck** |
 | **GRADE** | Fable adversarially verifies an answer | the confirmed-defect strings it emits | the missed-defect taxonomy → VERIFY intervention | **refined in P0** |
 | **AUTHOR** | Fable rewrites a kit prompt | the revised prompt text | a transplantable prompt edit | untested — P3 |
 
@@ -47,6 +47,25 @@ capability-bound exception.
 — i.e., does it solve by tracing its own mechanism and testing small cases *before* committing —
 or is mechanism-tracing only elicited in the adversarial GRADE posture? If the latter, the lesson
 is about the *verifier stance*, not about solving, and the intervention stays squarely on VERIFY.
+
+### P1/P2 (2026-07-02) — SOLVE behavior + the capability-vs-stance test
+
+- **SOLVE row struck.** Neither Fable nor Opus ran code to solve (1 tool call / 12 solves) even
+  with tools and a neutral "you may run code" prompt; on design/proof tasks both solve analytically.
+  The "trace of checks it ran" the baseline expected **does not exist** — there is little
+  tool-behavior to mine.
+- **P1 open question answered — NO.** Fable's SOLVE does not exhibit the mechanism-tracing /
+  small-case-testing it shows when it GRADES. Those are a GRADE-*stance* behavior, not natural
+  solving. → the intervention target is the VERIFY stance, confirmed.
+- **Capability refuted; STANCE confirmed.** Fable's solved answers do not avoid defects Opus's
+  contain; Opus's are equal-or-cleaner (opus#0: the most parity-rigorous n! bound and the cleanest
+  region-loss RPO disclosure). **Opus HAS the latent capability; the v7 miss was posture.** So a
+  VERIFY-prompt change should transplant.
+- **Refined model of Fable's edge:** not "Fable checks better because it's smarter," but "the
+  adversarial GRADE posture applies checks that produce-mode (solving) relaxes — in *both* models."
+  The transplantable teacher lesson = the posture + the specific checks to prime.
+- **Caveat carried:** this rests on *refuting capability* (Opus solves clean/cleanest), only weakly
+  on "both solvers commit the defect" (they mostly avoid it at high effort). State it that way.
 
 ## Standing cautions
 
