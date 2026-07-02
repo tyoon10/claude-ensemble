@@ -91,7 +91,7 @@ Then run the ensemble:
 
 **Honest limits:**
 - **Claude-only panel = correlated errors.** Every panelist is a Claude model, so they share blind spots — more correlated than a true cross-vendor panel. Whether genuine cross-vendor diversity would help *more* is untested (it needs non-Claude API keys — out of scope here).
-- **It still spends real Opus usage.** A complex run is a Sonnet-5 panel + an **Opus** judge + the verify-loop (Opus on the load-bearing judge/verify stages), so **Max is recommended**. The triage gate keeps easy tasks on a cheap single pass; for a marginal edge on the hardest checkable work set `PANEL_MODEL='opus'` (the pricier all-Opus panel).
+- **It still spends real Opus usage.** A complex run is a Sonnet-5 panel + an **Opus** judge + the verify-loop (Opus on the load-bearing judge/verify stages), so **Max is recommended**. The triage gate keeps easy tasks on a cheap single pass and **auto-escalates the hardest checkable tasks to an Opus panel** (`PANEL_MODEL_HARD`) for cleaner drafts — no flag needed.
 - **Not a benchmarked guarantee.** A pragmatic pattern — strongest on decomposable, deep-reasoning, and checkable work; weakest where you needed truly independent opinions on one indivisible question. Directional on these task sets (n = 6–12), not a general benchmark.
 
 ## Built on Claude Code
@@ -107,8 +107,8 @@ This is pure Claude Code configuration — no server, no SDK, no external servic
 
 It's all plain Markdown plus one JS file — edit to taste:
 
-- **Models / panel size / effort:** edit the constants in `.claude/workflows/ensemble.js` — `PANEL_MODEL` (panel tier, default `sonnet` = Sonnet 5), `SIMPLE_MODEL` (the gated single pass, default `sonnet`), `JUDGE_MODEL`, `GATE_MODEL`, `JUDGE_EFFORT`, and `PANEL_N`. **Prompts** (panelist, judge, verifier) live inline in the same file.
-- **Quality-max panel:** set `PANEL_MODEL = 'opus'` (an all-Opus panel — a marginal edge on the hardest checkable work, at ~2.5× the panel cost), or drop `PANEL_N` to two for a lighter run.
+- **Models / panel size / effort:** edit the constants in `.claude/workflows/ensemble.js` — `PANEL_MODEL` (panel tier, default `sonnet` = Sonnet 5), `PANEL_MODEL_HARD` (the gate escalates the hardest checkable tasks to this, default `opus`), `SIMPLE_MODEL` (the gated single pass, default `sonnet`), `JUDGE_MODEL`, `GATE_MODEL`, `JUDGE_EFFORT`, and `PANEL_N`. **Prompts** (panelist, judge, verifier) live inline in the same file.
+- **Panel tiers / gate-routing:** most panels use `PANEL_MODEL` (Sonnet 5); the gate escalates the hardest checkable tasks to `PANEL_MODEL_HARD` (Opus) for cleaner drafts. Set the two equal to disable gate-routing, or drop `PANEL_N` to two for a lighter run.
 - **Deterministic engine:** `.claude/workflows/ensemble.js` runs the pipeline as a scripted Dynamic Workflow (no orchestration-token tax, reproducible). The judge runs at `max` effort — the biggest quality lever we measured (see [`eval/results-phaseA.md`](eval/results-phaseA.md)).
 
 ## Files

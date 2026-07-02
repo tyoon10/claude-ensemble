@@ -24,7 +24,8 @@ export const meta = {
 // resolve to the latest release of that tier, so the kit tracks new Claude models with
 // no edit. Pin a version (e.g. 'claude-opus-4-8') only when you want reproducibility.
 const GATE_MODEL = 'haiku'    // fast, cheap triage
-const PANEL_MODEL = 'sonnet'  // panel drafts (Sonnet 5) — a Sonnet-5 panel ties the Opus panel at ~0.4x cost (eval/results-v6.md); set 'opus' for a marginal edge on the hardest checkable work
+const PANEL_MODEL = 'sonnet'      // panel drafts (Sonnet 5) — a Sonnet-5 panel ties the Opus panel at ~0.4x cost (eval/results-v6.md)
+const PANEL_MODEL_HARD = 'opus'   // the gate escalates the HARDEST checkable tasks to an Opus panel (cleaner drafts; eval/results-v6.md v6c). Set = PANEL_MODEL to disable gate-routing.
 const SIMPLE_MODEL = 'sonnet' // cheap single pass for simple tasks the gate routes around the panel
 const JUDGE_MODEL = 'opus'    // strongest available judge
 const JUDGE_EFFORT = 'max'    // judge effort is the biggest measured lever — run it at max; see eval/results-phaseA.md
@@ -54,9 +55,10 @@ const ROUTE_SCHEMA = {
   properties: {
     complex: { type: 'boolean' },
     checkable: { type: 'boolean' },
+    hard: { type: 'boolean' },
     reason: { type: 'string' },
   },
-  required: ['complex', 'checkable', 'reason'],
+  required: ['complex', 'checkable', 'hard', 'reason'],
 }
 
 // Best-of-N: N independent drafts of the SAME task. Measured: objective-role "diversity"
@@ -87,7 +89,8 @@ phase('Triage')
 const gate = await agent(
   `Decide two things about this task.\n` +
   `1) "complex" = genuinely hard work — multi-step reasoning, system/architecture design, hard debugging, research, or real trade-off calls — where a single strong pass would likely leave gaps that a panel + verification would catch. If a single pass would already do a good job, it is NOT complex (the panel is the premium path — reserve it for tasks that need it).\n` +
-  `2) "checkable" = the answer has verifiable/technical content — code, math, logic, quantitative or factual claims, or a design/protocol with explicit correctness criteria — that running code or computations could actually check. NOT open-ended judgment, strategy, creative, or opinion work that has no single right answer.\n\nTASK:\n${task}`,
+  `2) "checkable" = the answer has verifiable/technical content — code, math, logic, quantitative or factual claims, or a design/protocol with explicit correctness criteria — that running code or computations could actually check. NOT open-ended judgment, strategy, creative, or opinion work that has no single right answer.\n` +
+  `3) "hard" = among the HARDEST, most error-prone checkable tasks — intricate systems design, non-trivial proofs, or subtle algorithmic/quantitative reasoning — where a top-tier (Opus) panel produces meaningfully cleaner drafts. Most complex tasks are NOT "hard" in this sense; reserve it for the genuinely gnarly checkable work (see eval/results-v6.md, v6c).\n\nTASK:\n${task}`,
   { model: GATE_MODEL, effort: 'low', schema: ROUTE_SCHEMA, phase: 'Triage' }
 )
 log(`complex=${gate.complex} checkable=${gate.checkable} — ${gate.reason}`)
@@ -97,10 +100,13 @@ if (!gate.complex) {
 }
 
 phase('Panel')
+// Gate-routing: the hardest checkable tasks get an Opus panel (cleaner drafts; eval/results-v6.md v6c); everything else the cheaper Sonnet-5 panel.
+const panelModel = (gate.checkable && gate.hard) ? PANEL_MODEL_HARD : PANEL_MODEL
+log(`panel: ${panelModel}${panelModel === PANEL_MODEL_HARD ? ' (hard checkable → Opus panel)' : ''}`)
 const drafts = (await parallel(
   Array.from({ length: PANEL_N }, (_, i) => () =>
     agent(`${PANELIST}\n\n${COMMON}\n\nTASK:\n${task}`,
-      { model: PANEL_MODEL, effort: 'high', label: `panel-${i + 1}`, phase: 'Panel' })
+      { model: panelModel, effort: 'high', label: `panel-${i + 1}`, phase: 'Panel' })
   )
 )).filter(Boolean) // a panelist that errors resolves to null and is dropped
 
