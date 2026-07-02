@@ -32,8 +32,9 @@ An honest, reproducible evaluation of the ensemble vs a single Claude model, run
 - **Breadth saturates fast.** A 3-draft panel ≫ 1; 5 beats 3 only modestly; 9 ≈ 5. One draft *copied* three times gives no lift — it's **independent samples** (coverage), not more context ([Phase B](results-phaseB.md)).
 - **Judge effort is the single biggest knob.** In a six-variant judge ablation, raising the judge's effort with **no prompt change** was the largest improvement (**+2.4**); *over*-instructing it (a rigid 7-step procedure) was the **worst** arm (**−4.7**) ([Phase A](results-phaseA.md)). The kit ships a `max`-effort judge with an open prompt.
 - **The verify-loop is the biggest correctness lever.** On checkable tasks the kit runs a prosecutorial verify→revise loop that **runs code** to find and fix real defects, roughly **halving** them ([v5](results-v5-verify-loop.md)).
+- **Judge *tier* is load-bearing too (Fable-confirmed).** On identical drafts, an Opus judge modestly but robustly beats a Sonnet-5 judge — 5/tie 5/2 by the priority **Fable** grader, and **not** a length artifact (the Sonnet-judge answers were the *longer* ones) ([v7](results-v7.md)). And self-verification has a ceiling: a loop reports `clean` while a neutral Fable grader still finds 2–4 defects, so a *stronger verifier* leaves fewer residuals. Both point to `JUDGE_MODEL`/`VERIFY_MODEL = 'opus'` — the panel is where you save (Sonnet 5), the judge/verify is where you don't.
 
-**Takeaway.** Spend on the *judge* and the *verify-loop*; designed diversity and extra breadth/tier are not where the gain is. That's why the kit uses a homogeneous best-of-N panel feeding a high-effort verifying judge.
+**Takeaway.** Spend on the *judge* and the *verify-loop*; designed diversity and extra breadth are not where the gain is. That's why the kit uses a homogeneous best-of-N panel feeding a high-effort verifying judge.
 
 ## RQ3 — Cost vs quality
 
@@ -75,3 +76,4 @@ The chronological trail, every reversal kept — this is where "we changed our m
 | v6 | [results-v6.md](results-v6.md) | Sonnet 5 re-run — a Sonnet-5 panel *ties* the Opus panel (cheap panel now viable); length confound re-confirmed; caught a judge-format confound |
 | v6b | [results-v6.md](results-v6.md) | confound re-check with a clean judge — the leak fully drove v6's "single ahead" (single wins 0/32), so single Opus ≈ both panels, a tie. Judge fix shipped to `ensemble.js` |
 | v6c | [results-v6.md](results-v6.md) | residual-edge probe — Opus panel 0 confirmed defects on hard checkable tasks vs 3 for the Sonnet-5 panel; a real draft-cleanliness edge the verify-loop mitigates on checkable work |
+| v7 | [results-v7.md](results-v7.md) | judge-tier swap + cheap-vs-deep, graded **Fable-first**. On fixed drafts the **Opus judge** modestly beats the Sonnet-5 judge (Fable 5/tie5/2, **not** length-driven — Sonnet-judge answers were the *longer* ones); cheap+deep doesn't substitute for the Opus stack on hard checkable; and self-verification has a ceiling (loops report `clean` while a neutral Fable grader still finds 2–4 defects). Validates `JUDGE_MODEL`/`VERIFY_MODEL = 'opus'`; no config change |
