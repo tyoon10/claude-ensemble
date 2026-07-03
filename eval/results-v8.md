@@ -353,9 +353,46 @@ grading to remove the noise. The correction is decisive.
 misses (residual 1→0) with **no measurable harm** once grading is de-noised; the confirm-before-revise
 gate adds a **demonstrated** false-positive filter for extra safety.
 
-## Conclusion (revised at P6) — the ceiling is real AND safely movable
+## P7 — Confirmatory pass (larger, verified-clean probes): do-no-harm CONFIRMED, benefit noise-limited — [`raw-v8-p7.json`](raw-v8-p7.json)
 
-Across P0–P6, the honest arc:
+The pre-ship "one more validation round": 3 defective + 2 **verified-clean** probes (an authored correct
+√2-irrationality proof + a correct sum function), median-of-3 Fable residual, arms baseline/v1/cbr. (A
+mid-run stall — the campaign's median-of-3 grading exhausted the weekly Fable allowance right before
+its reset — was recovered by resume; no data lost.)
+
+| Answer | kind | baseline | V1 | CBR | gate (flag/conf/refute) |
+|---|---|---|---|---|---|
+| `sort-lower-bound` | defective | 1→1 | 1→**0** | 1→**0** | cbr 1/1/0 |
+| `global-counter` | defective | 1→1 | 1→2\* | 1→2\* | cbr 3/2/**1** |
+| `coupon-collector` | (clean) | 0→0 | 0→0 | 0→0 | — |
+| `sqrt2-proof` | **verified-clean** | 0→0 | 0→0 **(flag 0)** | 0→0 | — |
+| `sum-function` | **verified-clean** | 0→0 | 0→0 **(flag 0)** | 0→0 | — |
+
+<sub>\*`global-counter` median-of-3 grades swing **0–3** across draws; the "2" is grader noise (its
+*unchanged* text graded median 1 under baseline, median 2 under V1 — same text, different median).</sub>
+
+1. **Do-no-harm CONFIRMED (the key positive).** On the two verified-clean answers, **no arm — including
+   aggressive V1 — flagged or revised anything** (flag 0, unchanged, residual 0). The aggressive
+   verifier does *not* hallucinate defects on genuinely-clean answers; the earlier "over-flagging"
+   (`exactly-once`) was V1 catching *real latent issues* in an imperfect answer.
+2. **Benefit real but inconsistent.** `sort-lower-bound`: clean, stable win (1→0). `global-counter`:
+   noise-dominated — the 15K-char answer grades 0–3 even across 3 draws, V1's catch was intermittent
+   (flagged 0 this run), and CBR's revision showed no clear reduction. **Aggregate defective
+   `meanResidualDelta = 0`** (sort's −1 cancels global's noise +1) — no demonstrable net end-to-end gain.
+3. **The residual metric is still too noisy on complex/long answers** — median-of-3 doesn't stabilize
+   `global-counter`. P6's clean "global 1→0" was partly grader luck.
+4. **The gate works** — CBR refuted 1 marginal flag on the defective answer; on the clean probes nothing
+   was flagged, so nothing to refute (the discrimination test was inconclusive because clean answers
+   drew no false positives to begin with).
+
+**P7 verdict:** the intervention is **safe** (do-no-harm confirmed) and clearly helps on **crisp,
+confirmable defects** (`sort` parity), but a **robust net end-to-end benefit is not demonstrated** on
+complex answers — the residual is grader-noise-limited and averages to zero on the defective set. Not
+the clean win P6 suggested.
+
+## Conclusion (revised at P7) — the ceiling is real; a pointed verify is safe and helps on crisp defects, but the end-to-end gain is not robustly measurable
+
+Across P0–P7, the honest arc:
 
 - **The self-verification ceiling is real and diagnosable** (P0): the shipped Opus verifier declares
   answers clean while a stronger grader finds confirmable defects, all hiding one level below a
@@ -368,23 +405,30 @@ Across P0–P6, the honest arc:
 - **P5 detour (kept for the record):** a prompt-only guardrail couldn't separate detection from
   over-flagging (aggressive V1 catches + over-flags; softened V4 loses both), and the n=1 Fable
   residual was too noisy to adjudicate — which read, at P5, as "not a safe drop-in."
-- **P6 corrects that.** The two fixes P5 itself pointed to — **confirm-before-revise** and a **robust
-  (median-of-3) residual metric** — resolve it: the "do-no-harm failure" was grader noise, and the
-  confirmation gate demonstrably filters a real false positive while keeping confirmable defects. The
-  intervention catches defects baseline misses **with no measurable harm**.
+- **P6 (median-of-3) suggested it was safely movable**, and **P7 (confirmatory, verified-clean probes)
+  refined that into the honest final read**: the intervention is **safe** (do-no-harm confirmed — no arm
+  flags genuinely-clean answers) and clearly helps on **crisp, confirmable defects** (`sort` parity),
+  but a **robust net end-to-end benefit is not demonstrated** on complex answers — the residual is
+  grader-noise-limited and averages to zero on the P7 defective set. P6's clean "1→0" was partly luck.
 
-**Recommendation: the ceiling is safely movable — ship a pointed VERIFY.** Two forms:
+**What is robust vs. not:**
+- **Robust:** (1) detection improves on crisp defects (P4a, n=3); (2) do-no-harm — the aggressive
+  verifier does not damage verified-clean answers (P7); (3) the confirm-before-revise gate behaves
+  sensibly (refutes marginal/framing flags, keeps confirmable ones).
+- **Not robust:** the end-to-end residual *magnitude* — Fable grades long answers 0–3 even at n=3, so
+  no reliable quantitative net benefit can be claimed on complex work.
 
-1. **CBR (recommended, principled):** aggressive V1-style verify + a confirmation gate before each
-   revision. Keeps the detection win; the gate is a *demonstrated* false-positive filter (it correctly
-   refuted a micro-optimization framing flag while keeping the real defect). Cost: one extra
-   confirmation call per flagged defect per round.
-2. **V1 (simpler):** the pointed prompt, revise on all flags. De-noised evidence shows no measurable
-   harm; cheaper, but no explicit guard against false-positive revisions on genuinely-clean answers.
+**Recommendation: hold the public ship on this evidence.** A pointed VERIFY (V1) or CBR is *safe* and
+helps on crisp defects, but the end-to-end benefit that would justify changing the shipped kit is not
+robustly demonstrated (nets to zero on the P7 defective set), while it adds cost/churn. The responsible
+call is to **keep `ensemble.js` unchanged** and ship the *finding*: the ceiling is real, it's
+stance-not-capability (P2, the conceptual core), a pointed verify is a safe detection improvement, and
+**CBR is a documented, do-no-harm-verified mechanism** ready to adopt if a lower-noise residual oracle
+(e.g., executable tests on checkable tasks) later demonstrates the net gain. The blocker is now the
+*measurement*, not the mechanism.
 
-**Honest limits.** Small n (2 defective + 1 clean-ish); the residual is Fable-bounded (~1 surfaced
-defect/answer here, so `global-K1` / `sort-K2` remain among the harder classes from earlier detection);
-the "clean" probe carried latent issues, so do-no-harm is *reassuring* (residual 0 across arms), not a
-perfectly-clean control. The pre-registered gates did their job throughout — including raising, then
-(with better measurement) correcting, a false alarm. The transplantable-stance finding (P2) is the
-conceptual core; CBR is the safe delivery mechanism.
+**Honest limits.** Small n; the residual is Fable-bounded and too noisy on long answers to adjudicate;
+the strongest evidence is the deterministic detection (P4a) and the flag-count do-no-harm (P7). The
+pre-registered gates did their job throughout — surfacing, correcting (P6), and then re-bounding (P7) a
+succession of tempting-but-fragile residual claims. That the campaign ends *without* a public change is
+the do-no-harm discipline working as intended, not a failure to find signal.

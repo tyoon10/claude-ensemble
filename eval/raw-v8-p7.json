@@ -1,0 +1,308 @@
+{
+"rows": [
+{
+"id": "global-counter",
+"kind": "defective",
+"preGrades": [
+1,
+1,
+1
+],
+"preMedian": 1,
+"arms": {
+"baseline": {
+"rounds": 1,
+"flagged": 0,
+"confirmed": 0,
+"refuted": 0,
+"changed": false,
+"postGrades": [
+0,
+2,
+1
+],
+"postMedian": 1
+},
+"v1": {
+"rounds": 1,
+"flagged": 0,
+"confirmed": 0,
+"refuted": 0,
+"changed": false,
+"postGrades": [
+0,
+2,
+3
+],
+"postMedian": 2
+},
+"cbr": {
+"rounds": 3,
+"flagged": 3,
+"confirmed": 2,
+"refuted": 1,
+"changed": true,
+"postGrades": [
+2,
+2,
+1
+],
+"postMedian": 2
+}
+}
+},
+{
+"id": "sort-lower-bound",
+"kind": "defective",
+"preGrades": [
+1,
+2,
+1
+],
+"preMedian": 1,
+"arms": {
+"baseline": {
+"rounds": 1,
+"flagged": 0,
+"confirmed": 0,
+"refuted": 0,
+"changed": false,
+"postGrades": [
+1,
+1,
+1
+],
+"postMedian": 1
+},
+"v1": {
+"rounds": 2,
+"flagged": 1,
+"confirmed": 1,
+"refuted": 0,
+"changed": true,
+"postGrades": [
+0,
+0,
+0
+],
+"postMedian": 0
+},
+"cbr": {
+"rounds": 2,
+"flagged": 1,
+"confirmed": 1,
+"refuted": 0,
+"changed": true,
+"postGrades": [
+0,
+0,
+0
+],
+"postMedian": 0
+}
+}
+},
+{
+"id": "coupon-collector",
+"kind": "wildcard",
+"preGrades": [
+0,
+0,
+0
+],
+"preMedian": 0,
+"arms": {
+"baseline": {
+"rounds": 1,
+"flagged": 0,
+"confirmed": 0,
+"refuted": 0,
+"changed": false,
+"postGrades": [
+0,
+0,
+0
+],
+"postMedian": 0
+},
+"v1": {
+"rounds": 1,
+"flagged": 0,
+"confirmed": 0,
+"refuted": 0,
+"changed": false,
+"postGrades": [
+0,
+0,
+0
+],
+"postMedian": 0
+},
+"cbr": {
+"rounds": 1,
+"flagged": 0,
+"confirmed": 0,
+"refuted": 0,
+"changed": false,
+"postGrades": [
+0,
+0,
+0
+],
+"postMedian": 0
+}
+}
+},
+{
+"id": "sqrt2-proof",
+"kind": "clean",
+"preGrades": [
+0,
+0,
+0
+],
+"preMedian": 0,
+"arms": {
+"baseline": {
+"rounds": 1,
+"flagged": 0,
+"confirmed": 0,
+"refuted": 0,
+"changed": false,
+"postGrades": [
+0,
+0,
+0
+],
+"postMedian": 0
+},
+"v1": {
+"rounds": 1,
+"flagged": 0,
+"confirmed": 0,
+"refuted": 0,
+"changed": false,
+"postGrades": [
+0,
+0,
+0
+],
+"postMedian": 0
+},
+"cbr": {
+"rounds": 1,
+"flagged": 0,
+"confirmed": 0,
+"refuted": 0,
+"changed": false,
+"postGrades": [
+0,
+0,
+0
+],
+"postMedian": 0
+}
+}
+},
+{
+"id": "sum-function",
+"kind": "clean",
+"preGrades": [
+0,
+0,
+0
+],
+"preMedian": 0,
+"arms": {
+"baseline": {
+"rounds": 1,
+"flagged": 0,
+"confirmed": 0,
+"refuted": 0,
+"changed": false,
+"postGrades": [
+0,
+0,
+0
+],
+"postMedian": 0
+},
+"v1": {
+"rounds": 1,
+"flagged": 0,
+"confirmed": 0,
+"refuted": 0,
+"changed": false,
+"postGrades": [
+0,
+0,
+0
+],
+"postMedian": 0
+},
+"cbr": {
+"rounds": 1,
+"flagged": 0,
+"confirmed": 0,
+"refuted": 0,
+"changed": false,
+"postGrades": [
+0,
+0,
+0
+],
+"postMedian": 0
+}
+}
+}
+],
+"summary": {
+"defective": {
+"baseline": {
+"meanResidualDelta": 0,
+"totalFlagged": 0,
+"totalRefuted": 0,
+"answersChanged": 0,
+"ofN": 3
+},
+"v1": {
+"meanResidualDelta": 0,
+"totalFlagged": 1,
+"totalRefuted": 0,
+"answersChanged": 1,
+"ofN": 3
+},
+"cbr": {
+"meanResidualDelta": 0,
+"totalFlagged": 4,
+"totalRefuted": 1,
+"answersChanged": 2,
+"ofN": 3
+}
+},
+"clean": {
+"baseline": {
+"meanResidualDelta": 0,
+"totalFlagged": 0,
+"totalRefuted": 0,
+"answersChanged": 0,
+"ofN": 2
+},
+"v1": {
+"meanResidualDelta": 0,
+"totalFlagged": 0,
+"totalRefuted": 0,
+"answersChanged": 0,
+"ofN": 2
+},
+"cbr": {
+"meanResidualDelta": 0,
+"totalFlagged": 0,
+"totalRefuted": 0,
+"answersChanged": 0,
+"ofN": 2
+}
+}
+},
+"fableSpent": 60
+}
