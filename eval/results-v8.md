@@ -226,3 +226,39 @@ Refined reads:
   needs a cross-section-consistency lens to close its `global-K1` gap; single-pass V1 is the cheapest
   comparable. Both go into the Fable-graded end-to-end residual test — the metric that decides what
   ships, since detection is only a proxy for the loop's actual residual reduction.
+
+## P4b — End-to-end residual: the shippable metric (Fable-graded) — [`raw-v8-p4b.json`](raw-v8-p4b.json)
+
+Each arm's full verify→revise loop (Opus, cap 3) run on the two v7 finals baseline declared *clean*;
+a neutral **Fable** grader then counted residual defects in the final answer.
+
+| Task | Arm | Loop rounds | Residual (Fable) pre → post |
+|---|---|---|---|
+| global-counter | **baseline** | 1 | 1 → **1** |
+| global-counter | V1 (Fable) | 3 | 1 → **0** |
+| global-counter | V3 (lens) | 3 | 1 → **0** |
+| sort-lower-bound | **baseline** | 1 | 1 → **1** |
+| sort-lower-bound | V1 (Fable) | 2 | 1 → **0** |
+| sort-lower-bound | V3 (lens) | 2 | 1 → **0** |
+
+**The decisive result.** Baseline reproduces its ceiling exactly — it declares clean on round 1,
+never revises, and leaves the same defect P0 cataloged (the retrier co-location contradiction; the
+odd-n parity slip). Both interventions loop 2–3 rounds, catch and fix the defect, and Fable finds
+nothing in the revised answer: **residual 1 → 0 on both, vs baseline 1 → 1.**
+
+- **Why this beats the detection proxy.** In single-pass detection V1 caught each global defect only
+  1/3, but the loop's multiple rounds amplify partial detection into full elimination — each round
+  gets another chance, and after revision the neutral grader is clean.
+- **V1 == V3 end-to-end.** Both reach 0 residual; V3's multi-lens (2× verify cost/round) buys nothing
+  over the single-pass Fable-authored V1 here. **Ship candidate: V1.**
+
+**Honest caveats (gate the ship claim).**
+- **n=1 Fable grade.** Residual counts are single Fable draws (Fable found 1 here where P0 found 2 on
+  global-counter — grading is stochastic). The baseline-vs-arm contrast is *same-grader* so
+  directional, but "post = 0" means "Fable found nothing this draw," not "provably zero." The metric
+  is bounded by what Fable surfaces — consistent with the `sort-K2` robust-miss: a defect Fable
+  doesn't flag can't be credited as fixed.
+- **Known finals only** — the taxonomy was derived from these two answers, so a win here carries
+  overfitting risk. **Gate B requires held-out generalization + a do-no-harm check** (does a more
+  aggressive verifier hallucinate defects on *clean* answers and damage them via revision?). Both run
+  in P4c before any ship.

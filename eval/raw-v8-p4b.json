@@ -1,0 +1,63 @@
+{
+"rows": [
+{
+"task": "global-counter",
+"arm": "baseline",
+"rounds": 1,
+"preResidual": 1,
+"postResidual": 1,
+"postDefects": [
+"Internal contradiction / overstated guarantee in the 'Full region failure' section: it claims 'under a full region loss you lose neither committed nor in-flight events; the exposure is a sub-second-to-low-seconds coverage gap during failover, not data loss', relying on the client retrying un-acked events. But per the answer's own data path, the retrying client is the winning ad server located in the serving region, and the step-[2] durable buffer is a regional Kafka replicated only across 3 AZs within that same region. A full region failure kills both the retrying ad servers and the regional Kafka backlog (including any Flink consumption lag), so events minted in the failed region that had not yet reached cross-region quorum have no surviving holder and are permanently lost (under-count) — exactly the loss mode the answer's own 'one honest limit' paragraph concedes ('the originating ad server also dies before it can retry'), which is precisely what a full region failure entails. The zero-loss-of-in-flight-events claim is therefore false and contradicted within the same document; the real exposure is a bounded under-count of the failed region's un-committed tail, not merely a coverage gap."
+],
+"finalChars": 15195
+},
+{
+"task": "global-counter",
+"arm": "v1-fable",
+"rounds": 3,
+"preResidual": 1,
+"postResidual": 0,
+"postDefects": [],
+"finalChars": 16851
+},
+{
+"task": "global-counter",
+"arm": "v3-lens",
+"rounds": 3,
+"preResidual": 1,
+"postResidual": 0,
+"postDefects": [],
+"finalChars": 19359
+},
+{
+"task": "sort-lower-bound",
+"arm": "baseline",
+"rounds": 1,
+"preResidual": 1,
+"postResidual": 1,
+"postDefects": [
+"In the n! >= (n/2)^(n/2) step, the claim that the factors n, n-1, ..., ceil(n/2)+1 number 'at least n/2 of them' is false for every odd n: the count is floor(n/2) = (n-1)/2 < n/2 (verified by computation, e.g. n=5 gives 2 factors vs claimed >= 2.5). As written the argument only supports n! >= (n/2)^floor(n/2) for odd n, so the stated inequality n! >= (n/2)^(n/2) is not established by the given reasoning (though the inequality itself is true, and the weaker supported bound still gives Omega(n log n), so the final theorem is unaffected). Fix: include the factor ceil(n/2) itself, which is also >= n/2, yielding ceil(n/2) >= n/2 factors."
+],
+"finalChars": 7773
+},
+{
+"task": "sort-lower-bound",
+"arm": "v1-fable",
+"rounds": 2,
+"preResidual": 1,
+"postResidual": 0,
+"postDefects": [],
+"finalChars": 7859
+},
+{
+"task": "sort-lower-bound",
+"arm": "v3-lens",
+"rounds": 2,
+"preResidual": 1,
+"postResidual": 0,
+"postDefects": [],
+"finalChars": 7822
+}
+],
+"fableSpent": 8
+}
