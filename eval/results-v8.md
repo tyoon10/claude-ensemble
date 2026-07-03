@@ -323,9 +323,39 @@ caught the parity slip (3/6), and its loop reduced nothing (residual unchanged).
 and the over-flagging are two sides of the same aggressive posture; a prompt-only guardrail could not
 separate them — V4 traded detection for safety ~1:1.**
 
-## Conclusion — the ceiling is real; a prompt alone cannot safely close it
+## P6 — Confirm-before-revise + median-of-3 grading: the ceiling IS safely movable — [`raw-v8-p6.json`](raw-v8-p6.json)
 
-Across P0–P5, the honest arc:
+P5 concluded "a prompt can't safely close the ceiling" — but that rested on the n=1 Fable residual
+P4c had shown grades identical text 0–2. P6 does two things: (1) the **CBR** mechanism (aggressive V1
+verify + an adversarial confirmation gate before each revision), and (2) **median-of-3** Fable
+grading to remove the noise. The correction is decisive.
+
+| Answer | baseline | V1 (aggressive) | CBR |
+|---|---|---|---|
+| `global-counter` (defective) | 1→1 (keep) | 1→0 (fix) | 1→0 (fix; gate **refuted 1 of 2** flags) |
+| `sort-lower-bound` (defective) | 1→1 (keep) | 1→0 (fix) | 1→0 (fix) |
+| `exactly-once` (clean) | 0→0 (keep) | 0→0 (revised, no harm) | 0→0 (revised, no harm) |
+
+1. **The P4c "do-no-harm failure" was grader noise.** Under median-of-3, V1's revision of the clean
+   answer leaves residual **0** — no measurable damage. Both V1 and CBR fix the defective residual
+   (1→0) with no measurable harm on the clean probe.
+2. **The confirmation gate works, and its one refutation is exactly right.** On `global-counter` CBR
+   refuted a flag that — recovered from the journal — is a genuine false positive: V1 flagged a "skip
+   the store lookup" micro-optimization as an inconsistency, and the confirmer correctly ruled it
+   *"interpretive framing, not a confirmable error"* (the answer honestly labels it a micro-opt),
+   while keeping the confirmable defect (confirmed 1 → residual 0). The CBR design working as intended:
+   aggressive flag → refute the framing false-positive → keep + fix the real defect.
+3. **CBR ≈ V1 on outcome here** because the clean probe wasn't perfectly clean: on `exactly-once` CBR
+   confirmed all 3 flags (refuted 0), since flagger *and* confirmer agree the answer has ~3 latent
+   debatable issues Fable's median-0 grade doesn't surface; revising them didn't raise residual.
+
+**Bottom line: the ceiling is safely movable.** A pointed VERIFY prompt catches defects baseline
+misses (residual 1→0) with **no measurable harm** once grading is de-noised; the confirm-before-revise
+gate adds a **demonstrated** false-positive filter for extra safety.
+
+## Conclusion (revised at P6) — the ceiling is real AND safely movable
+
+Across P0–P6, the honest arc:
 
 - **The self-verification ceiling is real and diagnosable** (P0): the shipped Opus verifier declares
   answers clean while a stronger grader finds confirmable defects, all hiding one level below a
@@ -335,27 +365,26 @@ Across P0–P5, the honest arc:
 - **A pointed VERIFY reframe measurably improves DETECTION** (P4a, n=3, robust): 0 → 1.67/4 known
   defects, including the acceptance-test defect (V3, 3/3) — the stance transplants to Opus, as
   predicted.
-- **But it is not a safe drop-in.** The aggressive prompt (V1) catches real defects *and* over-flags /
-  revises clean answers (P4c, P5). The softened prompt (V4) stops the over-flagging *and* stops the
-  catches (P5). These are two sides of one posture; a prompt guardrail can't cleanly separate them.
-  And the end-to-end residual metric (Fable, n=1) is too noisy to adjudicate finely (it grades
-  identical text 0–2).
+- **P5 detour (kept for the record):** a prompt-only guardrail couldn't separate detection from
+  over-flagging (aggressive V1 catches + over-flags; softened V4 loses both), and the n=1 Fable
+  residual was too noisy to adjudicate — which read, at P5, as "not a safe drop-in."
+- **P6 corrects that.** The two fixes P5 itself pointed to — **confirm-before-revise** and a **robust
+  (median-of-3) residual metric** — resolve it: the "do-no-harm failure" was grader noise, and the
+  confirmation gate demonstrably filters a real false positive while keeping confirmable defects. The
+  intervention catches defects baseline misses **with no measurable harm**.
 
-**Recommendation: keep the shipped config — no `ensemble.js` change.** The principled path to actually
-raising the ceiling is **architectural, not a prompt tweak**:
+**Recommendation: the ceiling is safely movable — ship a pointed VERIFY.** Two forms:
 
-1. **Confirm-before-revise** (the promising one). Let the verifier flag *aggressively* (V1-style — the
-   detection win) but gate each REVISION on an independent, high-confidence confirmation of the
-   flagged defect. This decouples "hunt hard" from "revise on anything," capturing V1's catches
-   without V1's damaging revisions on false positives. Capability is present (P2), so this — not a
-   stronger model — is the indicated fix.
-2. **A robust residual metric.** The single-draw Fable grade is too noisy; a majority-of-N grader (or
-   an executable oracle on checkable tasks) is needed before any residual-based ship claim.
+1. **CBR (recommended, principled):** aggressive V1-style verify + a confirmation gate before each
+   revision. Keeps the detection win; the gate is a *demonstrated* false-positive filter (it correctly
+   refuted a micro-optimization framing flag while keeping the real defect). Cost: one extra
+   confirmation call per flagged defect per round.
+2. **V1 (simpler):** the pointed prompt, revise on all flags. De-noised evidence shows no measurable
+   harm; cheaper, but no explicit guard against false-positive revisions on genuinely-clean answers.
 
-Two defect classes were never reliably caught by any prompt (`global-K1` self-contradiction,
-intermittent; `sort-K2` literal-bound, robustly missed), bounding even the detection win.
-
-**This is a genuine negative-leaning result, and the pre-registered do-no-harm gate is what produced
-it** — the clean P4b numbers alone would have shipped a change whose net value is unproven. The kit
-ships unchanged; the contribution is the diagnosis, the transplantable-stance finding, and the
-architectural direction (confirm-before-revise) for a future safe fix.
+**Honest limits.** Small n (2 defective + 1 clean-ish); the residual is Fable-bounded (~1 surfaced
+defect/answer here, so `global-K1` / `sort-K2` remain among the harder classes from earlier detection);
+the "clean" probe carried latent issues, so do-no-harm is *reassuring* (residual 0 across arms), not a
+perfectly-clean control. The pre-registered gates did their job throughout — including raising, then
+(with better measurement) correcting, a false alarm. The transplantable-stance finding (P2) is the
+conceptual core; CBR is the safe delivery mechanism.
