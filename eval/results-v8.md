@@ -300,3 +300,62 @@ Two freshly-authored checkable tasks in the taxonomy's defect classes (`dist-loc
 win (P4a, n=3, deterministic) is robust and real; but the n=1 Fable residual is too noisy to prove
 the end-to-end benefit or cleanly assess harm, V1 is over-eager, and generalization is partial. The
 do-no-harm gate did its job: it stopped a change that the clean P4b numbers alone would have shipped.
+
+## P5 — V4 (softened): the aggression/safety tension is real — [`raw-v8-p5.json`](raw-v8-p5.json)
+
+V4 = V1's pointed hunting + a strict guardrail ("hold a HIGH BAR; flag only what you can confirm; if
+defensible or a matter of degree/opinion, do NOT flag; nothing confirmed → CLEAN; never flag a sound
+answer"). Decided on deterministic axes (n=3):
+
+| Axis | baseline | V1 (aggressive) | V4 (softened) |
+|---|---|---|---|
+| Retention — `sort` defects caught / 6 | 0 | **3** | **0** |
+| Retention — `global` / 6 | 0 | 0 | 0 |
+| Over-flag on CLEAN answer (flags / 3 reps) | 0 | 2 (clean 1/3) | **0 (clean 3/3)** |
+| V4 end-to-end residual (Fable mean, known finals) | — | — | 0.67 / 1.0 (no reduction) |
+
+Clean ground truth (Fable ×3): `[0,1,0]`, mean 0.33 → `exactly-once` is ~clean, so V1 flagging it was
+mostly a false positive and V4 declaring it clean is *correct*.
+
+**Symmetric and decisive.** V4's strict guardrail **fixed the over-flagging** (0 flags on the clean
+answer, like baseline) **but killed the detection win** — it caught 0 known defects where V1 reliably
+caught the parity slip (3/6), and its loop reduced nothing (residual unchanged). **The detection win
+and the over-flagging are two sides of the same aggressive posture; a prompt-only guardrail could not
+separate them — V4 traded detection for safety ~1:1.**
+
+## Conclusion — the ceiling is real; a prompt alone cannot safely close it
+
+Across P0–P5, the honest arc:
+
+- **The self-verification ceiling is real and diagnosable** (P0): the shipped Opus verifier declares
+  answers clean while a stronger grader finds confirmable defects, all hiding one level below a
+  correct-looking endpoint (guarantee-vs-mechanism; step-vs-conclusion).
+- **The gap is stance, not capability** (P2): Opus already reasons about these defects when it
+  *solves*; the verifier just doesn't apply that scrutiny.
+- **A pointed VERIFY reframe measurably improves DETECTION** (P4a, n=3, robust): 0 → 1.67/4 known
+  defects, including the acceptance-test defect (V3, 3/3) — the stance transplants to Opus, as
+  predicted.
+- **But it is not a safe drop-in.** The aggressive prompt (V1) catches real defects *and* over-flags /
+  revises clean answers (P4c, P5). The softened prompt (V4) stops the over-flagging *and* stops the
+  catches (P5). These are two sides of one posture; a prompt guardrail can't cleanly separate them.
+  And the end-to-end residual metric (Fable, n=1) is too noisy to adjudicate finely (it grades
+  identical text 0–2).
+
+**Recommendation: keep the shipped config — no `ensemble.js` change.** The principled path to actually
+raising the ceiling is **architectural, not a prompt tweak**:
+
+1. **Confirm-before-revise** (the promising one). Let the verifier flag *aggressively* (V1-style — the
+   detection win) but gate each REVISION on an independent, high-confidence confirmation of the
+   flagged defect. This decouples "hunt hard" from "revise on anything," capturing V1's catches
+   without V1's damaging revisions on false positives. Capability is present (P2), so this — not a
+   stronger model — is the indicated fix.
+2. **A robust residual metric.** The single-draw Fable grade is too noisy; a majority-of-N grader (or
+   an executable oracle on checkable tasks) is needed before any residual-based ship claim.
+
+Two defect classes were never reliably caught by any prompt (`global-K1` self-contradiction,
+intermittent; `sort-K2` literal-bound, robustly missed), bounding even the detection win.
+
+**This is a genuine negative-leaning result, and the pre-registered do-no-harm gate is what produced
+it** — the clean P4b numbers alone would have shipped a change whose net value is unproven. The kit
+ships unchanged; the contribution is the diagnosis, the transplantable-stance finding, and the
+architectural direction (confirm-before-revise) for a future safe fix.

@@ -1,0 +1,76 @@
+{
+"retention": {
+"baseline": {
+"global-counter": {
+"caughtOver3reps": 0,
+"ofKnown": 6
+},
+"sort-lower-bound": {
+"caughtOver3reps": 0,
+"ofKnown": 6
+}
+},
+"v1-fable": {
+"global-counter": {
+"caughtOver3reps": 0,
+"ofKnown": 6
+},
+"sort-lower-bound": {
+"caughtOver3reps": 3,
+"ofKnown": 6
+}
+},
+"v4-soft": {
+"global-counter": {
+"caughtOver3reps": 0,
+"ofKnown": 6
+},
+"sort-lower-bound": {
+"caughtOver3reps": 0,
+"ofKnown": 6
+}
+}
+},
+"overflag": {
+"baseline": {
+"totalFlags": 0,
+"declaredCleanReps": 3
+},
+"v1-fable": {
+"totalFlags": 2,
+"declaredCleanReps": 1
+},
+"v4-soft": {
+"totalFlags": 0,
+"declaredCleanReps": 3
+}
+},
+"cleanGroundTruth": [
+0,
+1,
+0
+],
+"v4residual": {
+"global-counter": {
+"rounds": 1,
+"everFlagged": 0,
+"residualGrades": [
+0,
+1,
+1
+],
+"meanResidual": 0.6666666666666666
+},
+"sort-lower-bound": {
+"rounds": 1,
+"everFlagged": 0,
+"residualGrades": [
+1,
+1,
+1
+],
+"meanResidual": 1
+}
+},
+"fableSpent": 9
+}
