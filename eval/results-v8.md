@@ -262,3 +262,41 @@ nothing in the revised answer: **residual 1 → 0 on both, vs baseline 1 → 1.*
   overfitting risk. **Gate B requires held-out generalization + a do-no-harm check** (does a more
   aggressive verifier hallucinate defects on *clean* answers and damage them via revision?). Both run
   in P4c before any ship.
+
+## P4c — Gate B: held-out generalization + do-no-harm — [`raw-v8-p4c.json`](raw-v8-p4c.json)
+
+Two freshly-authored checkable tasks in the taxonomy's defect classes (`dist-lock` = T1 design;
+`merge-bound` = T4 proof), solved fresh (Opus), plus a do-no-harm probe on the known-clean
+`exactly-once` final. Baseline vs V1, verify-loop + Fable residual grade.
+
+| Cell | pre (Fable) | baseline post | V1 post | what happened |
+|---|---|---|---|---|
+| `dist-lock` (held-out, design) | 2 | 0 (unchanged) | 0 (V1 flagged 0) | V1 **missed** the fencing-token defect; baseline's *unchanged* text graded 2→0 |
+| `merge-bound` (held-out, proof) | 1 | 1 (unchanged) | 0 (flagged 3, revised) | V1 **generalizes**: caught + fixed a literal-overstatement defect baseline left |
+| `exactly-once` (do-no-harm, clean) | 0 | 0 (unchanged) | 3 (flagged 1, revised) | V1 revised a "clean" answer — see finding 3 |
+
+**Three findings that complicate the clean P4b story:**
+
+1. **Generalization is partial.** V1 caught the held-out *proof* defect (`merge-bound` 1→0 vs baseline
+   1→1) but **missed** the held-out *design* defect (`dist-lock`: flagged 0, while Fable's pre-grade
+   found a real non-deterministic-state-machine / fencing defect). The win generalizes on
+   step-vs-conclusion, not (here) on guarantee-vs-mechanism.
+
+2. **The n=1 Fable residual grade is too noisy to ship on.** On `dist-lock`, Fable graded the
+   *identical unchanged* answer **2 (pre) vs 0 (post)**. On `exactly-once`, the "clean" answer (0 in
+   P0 *and* in the P4c pre-grade) had latent Celery/Kafka factual errors a *different* Fable draw
+   surfaced as 3. So all residual magnitudes — including P4b's 1→0 — sit **within grader noise**; the
+   metric needs n≥3 to quantify. (The P4a *detection* result is deterministic and unaffected.)
+
+3. **Do-no-harm: V1 is over-eager, but the "damage" is mostly grader noise.** V1 flagged a defect on
+   the "clean" answer — a substantive but debatable over-claim (the "neutralizes #8" line doesn't
+   cover non-idempotent external side effects) — and revised it; baseline correctly left it alone.
+   The revised answer graded 3, **but those 3 are pre-existing Celery/Kafka errors in parts V1 never
+   touched** (the n=1 pre-grade missed them), *not* revision-introduced damage. V1's real fault is
+   **revision churn** on answers baseline leaves alone, acting on debatable flags — a caution, not
+   proven harm.
+
+**Gate B verdict: NOT cleanly passed → do not ship V1 as a drop-in on this evidence.** The detection
+win (P4a, n=3, deterministic) is robust and real; but the n=1 Fable residual is too noisy to prove
+the end-to-end benefit or cleanly assess harm, V1 is over-eager, and generalization is partial. The
+do-no-harm gate did its job: it stopped a change that the clean P4b numbers alone would have shipped.

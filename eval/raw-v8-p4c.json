@@ -1,0 +1,72 @@
+{
+"heldout": [
+{
+"id": "dist-lock",
+"cls": "T1 guarantee-vs-mechanism (design)",
+"preResidual": 2,
+"preDefects": [
+"The replicated state machine is not deterministic as specified, which invalidates the safety proof's core premise of unique, identical-on-every-replica fencing tokens. Lease expiry (which gates grants and counter increments) is evaluated inside apply() against a live clock ('the state machine compares against the current leader's clock'), but no timestamp is stamped into the Acquire log entry, so followers applying the same committed entry at a different wall-clock moment can reach a different grant/reject decision. Confirmed by simulation: with only ordinary apply lag (0.2-0.5s) and the answer's own assumptions (no clock sync), leader L1 applies Acquire(B) as GRANT token 2 while follower F applies the identical committed entry as REJECT; after L1 crashes and F becomes leader (Raft-legal, full committed log, clock barrier respected), F grants Acquire(C) token 2 — a duplicate. The resource's fence rule ('fence < max_seen -> REJECT', equal passes) then accepts B(2), C(2), and B(2) again after C's write — two clients interleave accepted mutations, violating the claimed guarantee. This directly contradicts the answer's claims 'the deterministic state machine', 'on every replica identically', and 'every grant across all time gets a unique, strictly increasing T'. The standard fix (leader stamps its clock reading into each proposed log entry; expiry evaluated only against stamped times) is absent.",
+"Related unimplementable detail of the same root cause: 'grant_hlc = the leader's clock at commit time' cannot exist as a replicated value — the log entry is created at append time so it cannot carry a commit-time reading, and if each replica records its own apply-time clock instead, replicas record different grant_hlc values for the same grant, feeding the divergence above."
+],
+"arms": {
+"baseline": {
+"rounds": 1,
+"everFlagged": 0,
+"postResidual": 0,
+"postDefects": []
+},
+"v1-fable": {
+"rounds": 1,
+"everFlagged": 0,
+"postResidual": 0,
+"postDefects": []
+}
+},
+"solveChars": 10618
+},
+{
+"id": "merge-bound",
+"cls": "T4 step-vs-conclusion (proof)",
+"preResidual": 1,
+"preDefects": [
+"Remarks section falsely claims the information-theoretic bound log2 C(2n,n) is 'strictly below 2n-1' and 'cannot prove the exact 2n-1': computation shows log2 C(2,1) = 1 = 2n-1 exactly at n=1 (not strictly below), and for n = 1,2,3,4 the decision-tree bound ceil(log2 C(2n,n)) equals 2n-1 (e.g. ceil(log2 6)=3, ceil(log2 70)=7), so the counting argument DOES prove the exact 2n-1 for n <= 4; it only falls short from n=5 onward (ceil(log2 252)=8 < 9). The claim is only true as an asymptotic/for-all-n statement, not as written. (Main proof — adversary instance, swap/fooling argument, validity of the swapped instance, count of 2n-1 cross-list adjacent pairs, and tightness via linear merge — was verified correct by execution, including an exhaustive n=2 check.)"
+],
+"arms": {
+"baseline": {
+"rounds": 1,
+"everFlagged": 0,
+"postResidual": 1,
+"postDefects": [
+"Remarks section factual error: the claim that the information-theoretic bound log2 C(2n,n) is 'strictly below 2n-1' and 'cannot prove the exact 2n-1' is false for small n. At n=1, log2 C(2,1) = 1 = 2n-1 (equality, not strictly below). Moreover, since decision-tree depth is an integer, the bound is ceil(log2 C(2n,n)), which equals 2n-1 for n = 1, 2, 3, 4 (e.g., ceil(log2 6) = 3, ceil(log2 20) = 5, ceil(log2 70) = 7) — so the counting argument DOES prove the exact 2n-1 bound for n <= 4. The claim only holds for n >= 5. (Verified by direct computation.) The main adversary proof itself is correct: exhaustive checks for n = 1..4 confirm that omitting any adjacent-pair comparison leaves >= 2 consistent interleavings including the valid swapped instance, that each swap preserves both lists' internal order and flips exactly one pair, and that linear merge attains exactly 2n-1 comparisons on the alternating input."
+]
+},
+"v1-fable": {
+"rounds": 2,
+"everFlagged": 3,
+"postResidual": 0,
+"postDefects": []
+}
+},
+"solveChars": 6676
+}
+],
+"doNoHarm": {
+"id": "exactly-once",
+"preResidual": 0,
+"arms": {
+"baseline": {
+"rounds": 1,
+"everFlagged": 0,
+"postResidual": 0,
+"changed": false
+},
+"v1-fable": {
+"rounds": 2,
+"everFlagged": 1,
+"postResidual": 3,
+"changed": true
+}
+}
+},
+"fableSpent": 9
+}
