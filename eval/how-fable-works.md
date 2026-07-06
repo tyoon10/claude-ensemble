@@ -67,6 +67,21 @@ is about the *verifier stance*, not about solving, and the intervention stays sq
 - **Caveat carried:** this rests on *refuting capability* (Opus solves clean/cleanest), only weakly
   on "both solvers commit the defect" (they mostly avoid it at high effort). State it that way.
 
+### Judging mining (2026-07-04) — how strong graders JUDGE open-ended syntheses
+
+Distinct from the GRADE-as-verifier row above: this mines how Fable (+ Opus, Sonnet) *judge/compare*
+open-ended syntheses, recovered from the v7 journal ([judge-heuristics-mined.md](judge-heuristics-mined.md)).
+Key refinement to the GRADE picture:
+- **On open-ended tasks, correctness SATURATES** — 8/18 comparisons were ties, and *every* non-tie
+  turned on a **negative trust/relevance defect**, never on content volume. So a strong grader's
+  open-ended discriminators are: fabrication risk > off-task/leaked content > brittle over-precision >
+  verified-wrong/inconsistent magnitudes > self-contradiction; + credit self-verification.
+- **Where Fable's less-biased signal shows:** it credited the *longer-but-better* answer on merit
+  (lengthDriven=0) — the anti-length discriminator. This is the one place v7 gave a clean "Fable ≠
+  Opus/Sonnet" signal (Opus grader showed mild self-family preference; Fable didn't).
+- This intel was distilled into a candidate JUDGE-prompt revision (unvalidated, n=3) — the open-ended
+  JUDGE track, parallel to the checkable/VERIFY track that occupied P0–P7.
+
 ## Standing cautions
 
 - Behavioral inference only; no CoT. "Fable does X" always means "Fable's observable trace shows X."
