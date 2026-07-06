@@ -89,11 +89,53 @@ a constraint, and two adversarial critics pruned the draft: the **over-instructi
 the **groundedness critic** confirmed 7 of ~9 additions trace to a real discriminator. The final is
 ~150 words, behavior-eliciting, not a checklist.
 
-## Status: UNVALIDATED — not shipped
+## Validation result (Fable + Opus A/B) — **REFUTED: keep the current judge**
 
-Distilled from **n=3 divergent tasks**, and because correctness saturates these discriminators are
-inherently **soft, low-separation signals**, not hard rules. `ensemble.js` is **unchanged.** The next
-step to justify shipping is a **Fable-graded A/B**: revised judge vs current judge, synthesizing the
-same panel drafts on held-out open-ended tasks, checking the revision wins (or ties) without regressing
-the cases where correctness alone already decides. Until then this is a documented, reproducible
-finding, not a change.
+Ran the pre-registered A/B ([`run-v8-judge-ab.js`](run-v8-judge-ab.js), raw
+[`raw-v8-judge-ab.json`](raw-v8-judge-ab.json)): same 3 Sonnet-5 drafts → **current judge vs revised
+judge** (Opus @ max) → **Fable (primary) + Opus (cross-check)** pairwise, both orders, length-controlled,
+on 4 held-out open-ended tasks (`rlhf-superseded`, `vectordb-choice`, `agents-delivered`,
+`self-host-vs-api`). Neutral audit (did not prime the discriminators).
+
+| Grader | revised | tie | current |
+|---|---|---|---|
+| **Fable 5** | 2 | 0 | **6** |
+| **Opus 4.8** | 2 | 0 | **6** |
+
+`lengthDriven = 0` for both. Mean synthesis length: revised **8,501** vs current **9,277** chars — the
+revised judge *was* leaner (as designed), and it didn't help.
+
+**The revised judge lost 6-2 under BOTH graders — including Fable, the grader whose own criteria the
+revision was distilled from.** That agreement makes the refutation robust rather than a circularity
+artifact: even the "home" grader rejected it.
+
+**Why it lost — grading criteria ≠ judging instructions:**
+1. **It trimmed load-bearing content.** `vectordb-choice`: the *current* judge "adds three things that
+   do real work and survive verification" (filtered-search resolution, checkable capacity math, ops
+   attribution) that the revised judge dropped — the "extra detail only if load-bearing" line made it
+   cut content that *was* load-bearing.
+2. **It induced the very leakage it screened for (ironic).** `agents-delivered`: the revised judge
+   *opened with* leaked process narration ("All four load-bearing facts check out… I'll write the
+   synthesis from verified ground, drop the self-referential…"). Telling the judge to "verify
+   load-bearing claims… held to that same standard" made it *more* prone to narrating its verification
+   — the exact process-leakage that discriminators #2/#5 were meant to catch.
+3. **Weaker dialectic.** `rlhf-superseded`: the current judge's synthesis had a "genuinely stronger"
+   counterargument and a "crisp resolving argument"; the revised judge's was more conciliatory/trimmed.
+
+The **one** revised win (`self-host-vs-api`, Fable 2-0) came where the revised judge was much shorter
+(7,152 vs 9,881) and Fable preferred the leaner answer — so the trimming helps *only* where the current
+judge over-produces, which was the minority case.
+
+**The lesson (the real finding):** what a strong **grader** rewards when *comparing* answers (lean,
+trustworthy, no fabrication/leakage) is **not** what a **judge** should *do* when *synthesizing*
+(produce the richest, sharpest, most complete answer). Injecting grading-penalty criteria as judging
+*instructions* made the judge risk-averse and self-conscious — it trimmed value and performed
+verification hygiene instead of writing the best answer. The current judge's simpler mandate
+("synthesise the best, most correct answer; don't leak process") wins.
+
+**Ship decision: do NOT ship the revised judge. `ensemble.js` unchanged.** The mining was method-
+sound and the discriminators are real *as grading signals*; the error was the **transplant hypothesis**
+(grading criteria → judging instructions). This is the do-no-harm validation working as intended: the
+candidate looked well-grounded and sharp, and the A/B showed it degrades the judge. (Corollary for the
+[fable-loop](../../fable-loop/RESEARCH-PLAN.md) open-ended lane: mine Fable's grading to build better
+*graders/verifiers*, not to script the *synthesis* step.)
