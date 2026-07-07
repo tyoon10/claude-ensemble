@@ -82,6 +82,16 @@ Key refinement to the GRADE picture:
 - This intel was distilled into a candidate JUDGE-prompt revision (unvalidated, n=3) — the open-ended
   JUDGE track, parallel to the checkable/VERIFY track that occupied P0–P7.
 
+### v9 (2026-07-04) — headroom vs Opus on executable tasks: ZERO
+
+Oracle-scored (deterministic, no grader), matched effort: **Fable = Opus = 0 defects across all 35
+task-instances each** (classic suite, counter-template suite, and a 12-task compound bundle). On
+self-contained executable work there is no capability gap for Fable to express — consistent with
+P1/P2's stance finding. Fable's edge, where it exists, lives in long-form prose reasoning and in the
+adversarial GRADE posture, not in solving contract-driven tasks. One stylistic signature persists:
+Fable builds from first principles (hand-rolled DLL cache with validation) where Opus reaches for the
+pragmatic stdlib — construction style, not correctness.
+
 ## Standing cautions
 
 - Behavioral inference only; no CoT. "Fable does X" always means "Fable's observable trace shows X."

@@ -70,7 +70,7 @@ Then run the ensemble:
 - **Triage** skips the panel for easy tasks, so you don't spend usage limits where a single pass already wins.
 - The **panel** is **three independent best-effort drafts of the same task** (best-of-N). We tested designed "diversity" — objective roles, tier mixes — and it didn't beat this; the lift comes from the judge synthesizing several attempts, not from making them differ (see [`eval/`](eval/)).
 - The **judge** sees the drafts under blind, shuffled labels (no model names) to cut judge bias, verifies rather than trusts, and synthesizes one answer better than any single draft.
-- The **verify-loop** runs only on **checkable** tasks (the triage gate decides — no flag): a harsh verifier **runs code** to find confirmed defects in the judge's answer, a reviser fixes exactly those, repeating up to 3× or until clean. This is the kit's biggest measured correctness lever; on open-ended/judgment tasks it's skipped (nothing to verify against).
+- The **verify-loop** runs only on **checkable** tasks (the triage gate decides — no flag): a harsh verifier **runs code** to find confirmed defects in the judge's answer, a reviser fixes exactly those, repeating up to 3× or until clean. This is the kit's biggest measured correctness lever — specifically on **long-form checkable reasoning** (systems designs, proofs, quantitative analyses). On *self-contained executable* tasks (write-a-function, exact numerics) a single high-effort pass is already at ceiling and the loop has nothing to fix (oracle-measured, [`eval/results-v9.md`](eval/results-v9.md)) — the triage gate keeps such tasks on the cheap path. On open-ended/judgment tasks it's skipped (nothing to verify against).
 
 ## Cost & performance
 
