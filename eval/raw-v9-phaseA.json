@@ -1,0 +1,60 @@
+{
+"answers": [
+{
+"id": "bisect-duplicates",
+"opus": "```python\ndef insert_left(a, x):\n    lo, hi = 0, len(a)\n    while lo < hi:\n        mid = (lo + hi) // 2\n        if a[mid] < x:\n            lo = mid + 1\n        else:\n            hi = mid\n    return lo\n\n\ndef insert_right(a, x):\n    lo, hi = 0, len(a)\n    while lo < hi:\n        mid = (lo + hi) // 2\n        if x < a[mid]:\n            hi = mid\n        else:\n            lo = mid + 1\n    return lo\n```",
+"fable": "```python\ndef insert_left(a, x):\n    lo, hi = 0, len(a)\n    while lo < hi:\n        mid = (lo + hi) // 2\n        if a[mid] < x:\n            lo = mid + 1\n        else:\n            hi = mid\n    return lo\n\n\ndef insert_right(a, x):\n    lo, hi = 0, len(a)\n    while lo < hi:\n        mid = (lo + hi) // 2\n        if a[mid] <= x:\n            lo = mid + 1\n        else:\n            hi = mid\n    return lo\n```"
+},
+{
+"id": "conditional-prob",
+"opus": "## Computations\n\n**1. P(both boys | at least one boy)**\nSample space {BB, BG, GB, GG} each 1/4. Condition removes GG. Both boys = 1 of 3 remaining equally-likely → **1/3**.\n\n**2. P(both boys | at least one boy born Tuesday)**\nPer child: P(boy-Tuesday) = 1/14.\n- P(≥1 boy-Tuesday) = 1 − (13/14)² = 27/196.\n- P(both boys ∧ ≥1 boy-Tuesday) = P(both boys) − P(both boys, neither Tuesday) = 1/4 − (6/14)² = 49/196 − 36/196 = 13/196.\n- Result = 13/27.\n\n**3. P(both boys | older is boy)**\nOlder fixed as boy; younger independent → **1/2**.\n\n**4. P(≥1 boy born Tuesday)**\n1 − (13/14)² = 27/196.\n\n**5. P(both boys | at least one boy born on weekend)**\nPer child: P(boy-weekend) = ½·(2/7) = 1/7.\n- P(≥1 boy-weekend) = 1 − (6/7)² = 13/49.\n- P(both boys ∧ ≥1 boy-weekend) = 1/4 − (5/14)² = 49/196 − 25/196 = 24/196 = 6/49.\n- Result = (6/49)/(13/49) = 6/13.\n\n```json\n{\n  \"p_both_boys_given_at_least_one_boy\": 0.333333,\n  \"p_both_boys_given_at_least_one_boy_tuesday\": 0.481481,\n  \"p_both_boys_given_older_is_boy\": 0.500000,\n  \"p_at_least_one_boy_tuesday\": 0.137755,\n  \"p_both_boys_given_at_least_one_boy_weekend\": 0.461538\n}\n```",
+"fable": "```json\n{\n  \"p_both_boys_given_at_least_one_boy\": 0.333333,\n  \"p_both_boys_given_at_least_one_boy_tuesday\": 0.481481,\n  \"p_both_boys_given_older_is_boy\": 0.500000,\n  \"p_at_least_one_boy_tuesday\": 0.137755,\n  \"p_both_boys_given_at_least_one_boy_weekend\": 0.461538\n}\n```"
+},
+{
+"id": "coupon-values",
+"opus": "```json\n{\n  \"d_10_10\": 6.513215599,\n  \"d_10_1\": 1.0,\n  \"d_100_0\": 0.0,\n  \"d_7_7\": 4.620583260376202,\n  \"t_1\": 1.0,\n  \"t_2\": 3.0,\n  \"t_10\": 29.289682539682538\n}\n```",
+"fable": "```json\n{\n  \"d_10_10\": 6.513215599,\n  \"d_10_1\": 1.0,\n  \"d_100_0\": 0.0,\n  \"d_7_7\": 4.620583260376202,\n  \"t_1\": 1.0,\n  \"t_2\": 3.0,\n  \"t_10\": 29.289682539682538\n}\n```"
+},
+{
+"id": "dag-paths",
+"opus": "```json\n{\"paths_A_to_H\": 5, \"paths_A_to_F\": 3, \"paths_A_to_G\": 5, \"paths_C_to_H\": 3, \"paths_D_to_H\": 2, \"paths_A_to_A\": 1, \"paths_H_to_A\": 0, \"longest_path_length\": 5}\n```",
+"fable": "```json\n{\n  \"paths_A_to_H\": 5,\n  \"paths_A_to_F\": 3,\n  \"paths_A_to_G\": 5,\n  \"paths_C_to_H\": 3,\n  \"paths_D_to_H\": 2,\n  \"paths_A_to_A\": 1,\n  \"paths_H_to_A\": 0,\n  \"longest_path_length\": 5\n}\n```"
+},
+{
+"id": "kmp-failure",
+"opus": "```python\ndef failure(p: str) -> list[int]:\n    n = len(p)\n    fail = [0] * n\n    k = 0  # length of current longest prefix-suffix\n    for i in range(1, n):\n        while k > 0 and p[i] != p[k]:\n            k = fail[k - 1]\n        if p[i] == p[k]:\n            k += 1\n        fail[i] = k\n    return fail\n```",
+"fable": "```python\ndef failure(p: str) -> list[int]:\n    n = len(p)\n    fail = [0] * n\n    k = 0  # length of current longest proper prefix-suffix\n    for i in range(1, n):\n        while k > 0 and p[i] != p[k]:\n            k = fail[k - 1]\n        if p[i] == p[k]:\n            k += 1\n        fail[i] = k\n    return fail\n```"
+},
+{
+"id": "lru-cache",
+"opus": "```python\nfrom collections import OrderedDict\n\n\nclass LRU:\n    def __init__(self, capacity):\n        self.capacity = capacity\n        self.cache = OrderedDict()\n\n    def get(self, key):\n        if key not in self.cache:\n            return -1\n        self.cache.move_to_end(key)\n        return self.cache[key]\n\n    def put(self, key, value):\n        if key in self.cache:\n            self.cache.move_to_end(key)\n        self.cache[key] = value\n        if len(self.cache) > self.capacity:\n            self.cache.popitem(last=False)\n```",
+"fable": "```python\nclass LRU:\n    \"\"\"Least-Recently-Used cache with O(1) get/put.\n\n    Uses a hash map keyed to nodes of a doubly linked list with\n    sentinel head/tail. Nodes near the head are most recently used;\n    the node just before the tail is the least recently used.\n    \"\"\"\n\n    class _Node:\n        __slots__ = (\"key\", \"value\", \"prev\", \"next\")\n\n        def __init__(self, key=None, value=None):\n            self.key = key\n            self.value = value\n            self.prev = None\n            self.next = None\n\n    def __init__(self, capacity):\n        if not isinstance(capacity, int) or capacity <= 0:\n            raise ValueError(\"capacity must be a positive integer\")\n        self.capacity = capacity\n        self._map = {}\n        # Sentinels: head <-> tail\n        self._head = self._Node()\n        self._tail = self._Node()\n        self._head.next = self._tail\n        self._tail.prev = self._head\n\n    def _unlink(self, node):\n        node.prev.next = node.next\n        node.next.prev = node.prev\n        node.prev = node.next = None\n\n    def _push_front(self, node):\n        node.next = self._head.next\n        node.prev = self._head\n        self._head.next.prev = node\n        self._head.next = node\n\n    def _move_to_front(self, node):\n        self._unlink(node)\n        self._push_front(node)\n\n    def get(self, key):\n        node = self._map.get(key)\n        if node is None:\n            return -1\n        self._move_to_front(node)\n        return node.value\n\n    def put(self, key, value):\n        node = self._map.get(key)\n        if node is not None:\n            # Update value AND refresh recency.\n            node.value = value\n            self._move_to_front(node)\n            return\n        if len(self._map) >= self.capacity:\n            # Evict least recently used (node just before tail).\n            lru = self._tail.prev\n            self._unlink(lru)\n            del self._map[lru.key]\n        node = self._Node(key, value)\n        self._map[key] = node\n        self._push_front(node)\n```"
+},
+{
+"id": "merge-comparisons",
+"opus": "```json\n{\"adv_1_1\": 1, \"adv_2_2\": 3, \"adv_3_5\": 7, \"adv_1_9\": 9, \"adv_7_7\": 13, \"info_1_1\": 1, \"info_2_2\": 3, \"info_3_5\": 6, \"info_1_9\": 4, \"info_7_7\": 12}\n```",
+"fable": "```json\n{\"adv_1_1\": 1, \"adv_2_2\": 3, \"adv_3_5\": 7, \"adv_1_9\": 9, \"adv_7_7\": 13, \"info_1_1\": 1, \"info_2_2\": 3, \"info_3_5\": 6, \"info_1_9\": 4, \"info_7_7\": 12}\n```"
+},
+{
+"id": "merge-intervals",
+"opus": "```python\ndef merge_intervals(intervals: list[list[int]]) -> list[list[int]]:\n    if not intervals:\n        return []\n    ordered = sorted(intervals, key=lambda iv: (iv[0], iv[1]))\n    merged = [[ordered[0][0], ordered[0][1]]]\n    for start, end in ordered[1:]:\n        last = merged[-1]\n        if start <= last[1]:\n            if end > last[1]:\n                last[1] = end\n        else:\n            merged.append([start, end])\n    return merged\n```",
+"fable": "```python\ndef merge_intervals(intervals: list[list[int]]) -> list[list[int]]:\n    if not intervals:\n        return []\n    sorted_intervals = sorted(intervals, key=lambda iv: (iv[0], iv[1]))\n    merged: list[list[int]] = [list(sorted_intervals[0])]\n    for start, end in sorted_intervals[1:]:\n        last = merged[-1]\n        if start <= last[1]:  # overlapping or touching at an endpoint\n            if end > last[1]:\n                last[1] = end\n        else:\n            merged.append([start, end])\n    return merged\n```"
+},
+{
+"id": "modpow-digits",
+"opus": "```json\n{\"v1\": 69376, \"v2\": 1, \"v3\": 190521, \"v4\": 321607, \"v5\": 177289}\n```",
+"fable": "```json\n{\"v1\": 69376, \"v2\": 1, \"v3\": 190521, \"v4\": 321607, \"v5\": 177289}\n```"
+},
+{
+"id": "next-permutation",
+"opus": "```python\ndef next_permutation(a: list[int]) -> list[int]:\n    b = list(a)\n    n = len(b)\n    # Find largest i such that b[i] < b[i+1]\n    i = n - 2\n    while i >= 0 and b[i] >= b[i + 1]:\n        i -= 1\n    if i < 0:\n        # Already the greatest arrangement; wrap to smallest (ascending)\n        return sorted(b)\n    # Find largest j > i such that b[j] > b[i]\n    j = n - 1\n    while b[j] <= b[i]:\n        j -= 1\n    b[i], b[j] = b[j], b[i]\n    # Reverse the suffix after i\n    b[i + 1:] = reversed(b[i + 1:])\n    return b\n```",
+"fable": "All tests pass, including full-cycle equivalence with `sorted(set(itertools.permutations(a)))` on several multisets, wrap-around, duplicates, and no-mutation checks.\n\n```python\ndef next_permutation(a: list[int]) -> list[int]:\n    \"\"\"Return a new list holding the next distinct permutation of `a` in\n    lexicographic order, wrapping to the ascending arrangement if `a` is\n    already the greatest. Does not mutate the input.\"\"\"\n    b = list(a)\n    n = len(b)\n\n    # Find rightmost index i with b[i] < b[i+1] (the \"pivot\").\n    i = n - 2\n    while i >= 0 and b[i] >= b[i + 1]:\n        i -= 1\n\n    if i < 0:\n        # Entire sequence is non-increasing: last arrangement -> wrap to first.\n        b.reverse()\n        return b\n\n    # Find rightmost index j > i with b[j] > b[i] (suffix is non-increasing,\n    # so the rightmost such element is the smallest value greater than b[i]).\n    j = n - 1\n    while b[j] <= b[i]:\n        j -= 1\n\n    b[i], b[j] = b[j], b[i]\n    # Suffix is still non-increasing after the swap; reverse it to ascending.\n    b[i + 1:] = reversed(b[i + 1:])\n    return b\n```"
+},
+{
+"id": "run-length-edge",
+"opus": "```python\ndef rle_encode(s: str) -> list[tuple[str, int]]:\n    pairs: list[tuple[str, int]] = []\n    for ch in s:\n        if pairs and pairs[-1][0] == ch:\n            prev_ch, prev_count = pairs[-1]\n            pairs[-1] = (prev_ch, prev_count + 1)\n        else:\n            pairs.append((ch, 1))\n    return pairs\n\n\ndef rle_decode(pairs) -> str:\n    return \"\".join(ch * count for ch, count in pairs)\n```",
+"fable": "```python\ndef rle_encode(s: str) -> list[tuple[str, int]]:\n    \"\"\"Encode a string as a list of (character, count) pairs for maximal runs.\"\"\"\n    pairs: list[tuple[str, int]] = []\n    for ch in s:\n        if pairs and pairs[-1][0] == ch:\n            pairs[-1] = (ch, pairs[-1][1] + 1)\n        else:\n            pairs.append((ch, 1))\n    return pairs\n\n\ndef rle_decode(pairs) -> str:\n    \"\"\"Decode a list of (character, count) pairs back into a string.\n\n    A count of 0 contributes nothing to the output.\n    \"\"\"\n    return \"\".join(ch * count for ch, count in pairs)\n```"
+}
+],
+"fableSpent": 11
+}

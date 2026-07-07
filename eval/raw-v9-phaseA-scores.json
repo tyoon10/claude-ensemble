@@ -1,0 +1,57 @@
+[
+ {
+  "id": "bisect-duplicates",
+  "opusDefects": [],
+  "fableDefects": []
+ },
+ {
+  "id": "conditional-prob",
+  "opusDefects": [],
+  "fableDefects": []
+ },
+ {
+  "id": "coupon-values",
+  "opusDefects": [],
+  "fableDefects": []
+ },
+ {
+  "id": "dag-paths",
+  "opusDefects": [],
+  "fableDefects": []
+ },
+ {
+  "id": "kmp-failure",
+  "opusDefects": [],
+  "fableDefects": []
+ },
+ {
+  "id": "lru-cache",
+  "opusDefects": [],
+  "fableDefects": []
+ },
+ {
+  "id": "merge-comparisons",
+  "opusDefects": [],
+  "fableDefects": []
+ },
+ {
+  "id": "merge-intervals",
+  "opusDefects": [],
+  "fableDefects": []
+ },
+ {
+  "id": "modpow-digits",
+  "opusDefects": [],
+  "fableDefects": []
+ },
+ {
+  "id": "next-permutation",
+  "opusDefects": [],
+  "fableDefects": []
+ },
+ {
+  "id": "run-length-edge",
+  "opusDefects": [],
+  "fableDefects": []
+ }
+]
