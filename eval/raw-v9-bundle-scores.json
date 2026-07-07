@@ -1,0 +1,36 @@
+{
+ "opus": {
+  "total": 0,
+  "detail": {
+   "banker-netting": [],
+   "border-not-period": [],
+   "interval-xor": [],
+   "josephus-twist": [],
+   "lfu-cache": [],
+   "negabase": [],
+   "no-double-right": [],
+   "polya-urn": [],
+   "prev-permutation": [],
+   "ring-automaton": [],
+   "schedule-tiebreak": [],
+   "weighted-cover": []
+  }
+ },
+ "fable": {
+  "total": 0,
+  "detail": {
+   "banker-netting": [],
+   "border-not-period": [],
+   "interval-xor": [],
+   "josephus-twist": [],
+   "lfu-cache": [],
+   "negabase": [],
+   "no-double-right": [],
+   "polya-urn": [],
+   "prev-permutation": [],
+   "ring-automaton": [],
+   "schedule-tiebreak": [],
+   "weighted-cover": []
+  }
+ }
+}
