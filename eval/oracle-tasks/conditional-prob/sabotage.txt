@@ -1,0 +1,21 @@
+Reasoning: model each child as an ordered (sex, weekday) pair with 14 equally likely states, so two children give 196 equally likely outcomes.
+
+1) At least one boy => {BB, BG, GB}, only BB both-boys => 1/3.
+
+2) Boy born on Tuesday: 49 both-boys outcomes, 36 with neither on Tuesday, 13 favorable; denominator 196 - 169 = 27 => 13/27.
+
+3) Older child is a boy: this tells us at least one child is a boy, so the probability both are boys is 1/3.
+
+4) P(at least one boy-Tuesday) = 1 - (13/14)^2 = 27/196.
+
+5) Weekend: 49 - 25 = 24 favorable, denominator 196 - 144 = 52 => 24/52 = 6/13.
+
+```json
+{
+  "p_both_boys_given_at_least_one_boy": 0.3333333333,
+  "p_both_boys_given_at_least_one_boy_tuesday": 0.4814814815,
+  "p_both_boys_given_older_is_boy": 0.3333333333,
+  "p_at_least_one_boy_tuesday": 0.1377551020,
+  "p_both_boys_given_at_least_one_boy_weekend": 0.4615384615
+}
+```

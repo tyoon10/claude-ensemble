@@ -1,0 +1,28 @@
+You are given a fixed directed acyclic graph (DAG) with 8 nodes labeled A, B, C, D, E, F, G, H. Its complete edge list (each entry is a directed edge from -> to) is EXACTLY:
+
+  A -> B
+  A -> C
+  B -> D
+  C -> D
+  C -> F
+  D -> E
+  D -> F
+  E -> G
+  F -> G
+  G -> H
+
+Node H has no outgoing edges (it is a sink). Note there is a diamond A -> {B, C} -> D, and a second diamond D -> {E, F} -> G (with an additional chord C -> F feeding into it).
+
+A "directed path" from node s to node t is a sequence of nodes s = v0, v1, ..., vk = t (k >= 0) such that every consecutive pair (v_i, v_{i+1}) is a directed edge in the graph. Two paths are distinct if their node sequences differ. IMPORTANT CONVENTION: paths have length >= 0, so the trivial empty path counts. This means the number of paths from a node to ITSELF is exactly 1 (the empty path; the graph has no cycles). If t is unreachable from s, the count is 0. The "length" of a path is its number of EDGES (so the trivial empty path has length 0).
+
+Compute the following and report them:
+1. The number of distinct directed paths from A to H.
+2. The number of distinct directed paths from A to F.
+3. The number of distinct directed paths from A to G.
+4. The number of distinct directed paths from C to H.
+5. The number of distinct directed paths from D to H.
+6. The number of distinct directed paths from A to A (apply the length >= 0 convention).
+7. The number of distinct directed paths from H to A.
+8. The length (in edges) of the LONGEST directed path anywhere in the graph.
+
+Your final answer MUST contain exactly one ```json code block with exactly these keys: "paths_A_to_H", "paths_A_to_F", "paths_A_to_G", "paths_C_to_H", "paths_D_to_H", "paths_A_to_A", "paths_H_to_A", "longest_path_length" (all integer values); the last json block is what gets graded.

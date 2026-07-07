@@ -1,0 +1,16 @@
+Implement a function that merges overlapping intervals.
+
+```python
+def merge_intervals(intervals: list[list[int]]) -> list[list[int]]:
+    ...
+```
+
+Each interval is `[start, end]` with `start <= end`. The input list is NOT sorted. Two intervals must be merged if they overlap OR if they merely touch at an endpoint — that is, `[1, 2]` and `[2, 3]` merge into `[1, 3]`, because they share the boundary point `2`. Intervals that are separated by any real gap must remain distinct (e.g. `[1, 2]` and `[4, 5]` stay separate).
+
+Requirements:
+- Return the merged intervals sorted in ascending order by start coordinate.
+- Handle an empty input list (return `[]`) and a single interval.
+- Handle fully nested intervals (`[1, 10]` swallows `[3, 5]`), exact duplicates, and negative coordinates.
+- Each returned interval must itself be a `[start, end]` list.
+
+Your final answer MUST contain exactly one ```python code block defining `def merge_intervals(intervals: list[list[int]]) -> list[list[int]]:`; the last python block in your answer is what gets graded.

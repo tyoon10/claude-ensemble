@@ -1,0 +1,24 @@
+A family has exactly two children. Assume:
+- Each child is independently a boy or a girl, each with probability 1/2.
+- Each child's day-of-week of birth is independent of everything else and uniform over the 7 days of the week.
+
+Compute the following five quantities EXACTLY, then report each as a decimal number written to at least 6 decimal places. Do not report fractions or strings — report plain decimal numbers.
+
+1. Given that at least one of the two children is a boy, the probability that both children are boys.
+   -> key: "p_both_boys_given_at_least_one_boy"
+
+2. Given that at least one of the two children is a boy who was born on a Tuesday, the probability that both children are boys.
+   -> key: "p_both_boys_given_at_least_one_boy_tuesday"
+
+3. Given that the OLDER child is a boy, the probability that both children are boys.
+   -> key: "p_both_boys_given_older_is_boy"
+
+4. The unconditional probability that at least one of the two children is a boy born on a Tuesday.
+   -> key: "p_at_least_one_boy_tuesday"
+
+5. Given that at least one of the two children is a boy born on a weekend (Saturday OR Sunday), the probability that both children are boys.
+   -> key: "p_both_boys_given_at_least_one_boy_weekend"
+
+Beware: several of these look like the same problem but are not. "At least one is a boy" and "the older one is a boy" have different answers; and conditioning on the birth-day information (Tuesday / weekend) shifts the answer away from the naive 1/3.
+
+Your final answer MUST contain exactly one ```json code block with exactly these keys: "p_both_boys_given_at_least_one_boy", "p_both_boys_given_at_least_one_boy_tuesday", "p_both_boys_given_older_is_boy", "p_at_least_one_boy_tuesday", "p_both_boys_given_at_least_one_boy_weekend". Each value must be a decimal number. The last json block in your answer is what gets graded.

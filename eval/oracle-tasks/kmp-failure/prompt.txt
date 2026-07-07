@@ -1,0 +1,15 @@
+Implement the KMP failure function (also called the prefix function).
+
+Given a string `p`, return a list `fail` of the same length as `p`, where `fail[i]` is the length of the longest **proper** prefix of the substring `p[0..i]` (inclusive) that is also a **suffix** of that same substring. "Proper" means the prefix may not be the whole substring `p[0..i]` itself.
+
+Requirements and edge cases you must handle correctly:
+- The empty string returns an empty list `[]`.
+- A single-character string returns `[0]`.
+- Runs of identical characters (e.g. `"aaaa"`) build up incrementally: `[0,1,2,3]`.
+- Overlapping / self-similar patterns (e.g. `"abab"`, `"aabaaab"`) require you to fall back through previously computed values, and a single fallback step is not always enough — you may need to cascade through several fallback links before a character matches.
+- Strings with no repetition return all zeros.
+- By definition every value satisfies `0 <= fail[i] < i + 1` (a proper prefix is strictly shorter than the substring).
+
+Aim for the standard O(n) two-pointer construction.
+
+Your final answer MUST contain exactly one ```python code block defining `failure(p: str) -> list[int]`; the last python block in your answer is what gets graded.

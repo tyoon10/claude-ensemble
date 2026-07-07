@@ -1,0 +1,15 @@
+You are given five size-pairs (m, n) of two already-sorted lists to be merged into one sorted list:
+
+    (m, n) in { (1,1), (2,2), (3,5), (1,9), (7,7) }
+
+For EACH pair compute two DIFFERENT worst-case comparison counts. Do not conflate them — they measure different things.
+
+1. adv_m_n — the worst-case number of key comparisons made by the STANDARD two-pointer pairwise merge algorithm (the merge step of merge sort), under an adversary that forces the maximum. This classic tight bound is m + n - 1: the adversary interleaves the two lists so that every element except the very last one costs one comparison. Report exactly m + n - 1.
+
+2. info_m_n — the INFORMATION-THEORETIC minimum number of binary (two-outcome) comparisons required by ANY comparison-based merging procedure, in the worst case. Merging is equivalent to identifying which of the C(m+n, m) interleavings is the true one, so the lower bound is ceil(log2( C(m+n, m) )), where C is the binomial coefficient. Report exactly ceil(log2(C(m+n, m))).
+
+Watch the boundaries. For a lopsided pair like (1, 9) the two answers diverge sharply: the pairwise-merge worst case is m+n-1 = 9, but the information-theoretic minimum is only ceil(log2(C(10,1))) = ceil(log2 10) = 4 (this is why binary insertion beats linear merge for very unbalanced sizes). For (7,7), C(14,7) = 3432 sits strictly between 2^11 = 2048 and 2^12 = 4096, so its ceil-log2 is 12, NOT the pairwise 13. Compute each ceil-log2 exactly (integer arithmetic) — do not eyeball or round the wrong way.
+
+Return one JSON object mapping every key to its integer value. There are 10 keys total: adv_1_1, adv_2_2, adv_3_5, adv_1_9, adv_7_7, info_1_1, info_2_2, info_3_5, info_1_9, info_7_7.
+
+Your final answer MUST contain exactly one ```json code block with exactly these keys: adv_1_1, adv_2_2, adv_3_5, adv_1_9, adv_7_7, info_1_1, info_2_2, info_3_5, info_1_9, info_7_7; the last json block is what gets graded.

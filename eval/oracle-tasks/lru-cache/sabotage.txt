@@ -1,0 +1,28 @@
+I'll back the cache with a regular `dict`, relying on Python 3.7+ insertion-order semantics: the first key in iteration order is the least recently used. Every use re-inserts the key at the end so it becomes most recently used. Eviction pops `next(iter(...))`, the oldest key.
+
+```python
+class LRU:
+    def __init__(self, capacity):
+        self.capacity = capacity
+        self.cache = {}
+
+    def get(self, key):
+        if key not in self.cache:
+            return -1
+        value = self.cache.pop(key)
+        self.cache[key] = value  # move to most-recently-used
+        return value
+
+    def put(self, key, value):
+        if key in self.cache:
+            # update the value in place
+            self.cache[key] = value
+            return
+        if len(self.cache) >= self.capacity:
+            # evict least recently used (oldest insertion)
+            oldest = next(iter(self.cache))
+            self.cache.pop(oldest)
+        self.cache[key] = value
+```
+
+This gives O(1) expected `get`/`put`, respects capacity exactly, and updates values on existing keys.

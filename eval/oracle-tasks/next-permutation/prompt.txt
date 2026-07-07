@@ -1,0 +1,20 @@
+Implement the "next permutation" transform on a list of integers.
+
+Write a function `next_permutation(a: list[int]) -> list[int]` that returns a NEW list holding the next permutation of `a` in lexicographic order, treating `a` as a specific arrangement of its (possibly duplicated) elements.
+
+Precise semantics:
+- Consider the sorted order of all DISTINCT permutations of the multiset of values in `a`. Given the arrangement `a`, return the one that comes immediately after it in that order.
+- If `a` is already the lexicographically greatest arrangement (i.e. sorted descending, allowing for duplicates), it has no successor; in that case WRAP AROUND and return the lexicographically smallest arrangement (the values sorted ascending).
+- The function must NOT mutate the caller's input list; return a fresh list.
+
+Requirements and edge cases you must handle correctly:
+- Strictly descending input, e.g. `[3,2,1]` -> wraps to `[1,2,3]`.
+- Duplicate values, e.g. `[1,5,1]` -> `[5,1,1]`, and `[1,1,5]` -> `[1,5,1]`. Duplicates must not produce a repeated or skipped arrangement.
+- All-equal input, e.g. `[2,2,2]` -> `[2,2,2]` (it is simultaneously the first and last arrangement, so it wraps to itself).
+- Length 1, e.g. `[7]` -> `[7]`.
+- Length 2, both `[1,2]` -> `[2,1]` and the wrap case `[2,1]` -> `[1,2]`.
+- The full cyclic sequence over a multiset (e.g. `[1,1,2,3,3]`) must match the order produced by iterating `sorted(set(itertools.permutations(a)))`, including wrapping from the last back to the first.
+
+Do not use `itertools.permutations` to enumerate in your solution (it is O(n!) and will time out on larger inputs); use the standard in-place next-permutation algorithm on a copy.
+
+Your final answer MUST contain exactly one ```python code block defining `next_permutation(a: list[int]) -> list[int]`; the last python block in your answer is what gets graded.

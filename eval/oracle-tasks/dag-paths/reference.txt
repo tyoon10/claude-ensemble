@@ -1,0 +1,17 @@
+I compute path counts by reverse-topological dynamic programming, letting f_t(u) = number of s->t paths starting at u, with the empty-path convention f_t(t) includes 1 and every edge u->w adds f_t(w).
+
+Paths to H: f(H)=1, f(G)=1, f(E)=1, f(F)=1, f(D)=f(E)+f(F)=2, f(C)=f(D)+f(F)=3, f(B)=f(D)=2, f(A)=f(B)+f(C)=5. So A->H = 5, C->H = 3, D->H = 2.
+
+Paths A->F: only D->F and C->F and F itself contribute; f_F(F)=1, f_F(D)=1, f_F(C)=2, f_F(B)=1, f_F(A)=3.
+
+Paths A->G: f_G(G)=1, f_G(E)=f_G(F)=1, f_G(D)=2, f_G(C)=3, f_G(B)=2, f_G(A)=5.
+
+A->A: t == s, and with length >= 0 the empty path counts, no cycles, so exactly 1.
+
+H->A: H is a sink and cannot reach A, so 0.
+
+Longest path (edges): A->B->D->E->G->H = 5 edges (also A->C->D->F->G->H = 5); the graph has 8 nodes but B and C are mutually exclusive on any path, so 6 nodes / 5 edges is the max.
+
+```json
+{"paths_A_to_H":5,"paths_A_to_F":3,"paths_A_to_G":5,"paths_C_to_H":3,"paths_D_to_H":2,"paths_A_to_A":1,"paths_H_to_A":0,"longest_path_length":5}
+```

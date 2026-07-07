@@ -1,0 +1,16 @@
+Compute the last 6 decimal digits (i.e. the value modulo 1000000) of each of the following five quantities. Exponent towers are right-associative and MUST be evaluated top-down as written; do not rearrange them.
+
+- v1 = 2^1000
+- v2 = 3^0
+- v3 = 123456789^2
+- v4 = 7^(7^2)   (i.e. 7 raised to the power (7 squared) = 7^49)
+- v5 = 9^(9^9)   (i.e. 9 raised to the power (9^9); this is NOT (9^9)^9 = 9^81)
+
+Report each result as its non-negative residue in the range [0, 999999], as a JSON integer (not a string, and reduced mod 1000000 — do not report the full unreduced number).
+
+Notes / hazards to respect:
+- v2 exercises the x^0 = 1 boundary: any base to the 0th power is 1, so its last 6 digits are 000001 → the integer 1.
+- v5 is an exponent tower where the associativity matters: 9^(9^9) has exponent 387420489, whereas the incorrect grouping (9^9)^9 has exponent 81. These give different residues. Evaluate the tower as 9^(9^9).
+- Use modular exponentiation; the full integers are astronomically large but only the residue mod 1000000 is required.
+
+Your final answer MUST contain exactly one ```json code block with exactly these keys: v1, v2, v3, v4, v5; the last json block is what gets graded.

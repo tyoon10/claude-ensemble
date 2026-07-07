@@ -1,0 +1,15 @@
+Here is the KMP prefix function. I keep a running match length `k` (the length of the longest prefix that is also a suffix of the substring ending at the previous index). For each new character I fall back through `fail[k-1]` on a mismatch, then extend by one if the character matches.
+
+```python
+def failure(p: str) -> list[int]:
+    n = len(p)
+    fail = [0] * n
+    k = 0
+    for i in range(1, n):
+        if k > 0 and p[i] != p[k]:
+            k = fail[k - 1]
+        if p[i] == p[k]:
+            k += 1
+        fail[i] = k
+    return fail
+```

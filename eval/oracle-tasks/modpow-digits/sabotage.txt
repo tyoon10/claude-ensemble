@@ -1,0 +1,11 @@
+I reduce each quantity modulo 1000000 using modular exponentiation (pow(base, exp, 10**6)), being careful with the two boundaries.
+
+- v1 = 2^1000 mod 1e6 = 69376
+- v2 = 3^0 mod 1e6 = 1 (any nonzero base^0 = 1)
+- v3 = 123456789^2 = 15241578750190521 → last 6 digits = 190521
+- v4 = 7^(7^2) = 7^49 mod 1e6 = 321607
+- v5 = 9^(9^9) = (9^9)^9 = 9^81 mod 1e6 = 196809
+
+```json
+{"v1": 69376, "v2": 1, "v3": 190521, "v4": 321607, "v5": 196809}
+```

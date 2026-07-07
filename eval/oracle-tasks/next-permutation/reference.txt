@@ -1,0 +1,21 @@
+I use the classic in-place algorithm, but on a copy so the caller's list is never mutated. Scan from the right for the first pivot index `i` with `a[i] < a[i+1]`. If none exists, `a` is the last (descending) arrangement, so I wrap by returning the values sorted ascending. Otherwise I find the rightmost `j` with `a[j] > a[i]`, swap them, then reverse the suffix after `i` to make it ascending. Using `a[j] <= a[i]` in the successor scan (strict `>` on the found element) is what keeps duplicates correct.
+
+```python
+def next_permutation(a: list[int]) -> list[int]:
+    a = list(a)  # copy; never mutate the caller's list
+    n = len(a)
+    # find pivot: rightmost i with a[i] < a[i+1]
+    i = n - 2
+    while i >= 0 and a[i] >= a[i + 1]:
+        i -= 1
+    if i < 0:
+        # last permutation -> wrap to lexicographically smallest
+        return sorted(a)
+    # rightmost successor j with a[j] > a[i]
+    j = n - 1
+    while a[j] <= a[i]:
+        j -= 1
+    a[i], a[j] = a[j], a[i]
+    a[i + 1:] = reversed(a[i + 1:])
+    return a
+```

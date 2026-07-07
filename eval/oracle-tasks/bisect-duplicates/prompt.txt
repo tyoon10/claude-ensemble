@@ -1,0 +1,14 @@
+Implement two functions that compute insertion points into a list `a` that is already sorted in non-decreasing order and MAY contain duplicate values. You must NOT import or use the `bisect` module (or any library) — implement the search yourself, and it should run in O(log n) time.
+
+- `insert_left(a, x)` returns the LEFTMOST index `i` at which `x` could be inserted so that `a` stays sorted. Equivalently, `i` is the number of elements in `a` that are strictly less than `x` (every element before `i` is `< x`, and if `x` already appears in `a`, `i` is the index of its first occurrence).
+- `insert_right(a, x)` returns the RIGHTMOST such index `i`. Equivalently, `i` is the number of elements in `a` that are `<= x` (every element before `i` is `<= x`; if `x` already appears, `i` is one past its last occurrence).
+
+Requirements and edge cases your implementation must handle correctly:
+- Empty list `a == []` → both return `0`.
+- `x` strictly smaller than every element → both return `0`.
+- `x` strictly larger than every element → both return `len(a)`.
+- A list of all-equal values, or a contiguous run of duplicates equal to `x`: `insert_left` lands at the start of the run, `insert_right` lands just past its end.
+- `x` falling strictly between two distinct groups (not present in `a`): both return the same index.
+- It must always hold that `insert_left(a, x) <= insert_right(a, x)`.
+
+Your final answer MUST contain exactly one ```python code block defining `def insert_left(a, x)` and `def insert_right(a, x)`; the last python block in your answer is what gets graded.

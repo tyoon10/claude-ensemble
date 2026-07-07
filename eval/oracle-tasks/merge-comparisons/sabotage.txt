@@ -1,0 +1,15 @@
+Two families of bounds.
+
+Adversary lower bound for the standard two-pointer pairwise merge is m + n - 1:
+- (1,1): 1; (2,2): 3; (3,5): 7; (1,9): 9; (7,7): 13.
+
+Information-theoretic minimum is ceil(log2(C(m+n, m))), computed with exact integer arithmetic:
+- (1,1): C(2,1)=2  -> ceil(log2 2)=1
+- (2,2): C(4,2)=6  -> ceil(log2 6)=3
+- (3,5): C(8,3)=56 -> ceil(log2 56)=6
+- (1,9): C(10,1)=10 -> ceil(log2 10)=4
+- (7,7): C(14,7)=3432 -> 13.
+
+```json
+{"adv_1_1":1,"adv_2_2":3,"adv_3_5":7,"adv_1_9":9,"adv_7_7":13,"info_1_1":1,"info_2_2":3,"info_3_5":6,"info_1_9":4,"info_7_7":13}
+```

@@ -1,0 +1,17 @@
+I compute path counts by reverse-topological dynamic programming, letting f_t(u) = number of s->t paths starting at u.
+
+Paths to H: f(H)=1, f(G)=1, f(E)=1, f(F)=1, f(D)=2, f(C)=3, f(B)=2, f(A)=5. So A->H = 5, C->H = 3, D->H = 2.
+
+Paths A->F: f_F(F)=1, f_F(D)=1, f_F(C)=2, f_F(A)=3.
+
+Paths A->G: f_G(A)=5.
+
+A->A: a path must traverse at least one edge, and there is no edge from A back to A, so there is no path from A to itself: 0.
+
+H->A: H is a sink, so 0.
+
+Longest path (edges): A->B->D->E->G->H = 5 edges.
+
+```json
+{"paths_A_to_H":5,"paths_A_to_F":3,"paths_A_to_G":5,"paths_C_to_H":3,"paths_D_to_H":2,"paths_A_to_A":0,"paths_H_to_A":0,"longest_path_length":5}
+```

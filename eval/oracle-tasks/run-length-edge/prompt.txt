@@ -1,0 +1,20 @@
+Implement classic run-length encoding and decoding in Python with a strict, well-defined contract.
+
+Write two functions:
+
+1. `rle_encode(s: str) -> list[tuple[str, int]]`
+   - Returns a list of `(character, count)` pairs where each pair represents a maximal run of one identical character in `s`, in left-to-right order.
+   - `rle_encode("aaabbc")` must return `[("a", 3), ("b", 2), ("c", 1)]`.
+   - `rle_encode("")` must return `[]` (empty string encodes to the empty list, NOT `[("", 0)]` or anything else).
+   - It must treat each Unicode code point as one character (e.g. an emoji is a single character).
+
+2. `rle_decode(pairs) -> str`
+   - Inverts the encoding: expands each `(character, count)` pair into `character` repeated `count` times, concatenated in order.
+   - A count of `0` is legal input and must contribute NOTHING to the output. For example `rle_decode([("a", 0)])` must return `""`, and `rle_decode([("a", 2), ("b", 0), ("c", 1)])` must return `"aac"`. Do not clamp, guard, or treat a zero count as one.
+   - `rle_decode([])` must return `""`.
+
+Round-trip guarantee: for every string `s`, `rle_decode(rle_encode(s)) == s`.
+
+Watch the boundaries: the empty string, a single character, a string with no repeats, a string that is all one character, non-ASCII / emoji characters, and zero counts on the decode side.
+
+Your final answer MUST contain exactly one ```python code block defining both `rle_encode(s: str) -> list[tuple[str, int]]` and `rle_decode(pairs) -> str`; the last python block in your answer is what gets graded.

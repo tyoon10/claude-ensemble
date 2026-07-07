@@ -1,0 +1,12 @@
+Implement a Least-Recently-Used (LRU) cache as a Python class `LRU`.
+
+Requirements:
+- `LRU(capacity)` constructs a cache holding at most `capacity` key/value pairs (`capacity` is a positive integer).
+- `get(key)` returns the value associated with `key`, or `-1` if the key is not present. A successful `get` counts as a use: it must mark `key` as the most recently used entry.
+- `put(key, value)` inserts or updates a mapping. If `key` already exists, its value MUST be overwritten AND the entry MUST be marked most recently used. If inserting a new key would exceed `capacity`, the least recently used entry is evicted first. A `put` (insert or update) also counts as a use of `key`.
+- The cache must never hold more than `capacity` entries at any time.
+- Both operations must run in O(1) expected time.
+
+Watch the boundaries: capacity 1 (every insert of a new key evicts), `get` on a missing key, updating an existing key must refresh BOTH value and recency (not just value), and recency ordering must stay correct across interleaved `get`/`put` sequences.
+
+Your final answer MUST contain exactly one ```python code block defining `class LRU` with methods `__init__(self, capacity)`, `get(self, key)`, and `put(self, key, value)`; the last python block in your answer is what gets graded.

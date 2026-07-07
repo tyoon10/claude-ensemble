@@ -1,0 +1,21 @@
+Reasoning: model each child as an ordered (sex, weekday) pair with 14 equally likely states, so two children give 196 equally likely outcomes.
+
+1) At least one boy: sex-configs BB, BG, GB, GG; conditioning on "at least one boy" leaves {BB, BG, GB}, of which only BB is both-boys => 1/3.
+
+2) Boy born on Tuesday: both-boys outcomes number 7*7 = 49; those with NEITHER child on Tuesday number 6*6 = 36, so 49 - 36 = 13 favorable. Denominator P(at least one boy-Tuesday) counts 196 - 13*13 = 196 - 169 = 27. So 13/27.
+
+3) Older child is a boy: fixing the older child as a boy, the answer is just P(younger is a boy) = 1/2 by independence. (This is NOT 1/3 — labeling the child breaks the symmetry of the "at least one" version.)
+
+4) P(at least one boy-Tuesday) = 1 - (13/14)^2 = 1 - 169/196 = 27/196.
+
+5) Weekend = 2 flagged days. Both-boys favorable = 49 - (5*5) = 49 - 25 = 24; denominator = 196 - (12*12) = 196 - 144 = 52. So 24/52 = 6/13.
+
+```json
+{
+  "p_both_boys_given_at_least_one_boy": 0.3333333333,
+  "p_both_boys_given_at_least_one_boy_tuesday": 0.4814814815,
+  "p_both_boys_given_older_is_boy": 0.5,
+  "p_at_least_one_boy_tuesday": 0.1377551020,
+  "p_both_boys_given_at_least_one_boy_weekend": 0.4615384615
+}
+```
