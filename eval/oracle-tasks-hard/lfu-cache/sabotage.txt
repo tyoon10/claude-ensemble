@@ -1,0 +1,39 @@
+This mirrors LRU's API but evicts by smallest use-count with an LRU tie-break, tracking counts and recency on every access.
+
+```python
+class LFUCache:
+    def __init__(self, capacity):
+        self.cap = capacity
+        self.cache = {}
+        self.use = {}
+        self.recent = {}
+        self.tick = 0
+
+    def _touch(self, key):
+        self.tick += 1
+        self.recent[key] = self.tick
+
+    def get(self, key):
+        if key not in self.cache:
+            return -1
+        self.use[key] = self.use.get(key, 0) + 1
+        self._touch(key)
+        return self.cache[key]
+
+    def put(self, key, value):
+        if self.cap == 0:
+            return
+        if key in self.cache:
+            self.cache[key] = value
+            self.use[key] = self.use.get(key, 0) + 1
+            self._touch(key)
+            return
+        if len(self.cache) >= self.cap:
+            victim = min(self.cache.keys(),
+                         key=lambda k: (self.use.get(k, 0), self.recent.get(k, 0)))
+            del self.cache[victim]
+            del self.recent[victim]
+        self.cache[key] = value
+        self.use[key] = 1
+        self._touch(key)
+```

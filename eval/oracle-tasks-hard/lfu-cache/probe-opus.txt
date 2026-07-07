@@ -1,0 +1,52 @@
+```python
+class LFUCache:
+    def __init__(self, capacity):
+        if capacity < 0:
+            raise ValueError("capacity must be non-negative")
+        self.capacity = capacity
+        self.store = {}          # key -> value, only currently-stored keys
+        self.counts = {}         # key -> permanent use-count, every key ever seen
+        self.recency = {}        # key -> timestamp of most recent access (stored keys)
+        self._tick = 0
+
+    def _touch(self, key):
+        """Mark key as most-recently-used."""
+        self._tick += 1
+        self.recency[key] = self._tick
+
+    def get(self, key):
+        if key not in self.store:
+            return -1
+        self.counts[key] += 1
+        self._touch(key)
+        return self.store[key]
+
+    def put(self, key, value):
+        if self.capacity == 0:
+            return
+
+        if key in self.store:
+            self.store[key] = value
+            self.counts[key] += 1
+            self._touch(key)
+            return
+
+        # New-or-previously-evicted key.
+        if len(self.store) == self.capacity:
+            self._evict()
+
+        # Retained count persists across evictions; brand-new keys start at 0.
+        self.counts[key] = self.counts.get(key, 0) + 1
+        self.store[key] = value
+        self._touch(key)
+
+    def _evict(self):
+        # Smallest use-count; break ties by least-recently-used (oldest recency).
+        victim = min(
+            self.store,
+            key=lambda k: (self.counts[k], self.recency[k]),
+        )
+        del self.store[victim]
+        del self.recency[victim]
+        # self.counts[victim] is intentionally retained for future re-insertion.
+```

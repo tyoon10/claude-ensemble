@@ -1,0 +1,45 @@
+You will hand-simulate a bespoke deterministic token automaton on a ring. Read the rules EXACTLY — they resemble a classic "annihilating particles" model but differ in a load-bearing way.
+
+## The ring
+There are N cells on a ring, indexed 0..N-1. Cell N-1 is adjacent to cell 0. Some cells hold a single token. Each token has a direction: +1 means it moves toward higher indices (…→ i → i+1 → …, wrapping N-1 → 0); -1 means it moves toward lower indices (wrapping 0 → N-1). Initially every occupied cell holds exactly one token.
+
+## One step (all tokens act simultaneously each step)
+Resolve each step in these three phases, IN ORDER:
+
+**Phase 1 — Bounce detection (based on positions/directions AT THE START of the step).**
+A *head-on pair* is two tokens A and B such that A has direction +1 sitting on some cell i, and B has direction -1 sitting on cell (i+1) mod N — i.e. they occupy adjacent cells and are facing each other so they would cross. Every token in a head-on pair *bounces*: it REVERSES its direction and STAYS on its current cell this step (it does NOT move). A token not in any head-on pair is a *mover*. (Each token belongs to at most one head-on pair; if you ever had ambiguity, note the setups below never produce it.)
+
+**Phase 2 — Movement.** Every mover moves exactly one cell in its (unchanged) direction: new cell = (cell + dir) mod N. Bounced tokens do not move (their direction is already reversed from Phase 1).
+
+**Phase 3 — Vanish (annihilation).** After Phase 2, look at the final cells. Any cell now holding 2 OR MORE tokens: ALL tokens on that cell VANISH permanently (removed for all future steps). A cell with exactly one token is fine.
+
+CRITICAL DEVIATIONS from the classic model, stated once:
+- A head-on meeting does NOT annihilate the two tokens. They bounce (reverse + stay). Annihilation happens ONLY in Phase 3 when two or more tokens end a step sharing the same cell.
+- A token that bounced (and thus stayed) can STILL vanish in Phase 3 if a mover lands on its cell that same step.
+- "Facing each other on adjacent cells" (Phase 1) and "landing on the same cell" (Phase 3) are different events resolved in different phases of the same step.
+
+## Step counting
+Steps are 1-indexed. "The step at which X first happens" means the smallest step number (1,2,3,…) during whose resolution X occurs. If X never happens within the given number of steps, report -1.
+
+## The three setups
+Each setup lists N, a set of initial tokens as (cell, direction), and a step budget T. Simulate exactly T steps.
+
+- **Setup A:** N=6, tokens {(0,+1), (1,+1), (3,-1)}, T=4.
+- **Setup B:** N=7, tokens {(0,+1), (2,+1), (4,-1), (5,-1)}, T=5.
+- **Setup C:** N=8, tokens {(0,+1), (1,-1), (2,-1), (4,+1), (6,-1)}, T=6.
+
+## Configuration format
+A "configuration" is the list of surviving tokens as [cell, direction] pairs, sorted ascending by cell (in these setups no two survivors ever share a cell). Direction is the integer +1 or -1. If no tokens survive, the configuration is the empty list [].
+
+## Deliverables
+Report, for the setups indicated:
+- config_A: configuration of Setup A after its 4 steps.
+- config_B: configuration of Setup B after its 5 steps.
+- config_C: configuration of Setup C after its 6 steps.
+- first_vanish_A: the step number in Setup A at which the first Phase-3 vanish occurs (-1 if none in 4 steps).
+- first_bounce_B: the step number in Setup B at which the first Phase-1 bounce occurs (-1 if none in 5 steps).
+- total_vanished_B: total count of tokens that vanish over Setup B's 5 steps.
+- total_vanished_C: total count of tokens that vanish over Setup C's 6 steps.
+- surviving_C: number of tokens still alive after Setup C's 6 steps.
+
+Your final answer MUST contain exactly one ```json block with exactly these keys: config_A, config_B, config_C, first_vanish_A, first_bounce_B, total_vanished_B, total_vanished_C, surviving_C; the last json block is graded.

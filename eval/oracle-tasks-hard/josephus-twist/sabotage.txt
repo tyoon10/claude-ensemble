@@ -1,0 +1,11 @@
+I simulated the elimination process for each case.
+
+- Case A (n=7,k0=2): survivor 7, prefix [2,5,3].
+- Case B (n=10,k0=3): using step k0=3 each round, order begins 3,6,9,2 → prefix [3,6,9,2], survivor 5.
+- Case C (n=5,k0=1): survivor 4, prefix [1,3,2,5].
+- Case D (n=8,k0=5): survivor 7, prefix [5,3,4].
+- Case E (n=1,k0=4): survivor 1, prefix [].
+
+```json
+{"survivor_A":7,"order_A":[2,5,3],"survivor_B":5,"order_B":[3,6,9,2],"survivor_C":4,"order_C":[1,3,2,5],"survivor_D":7,"order_D":[5,3,4],"survivor_E":1,"order_E":[]}
+```

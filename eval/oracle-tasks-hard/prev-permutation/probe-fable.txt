@@ -1,0 +1,29 @@
+Verified against a brute-force oracle on 3000 random multiset cases (values 0–3, lengths 0–6), plus the worked examples.
+
+```python
+def prev_permutation(a):
+    a = list(a)
+    n = len(a)
+
+    # Find rightmost i with a[i] > a[i+1] (strict, so runs of equal
+    # values are skipped — this is what makes duplicates work).
+    i = n - 2
+    while i >= 0 and a[i] <= a[i + 1]:
+        i -= 1
+
+    if i < 0:
+        # a is non-decreasing: it's the first permutation. Wrap to the
+        # last permutation, i.e. sorted descending.
+        return sorted(a, reverse=True)
+
+    # Find rightmost j > i with a[j] < a[i] (strict).
+    j = n - 1
+    while a[j] >= a[i]:
+        j -= 1
+
+    a[i], a[j] = a[j], a[i]
+    # Suffix is currently non-decreasing; reverse it to non-increasing
+    # so the result is the largest permutation with this prefix.
+    a[i + 1:] = reversed(a[i + 1:])
+    return a
+```

@@ -1,0 +1,38 @@
+All spec behaviors verified, including the worked micro-example, count retention across eviction, and capacity 0.
+
+```python
+class LFUCache:
+    def __init__(self, capacity):
+        self.capacity = capacity
+        self.store = {}       # key -> value (currently stored keys only)
+        self.counts = {}      # key -> permanent use-count (never reset, survives eviction)
+        self.last_used = {}   # key -> tick of most recent access (recency for tie-break)
+        self._tick = 0
+
+    def _touch(self, key):
+        self._tick += 1
+        self.last_used[key] = self._tick
+
+    def get(self, key):
+        if key not in self.store:
+            return -1
+        self.counts[key] += 1
+        self._touch(key)
+        return self.store[key]
+
+    def put(self, key, value):
+        if self.capacity == 0:
+            return
+        if key in self.store:
+            self.store[key] = value
+            self.counts[key] += 1
+            self._touch(key)
+            return
+        # New or previously evicted key; evict first if full.
+        if len(self.store) >= self.capacity:
+            victim = min(self.store, key=lambda k: (self.counts[k], self.last_used[k]))
+            del self.store[victim]  # count retained in self.counts
+        self.store[key] = value
+        self.counts[key] = self.counts.get(key, 0) + 1  # resumes from retained count
+        self._touch(key)
+```

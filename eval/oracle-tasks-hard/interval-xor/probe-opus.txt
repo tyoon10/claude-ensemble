@@ -1,0 +1,69 @@
+```python
+def symmetric_difference_length(A, B):
+    def points(intervals):
+        s = set()
+        for lo, hi in intervals:
+            s.update(range(lo, hi + 1))
+        return s
+    return len(points(A) ^ points(B))
+```
+
+This is correct but memory-heavy for large intervals. Here is an efficient sweep-line version that I'll make the graded answer:
+
+```python
+def symmetric_difference_length(A, B):
+    # Events: at point x, coverage by A/B changes.
+    # Use half-open [s, e+1) internally for integer intervals.
+    events = {}
+    for s, e in A:
+        events[s] = events.get(s, 0) + 1          # A enters
+        events[e + 1] = events.get(e + 1, 0) - 1  # A leaves
+    for s, e in B:
+        events[s] = events.get(s, 0) + 2          # B enters (bit 2)
+        events[e + 1] = events.get(e + 1, 0) - 2  # B leaves
+
+    xs = sorted(events)
+    a_cov = 0  # number of A intervals currently open (0 or 1 since disjoint)
+    b_cov = 0
+    total = 0
+    prev = None
+    for x in xs:
+        if prev is not None:
+            in_a = a_cov > 0
+            in_b = b_cov > 0
+            if in_a != in_b:  # exactly one
+                total += x - prev
+        delta = events[x]
+        # decode: net change split into A part (odd) and B part (even)
+        # We tracked combined; instead track separately below.
+        prev = x
+    return total
+```
+
+The decode above is muddled, so here is the clean, correct final version tracking A and B counts separately:
+
+```python
+def symmetric_difference_length(A, B):
+    events = {}
+    for s, e in A:
+        events[s] = events.get(s, [0, 0])
+        events[s][0] += 1
+        events.setdefault(e + 1, [0, 0])[0] -= 1
+    for s, e in B:
+        events.setdefault(s, [0, 0])[1] += 1
+        events.setdefault(e + 1, [0, 0])[1] -= 1
+
+    xs = sorted(events)
+    a_cov = 0
+    b_cov = 0
+    total = 0
+    prev = None
+    for x in xs:
+        if prev is not None and (a_cov > 0) != (b_cov > 0):
+            total += x - prev
+        da, db = events[x]
+        a_cov += da
+        b_cov += db
+        prev = x
+    return total
+```

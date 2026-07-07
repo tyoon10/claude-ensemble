@@ -1,0 +1,40 @@
+The API mirrors LRU, but eviction is by smallest permanent use-count (ties: least-recently-used), and the retained use-count means a re-inserted key resumes rather than restarts. I keep `use` as a ledger that is never reset on eviction; `recent` and `cache` hold only currently-stored keys. Every get-hit, value-updating put, and inserting put increments the key's use-count and refreshes recency; a get on a missing key is a pure no-op returning -1; capacity 0 stores nothing.
+
+```python
+class LFUCache:
+    def __init__(self, capacity):
+        self.cap = capacity
+        self.cache = {}    # key -> value, only keys currently stored
+        self.use = {}      # key -> permanent useCount, never reset (persists after eviction)
+        self.recent = {}   # key -> last-access tick, only keys currently stored
+        self.tick = 0
+
+    def _touch(self, key):
+        self.tick += 1
+        self.recent[key] = self.tick
+
+    def get(self, key):
+        if key not in self.cache:
+            return -1
+        self.use[key] = self.use.get(key, 0) + 1
+        self._touch(key)
+        return self.cache[key]
+
+    def put(self, key, value):
+        if self.cap == 0:
+            return
+        if key in self.cache:
+            self.cache[key] = value
+            self.use[key] = self.use.get(key, 0) + 1
+            self._touch(key)
+            return
+        if len(self.cache) >= self.cap:
+            victim = min(self.cache.keys(),
+                         key=lambda k: (self.use.get(k, 0), self.recent.get(k, 0)))
+            del self.cache[victim]
+            del self.recent[victim]
+            # self.use[victim] deliberately retained
+        self.cache[key] = value
+        self.use[key] = self.use.get(key, 0) + 1
+        self._touch(key)
+```

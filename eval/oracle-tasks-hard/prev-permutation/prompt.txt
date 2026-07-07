@@ -1,0 +1,14 @@
+Implement `prev_permutation(a)` that returns the PREVIOUS permutation of the list `a` in lexicographic order.
+
+Definitions and rules (read carefully — this is NOT `next_permutation`):
+- Consider the set of DISTINCT permutations of the multiset of values in `a`, ordered lexicographically (ascending). `prev_permutation(a)` must return the permutation immediately BEFORE `a` in that ordering.
+- WRAP-AROUND: if `a` is already the FIRST permutation (i.e. `a` is sorted in ascending / non-decreasing order), there is no earlier permutation, so return the LAST permutation instead: `a` sorted in strictly DESCENDING order of its values (i.e. the reverse of the ascending sort).
+- DUPLICATES are allowed and must be handled by distinct-permutation semantics. For example the distinct permutations of `[1, 1, 5]` in order are `[1,1,5], [1,5,1], [5,1,1]`; so `prev_permutation([1,5,1]) == [1,1,5]` and `prev_permutation([1,1,5]) == [5,1,1]` (wrap).
+- Length 0 or 1: the only permutation is `a` itself, so it wraps to itself (return a copy equal to `a`).
+- Return a NEW list; you need not mutate the input. The values in the returned list are exactly a rearrangement of the input values.
+
+Worked check: `prev_permutation([2,1,3])`. The distinct permutations in order are `123, 132, 213, 231, 312, 321`; `213` is `[2,1,3]`, and the one before it is `132`, so the answer is `[1,3,2]`.
+
+Note the trap: the classic memorized routine is `next_permutation`, whose every comparison is the MIRROR of what this problem needs. Getting the direction of a single comparison wrong still passes on all-distinct inputs but silently fails on multisets with repeated values.
+
+Your final answer MUST contain exactly one ```-python code block defining `prev_permutation(a)`; the last python block is graded.

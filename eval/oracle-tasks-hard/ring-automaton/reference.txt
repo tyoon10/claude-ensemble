@@ -1,0 +1,31 @@
+Simulating each setup by the three-phase rules.
+
+**Setup A** (N=6, {(0,+1),(1,+1),(3,-1)}, T=4):
+- Step 1: Phase 1 — token(0,+1) faces cell 1 which holds (1,+1) (same direction, not head-on); no head-on pairs, no bounce. Phase 2 — 0→1, 1→2, 3→2. Phase 3 — cell 2 holds two tokens (from cells 1 and 3): both vanish. First vanish = step 1. Survivor: token now at 1 with dir +1.
+- Steps 2-4: lone token 1→2→3→4. Final: [[4,1]].
+- config_A = [[4,1]], first_vanish_A = 1.
+
+**Setup B** (N=7, {(0,+1),(2,+1),(4,-1),(5,-1)}, T=5):
+- Step 1: no head-on (0 faces empty side; 2,+1 faces 3 empty). Move: 0→1, 2→3, 4→3, 5→4. Cell 3 has two (from 2 and 4): vanish. Vanish=2 so far. Survivors: (1,+1),(4,-1).
+- Step 2: (1,+1) faces cell 2 (empty), no head-on. Move: 1→2, 4→3. Survivors (2,+1),(3,-1).
+- Step 3: (2,+1) and (3,-1) are adjacent facing each other → head-on bounce. Both reverse & stay: (2,-1),(3,+1). First bounce = step 3. No movement, no vanish.
+- Step 4: now moving apart: 2→1, 3→4. Step 5: 1→0, 4→5. Final: [[0,-1],[5,1]].
+- config_B = [[0,-1],[5,1]], first_bounce_B = 3, total_vanished_B = 2 (only the step-1 pair; the head-on pair did NOT annihilate).
+
+**Setup C** (N=8, {(0,+1),(1,-1),(2,-1),(4,+1),(6,-1)}, T=6):
+- Step 1: Phase 1 — (0,+1) and (1,-1) are adjacent facing each other → head-on: bounce to (0,-1) and (1,+1), both stay. (4,+1) faces cell 5 empty. Phase 2 movers: (2,-1)→1, (4,+1)→5, (6,-1)→5. Phase 3 final cells: cell 0 has bounced (0,-1) alone; cell 1 has bounced (1,+1) AND the mover from cell 2 → two tokens vanish; cell 5 has two movers (from 4 and 6) → vanish. So 4 tokens vanish this step (the bounced token at cell 1 vanishes too). First bounce = step 1. Survivor: (0,-1).
+- Steps 2-6: lone (0,-1): 0→7→6→5→4→3. Final: [[3,-1]].
+- config_C = [[3,-1]], total_vanished_C = 4, surviving_C = 1.
+
+```json
+{
+  "config_A": [[4, 1]],
+  "config_B": [[0, -1], [5, 1]],
+  "config_C": [[3, -1]],
+  "first_vanish_A": 1,
+  "first_bounce_B": 3,
+  "total_vanished_B": 2,
+  "total_vanished_C": 4,
+  "surviving_C": 1
+}
+```

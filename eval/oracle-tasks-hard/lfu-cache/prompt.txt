@@ -1,0 +1,22 @@
+Implement a bounded key/value cache class `LFUCache` in Python. It looks like the classic LRU cache (same `get`/`put`/capacity/eviction API), but the eviction policy and one re-insertion rule deviate — read the spec exactly.
+
+Constructor: `LFUCache(capacity)` where `capacity` is a non-negative int.
+
+The cache maintains, for every key it has ever seen, a permanent integer use-count that is NEVER reset — it persists even after the key is evicted (this is the load-bearing deviation; see the re-insertion rule below).
+
+Methods:
+
+`get(key)`:
+- If `key` is NOT currently stored, return `-1` and change nothing (no counts, no recency, no keys).
+- If `key` IS currently stored: increment its use-count by 1, mark it as the most-recently-used key, and return its value.
+
+`put(key, value)`:
+- If `capacity == 0`: do nothing at all (store nothing; every `get` returns `-1`).
+- If `key` IS currently stored: overwrite its value, increment its use-count by 1 (a value-updating put counts as a use), and mark it most-recently-used.
+- Otherwise `key` is new-or-previously-evicted. If the cache is full (stored key count `== capacity`), first evict one key (see eviction), then insert. On insertion, increment this key's use-count by 1 and mark it most-recently-used. Because use-counts are never reset, a brand-new key becomes use-count 1, but a key that was evicted earlier RESUMES from its retained count: e.g. a key evicted while at count 3, when later re-inserted, becomes count 4 (3 + 1) — NOT 1.
+
+Eviction (only among keys CURRENTLY stored, performed before the new insert): remove the key with the smallest use-count; break ties by least-recently-used (the stored key whose most recent access — any get-hit or any put touching it, including its own insertion — is oldest). The evicted key's use-count is retained for possible future re-insertion.
+
+Worked micro-example (capacity 2): put(1,1); put(2,2); get(1) [use1=2]; put(3,3) evicts key2 (use2=1 < use1=2) and retains use2=1; put(2,20) re-inserts key2 which RESUMES to use2=2, and evicts key3. Now use1=2, use2=2. put(4,4): tie on use-count, so evict least-recently-used, which is key1. Cache holds {2,4}.
+
+Your final answer MUST contain exactly one ```-python code block defining class LFUCache; the last python block is graded.

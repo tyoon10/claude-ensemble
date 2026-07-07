@@ -1,0 +1,22 @@
+You are a settlement clerk running a cash-netting engine. Process a list of signed cash flows (credits positive, debits negative) strictly in the given order against a running balance.
+
+THE RULE THAT MATTERS (read carefully, it is stated once): the running balance is re-rounded to 2 decimal places using BANKER'S ROUNDING (round half to EVEN) AFTER EACH INDIVIDUAL FLOW is added — not once at the end. The balance starts at 0.00. So step k computes balance_k = round_half_even(balance_{k-1} + flow_k, 2), and that rounded value is what the next step adds to. This is order-dependent and generally DIFFERS from the "naive" method of summing every flow in full precision and rounding a single time at the very end.
+
+Round-half-to-even means a value exactly halfway between two 2-decimal candidates goes to the one whose last digit is even (e.g. 0.125 -> 0.12, 0.135 -> 0.14, 0.045 -> 0.04, 0.055 -> 0.06). Treat each printed flow as its exact decimal value (e.g. 0.005 is exactly five thousandths).
+
+The three flow lists:
+  List A = [0.10, 0.20, 0.005, 0.005, 0.005]
+  List B = [1.005, -0.010, 0.025, -0.005, 0.015]
+  List C = [0.125, 0.125, -0.005, 2.675, -0.015]
+
+Deliverables:
+1. final_a — the stepwise running balance after processing ALL of List A (rounded-after-each-step).
+2. final_b — the stepwise running balance after all of List B.
+3. final_c — the stepwise running balance after all of List C.
+4. naive_b — for List B ONLY, the NAIVE result: add all flows at full precision, then round half-to-even to 2 decimals exactly once. (This is provided to confirm you see it differs from final_b.)
+5. diverge_step_a — the FIRST 1-based step index in List A at which the stepwise running balance differs from the exact cumulative sum through that same step rounded to 2 decimals (i.e. compare, at each step k, your stepwise balance_k against round_half_even(exact_sum_of_first_k_flows, 2); report the smallest k where they are unequal). Use -1 if they never differ.
+6. diverge_step_c — the same first-divergence step index (1-based) for List C; -1 if they never differ.
+
+All balances are in dollars with 2 decimals; numeric comparison tolerance is 1e-6. Step indices are integers.
+
+Your final answer MUST contain exactly one ```json block with exactly these keys: "final_a", "final_b", "final_c", "naive_b", "diverge_step_a", "diverge_step_c". The last json block is graded.

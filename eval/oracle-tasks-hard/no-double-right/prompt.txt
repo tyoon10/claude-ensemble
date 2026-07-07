@@ -1,0 +1,29 @@
+You are counting monotone lattice paths on an integer grid.
+
+A path goes from (0,0) to (w,h) using only two kinds of unit moves:
+- R = one step right, which increases the x-coordinate by 1 (a path uses exactly w of these).
+- D = one step down, which increases the y-coordinate by 1 (a path uses exactly h of these).
+
+So every valid path is a sequence of exactly w R's and h D's, in some order.
+
+THE ONE LOAD-BEARING CONSTRAINT (read carefully):
+A path is only allowed if it NEVER makes two consecutive R moves. That is, the move-string must contain no "RR" substring. Two consecutive D moves are fine; an R followed by a D is fine; a D followed by an R is fine. Only "R immediately after R" is forbidden.
+
+Note this is NOT the ordinary lattice-path count. The ordinary count of monotone paths from (0,0) to (w,h) is the binomial coefficient C(w+h, w); that value ignores the no-"RR" rule and is WRONG for this problem. You must count only the sequences of w R's and h D's that contain no "RR".
+
+Conventions:
+- The empty path (when w=0 and h=0) is a single valid path, counted as 1.
+- If w=0, there are no R moves at all, so the "RR" rule is vacuously satisfied: exactly 1 path (all D's).
+- If it is impossible to arrange w R's among h D's without forcing an "RR" (which happens when w is too large relative to h), the count is 0.
+
+Compute the number of valid paths for each of the following (w, h) sizes:
+- w=0, h=0
+- w=0, h=6
+- w=1, h=0
+- w=5, h=2
+- w=4, h=6
+- w=3, h=3
+
+Report each count as an integer.
+
+Your final answer MUST contain exactly one ```-json block with exactly these keys: "w0_h0", "w0_h6", "w1_h0", "w5_h2", "w4_h6", "w3_h3"; the last json block is graded. Each value is the integer path count for the corresponding (w, h).

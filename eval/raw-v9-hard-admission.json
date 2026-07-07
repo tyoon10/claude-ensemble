@@ -1,0 +1,134 @@
+[
+ {
+  "id": "weighted-cover",
+  "ref": 0,
+  "sab": 2,
+  "opus": 0,
+  "fable": 0,
+  "verdict": "valid-but-aced",
+  "opusDefects": [],
+  "fableDefects": [],
+  "refDefects": []
+ },
+ {
+  "id": "prev-permutation",
+  "ref": 0,
+  "sab": 3,
+  "opus": 0,
+  "fable": 0,
+  "verdict": "valid-but-aced",
+  "opusDefects": [],
+  "fableDefects": [],
+  "refDefects": []
+ },
+ {
+  "id": "lfu-cache",
+  "ref": 0,
+  "sab": 1,
+  "opus": 0,
+  "fable": 0,
+  "verdict": "valid-but-aced",
+  "opusDefects": [],
+  "fableDefects": [],
+  "refDefects": []
+ },
+ {
+  "id": "ring-automaton",
+  "ref": 0,
+  "sab": 1,
+  "opus": 0,
+  "fable": 0,
+  "verdict": "valid-but-aced",
+  "opusDefects": [],
+  "fableDefects": [],
+  "refDefects": []
+ },
+ {
+  "id": "josephus-twist",
+  "ref": 0,
+  "sab": 1,
+  "opus": 0,
+  "fable": 0,
+  "verdict": "valid-but-aced",
+  "opusDefects": [],
+  "fableDefects": [],
+  "refDefects": []
+ },
+ {
+  "id": "polya-urn",
+  "ref": 0,
+  "sab": 1,
+  "opus": 0,
+  "fable": 0,
+  "verdict": "valid-but-aced",
+  "opusDefects": [],
+  "fableDefects": [],
+  "refDefects": []
+ },
+ {
+  "id": "border-not-period",
+  "ref": 0,
+  "sab": 4,
+  "opus": 0,
+  "fable": 0,
+  "verdict": "valid-but-aced",
+  "opusDefects": [],
+  "fableDefects": [],
+  "refDefects": []
+ },
+ {
+  "id": "schedule-tiebreak",
+  "ref": 0,
+  "sab": 2,
+  "opus": 0,
+  "fable": 0,
+  "verdict": "valid-but-aced",
+  "opusDefects": [],
+  "fableDefects": [],
+  "refDefects": []
+ },
+ {
+  "id": "negabase",
+  "ref": 0,
+  "sab": 1,
+  "opus": 0,
+  "fable": 0,
+  "verdict": "valid-but-aced",
+  "opusDefects": [],
+  "fableDefects": [],
+  "refDefects": []
+ },
+ {
+  "id": "no-double-right",
+  "ref": 0,
+  "sab": 3,
+  "opus": 0,
+  "fable": 0,
+  "verdict": "valid-but-aced",
+  "opusDefects": [],
+  "fableDefects": [],
+  "refDefects": []
+ },
+ {
+  "id": "banker-netting",
+  "ref": 0,
+  "sab": 1,
+  "opus": 0,
+  "fable": 0,
+  "verdict": "valid-but-aced",
+  "opusDefects": [],
+  "fableDefects": [],
+  "refDefects": []
+ },
+ {
+  "id": "interval-xor",
+  "ref": 0,
+  "sab": 5,
+  "opus": 0,
+  "fable": 0,
+  "verdict": "valid-but-aced",
+  "opusDefects": [],
+  "fableDefects": [],
+  "refDefects": []
+ }
+]

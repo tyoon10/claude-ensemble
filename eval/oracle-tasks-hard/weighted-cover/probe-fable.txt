@@ -1,0 +1,19 @@
+```python
+def measure_at_least(segments, k):
+    # A point's level (max covering weight) is >= k iff at least one segment
+    # with weight >= k covers it. So the target set is exactly the union of
+    # the intervals whose weight >= k; its Lebesgue measure is the merged length.
+    intervals = sorted((s, e) for s, e, w in segments if w >= k)
+    total = 0.0
+    cur_start = cur_end = None
+    for s, e in intervals:
+        if cur_end is None or s > cur_end:
+            if cur_end is not None:
+                total += cur_end - cur_start
+            cur_start, cur_end = s, e
+        elif e > cur_end:
+            cur_end = e
+    if cur_end is not None:
+        total += cur_end - cur_start
+    return float(total)
+```

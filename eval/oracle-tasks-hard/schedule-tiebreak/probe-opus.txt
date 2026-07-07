@@ -1,0 +1,14 @@
+```python
+def schedule(intervals):
+    order = sorted(range(len(intervals)),
+                   key=lambda i: (intervals[i][1], -intervals[i][0], i))
+    selected = []
+    last_end = None
+    for i in order:
+        s, e = intervals[i]
+        if last_end is None or s > last_end:
+            selected.append([s, e])
+            last_end = e
+    selected.sort(key=lambda x: (x[0], x[1]))
+    return selected
+```

@@ -1,0 +1,25 @@
+A **border** of a string `s` is a proper prefix of `s` that is also a suffix of `s`. "Proper" means its length is strictly less than `len(s)`. Consider borders by their **length** `b`, where `1 <= b < len(s)` and `s[:b] == s[len(s)-b:]`.
+
+Each border of length `b` induces a candidate period `p = len(s) - b`. We call a border **periodic-inducing** iff its induced period divides the string length exactly:
+
+    len(s) % (len(s) - b) == 0
+
+(When this holds, `s` is literally the induced block repeated a whole number of times.)
+
+This is the point where the familiar "borders / failure-function" reflex misleads: the divisibility test is on the **period** `len(s) - b`, NOT on the border length `b`, and NOT the other way around. A long border can fail to be periodic-inducing while a short one succeeds, and vice versa.
+
+Implement:
+
+    borders_non_periodic(s) -> list[int]
+
+Return the sorted (ascending) list of border **lengths** that are **NOT** periodic-inducing. Rules:
+- Only consider nonempty proper borders (`1 <= b < len(s)`).
+- A length `b` is included iff `s[:b] == s[len(s)-b:]` AND `len(s) % (len(s) - b) != 0`.
+- If `s` has no such borders (including `len(s) <= 1`), return `[]`.
+
+Worked micro-examples (verify your understanding before coding):
+- `"aaaa"`: borders have lengths 1,2,3. Their periods are 3,2,1. Since `4%3 != 0` but `4%2 == 0` and `4%1 == 0`, only length **1** survives -> `[1]`.
+- `"abab"`: the only border is length 2 (period 2); `4%2 == 0` is periodic-inducing -> `[]`.
+- `"abcabcabc"`: borders have lengths 3 (period 6, `9%6 != 0`) and 6 (period 3, `9%3 == 0`) -> `[3]`.
+
+Your final answer MUST contain exactly one ```-python code block defining `borders_non_periodic(s)`; the last python block is graded.

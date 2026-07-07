@@ -1,0 +1,36 @@
+## The Accelerating Circle
+
+`n` people stand in a circle, numbered `1, 2, ..., n` clockwise. People are eliminated one at a time until a single survivor remains. This is NOT the classic Josephus problem: the step size GROWS as the game proceeds. Read the rules exactly.
+
+### Counting rules (read carefully — stated once)
+
+- The **step size** for the `i`-th elimination (`i = 1, 2, 3, ...`) is `s_i = k0 + (i - 1)`. That is, the first elimination uses step `k0`, the second uses `k0 + 1`, the third `k0 + 2`, and so on. **The step increases by 1 after every elimination.** (A memorized constant-step Josephus formula will give the wrong answer.)
+- Counting is **1-indexed and inclusive of the start position**: when you count `s` living people starting from the current start person, that start person is count number 1. The person reached at count `s` is eliminated. Only living people are counted; already-eliminated people are skipped. Counting moves **clockwise** and wraps around the circle as needed (so `s` may exceed the number of living people).
+- **First round:** the current start person is **person 1** (person 1 is count 1 of the first count).
+- **After each elimination:** the new start person is the living person **immediately clockwise** of the person just eliminated.
+
+### Worked micro-example (n = 5, k0 = 1) — to remove all ambiguity
+
+- Elimination 1: `s_1 = 1`. Start = person 1, who is count 1. Count of 1 lands on person 1 → **eliminate 1**. Next start = person 2.
+- Elimination 2: `s_2 = 2`. Start = person 2 (count 1), person 3 (count 2) → **eliminate 3**. Next start = person 4.
+- Elimination 3: `s_3 = 3`. Living circle is [2, 4, 5]. Start = person 4 (count 1), 5 (count 2), 2 (count 3) → **eliminate 2**. Next start = person 4.
+- Elimination 4: `s_4 = 4`. Living = [4, 5]. Start = 4 (count 1), 5 (2), 4 (3), 5 (4) → **eliminate 5**. Survivor = **4**.
+- Elimination order = `[1, 3, 2, 5]`, survivor = `4`.
+
+### Your task
+
+Simulate the process for each case below. Report the survivor and the **elimination-order prefix** of the requested length (the first people eliminated, in order):
+
+| Case | n  | k0 | prefix length |
+|------|----|----|---------------|
+| A    | 7  | 2  | 3             |
+| B    | 10 | 3  | 4             |
+| C    | 5  | 1  | 5             |
+| D    | 8  | 5  | 3             |
+| E    | 1  | 4  | 0             |
+
+For case E there are no eliminations, so `order_E` is the empty list `[]` and `survivor_E` is `1`.
+
+### Output contract
+
+Your final answer MUST contain exactly one ```-json block with exactly these keys: `survivor_A`, `order_A`, `survivor_B`, `order_B`, `survivor_C`, `order_C`, `survivor_D`, `order_D`, `survivor_E`, `order_E`. Each `survivor_*` is an integer; each `order_*` is a list of integers (the elimination-order prefix of the stated length). The last json block is graded.

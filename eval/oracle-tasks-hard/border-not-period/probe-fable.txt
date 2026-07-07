@@ -1,0 +1,24 @@
+```python
+def borders_non_periodic(s):
+    n = len(s)
+    if n <= 1:
+        return []
+    # KMP failure function to find all borders efficiently
+    fail = [0] * n
+    k = 0
+    for i in range(1, n):
+        while k > 0 and s[i] != s[k]:
+            k = fail[k - 1]
+        if s[i] == s[k]:
+            k += 1
+        fail[i] = k
+    # All borders of s: fail[n-1], fail[fail[n-1]-1], ...
+    result = []
+    b = fail[n - 1]
+    while b > 0:
+        if n % (n - b) != 0:
+            result.append(b)
+        b = fail[b - 1]
+    result.reverse()
+    return result
+```

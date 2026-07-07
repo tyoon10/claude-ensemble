@@ -1,0 +1,6 @@
+{
+ "id": "lfu-cache",
+ "family": "counter-template",
+ "contract": "python",
+ "sabotage_note": "Insertion hard-sets use-count to 1 (standard LFU) instead of resuming from the retained count, breaking the re-insertion deviation (check6)."
+}

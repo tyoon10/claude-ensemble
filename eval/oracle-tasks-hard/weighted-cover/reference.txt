@@ -1,0 +1,21 @@
+Reasoning: The level of a point is the MAX (not sum) of covering weights. I break the line at every distinct start/end coordinate. On each open sub-interval `(a, b)` between consecutive breakpoints, the set of covering segments is constant: a segment `[s, e, w]` covers the whole sub-interval iff `s <= a and e >= b`. I take the max of those weights; if it is `>= k`, I add the interval length `b - a`. This automatically gives isolated points and degenerate segments zero length (they never span an open sub-interval), and touching endpoints leave no gap.
+
+Walking the checks: empty -> 0; `[[0,10,1],[2,4,5]]` k=3 -> only (2,4) has max 5 -> 2; same k=1 -> whole (0,10) -> 10; `[[0,5,2],[5,10,2]]` k=2 -> (0,5) and (5,10) each max 2 -> 10; k=6 above all weights -> 0; `[[-5,-1,2],[-3,3,4]]` k=3 -> (-3,-1) max 4 plus (-1,3) max 4 -> 2+4=6; `[[0,10,1],[5,5,9]]` k=9 -> level 9 only at point 5 -> 0; `[[0,4,1],[2,6,1]]` k=2 -> max is 1 everywhere -> 0; `[[0,6,2],[4,10,5]]` k=5 -> (4,6) max 5 and (6,10) max 5 -> 2+4=6.
+
+```python
+def measure_at_least(segments, k):
+    if not segments:
+        return 0.0
+    xs = sorted(set([s for s, e, w in segments] + [e for s, e, w in segments]))
+    total = 0.0
+    for i in range(len(xs) - 1):
+        a, b = xs[i], xs[i + 1]
+        mx = None
+        for s, e, w in segments:
+            if s <= a and e >= b:          # segment spans the whole open interval (a, b)
+                if mx is None or w > mx:
+                    mx = w                 # MAX of covering weights, never the sum
+        if mx is not None and mx >= k:
+            total += (b - a)               # only spans add length; points contribute 0
+    return float(total)
+```

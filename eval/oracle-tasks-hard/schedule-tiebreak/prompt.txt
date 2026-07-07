@@ -1,0 +1,22 @@
+You are given a list `intervals`, where each element is a two-element list `[start, end]` of integers with `start <= end`. `start` is an inclusive start time and `end` is an inclusive end time. The index of an interval is its position in the input list.
+
+Select a subset of the intervals of MAXIMUM SIZE (the goal is to maximize the COUNT of selected intervals) subject to the conflict rule below.
+
+CONFLICT RULE (read carefully — this differs from the textbook activity-selection problem): two intervals CONFLICT if they overlap OR if they merely touch. Touching at a single shared endpoint IS a conflict. Formally, interval `[a, b]` and interval `[c, d]` are COMPATIBLE (may both be selected) only if one ends strictly before the other begins, i.e. `b < c` or `d < a`. If `b == c` (they share the endpoint) they CONFLICT and cannot both be chosen. All selected intervals must be pairwise compatible.
+
+Many subsets may achieve the maximum count. Return THE ONE canonical optimum produced by this exact greedy procedure:
+1. Sort all intervals by `end` ascending; break ties by `start` DESCENDING (later start first); break remaining ties by input index ascending.
+2. Scan the sorted intervals once, maintaining `last_end` (initially undefined). Select an interval iff it is the first one considered OR its `start` is STRICTLY GREATER than `last_end`. When you select an interval, update `last_end` to its `end`.
+3. Return the selected intervals in CHRONOLOGICAL order (sorted by `start` ascending, then `end` ascending). Each element must be a `[start, end]` list.
+
+Notes:
+- The "later start on ties" rule is load-bearing: among intervals sharing the same `end`, preferring the later `start` never hurts the count and is required to reproduce the canonical answer.
+- The strict `>` comparison (not `>=`) is what enforces the touch-is-a-conflict rule.
+- For empty input, return an empty list.
+
+Examples:
+- `schedule([[0,1],[1,2],[2,3],[3,4]])` returns `[[0,1],[2,3]]` (adjacent touching intervals conflict, so you cannot take all four).
+- `schedule([[0,2],[2,4]])` returns `[[0,2]]` (they touch at 2, so only one may be chosen).
+- `schedule([[0,1],[3,7],[4,7]])` returns `[[0,1],[4,7]]` (between the two intervals ending at 7, the later start 4 wins the tie).
+
+Your final answer MUST contain exactly one ```-python code block defining `schedule(intervals)`; the last python block is graded.

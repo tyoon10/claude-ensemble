@@ -1,0 +1,16 @@
+Reasoning: Interval scheduling for maximum count where touching counts as a conflict, so we require a strict gap (start strictly greater than the previous end). Sort by end ascending, break ties by start, then index, and greedily scan; return chosen intervals in chronological order.
+
+```python
+def schedule(intervals):
+    order = sorted(range(len(intervals)),
+                   key=lambda i: (intervals[i][1], intervals[i][0], i))
+    chosen = []
+    last_end = None
+    for i in order:
+        s, e = intervals[i]
+        if last_end is None or s > last_end:
+            chosen.append([s, e])
+            last_end = e
+    chosen.sort(key=lambda iv: (iv[0], iv[1]))
+    return chosen
+```

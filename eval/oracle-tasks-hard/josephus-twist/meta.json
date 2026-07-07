@@ -1,0 +1,6 @@
+{
+ "id": "josephus-twist",
+ "family": "counter-template",
+ "contract": "json",
+ "sabotage_note": "Case B order computed with a constant step (classic Josephus k=3) instead of the growing step 3,4,5,6 \u2014 yields [3,6,9,2] rather than [3,7,2,10]; trips order_B."
+}

@@ -1,0 +1,40 @@
+I process each list keeping a running balance that I re-round half-to-even to 2 decimals after every single flow.
+
+List A = [0.10, 0.20, 0.005, 0.005, 0.005], start 0.00:
+- +0.10 -> 0.10
+- +0.20 -> 0.30
+- +0.005 -> 0.305 -> 0.30 (halfway, 0 is even, stays)
+- +0.005 -> 0.305 -> 0.30
+- +0.005 -> 0.305 -> 0.30
+final_a = 0.30. (Naive full-precision sum = 0.315 -> 0.32, so stepwise loses the crumbs.)
+
+List B = [1.005, -0.010, 0.025, -0.005, 0.015], start 0.00:
+- +1.005 -> 1.005 -> 1.00 (0 even)
+- -0.010 -> 0.99
+- +0.025 -> 1.015 -> 1.02 (1 odd -> up to even 2)
+- -0.005 -> 1.015 -> 1.02
+- +0.015 -> 1.035 -> 1.04 (3 odd -> up to even 4)
+final_b = 1.04.
+naive_b: exact sum = 1.005 - 0.010 + 0.025 - 0.005 + 0.015 = 1.030 -> 1.03. So naive_b = 1.03, which differs from stepwise final_b = 1.04.
+
+List C = [0.125, 0.125, -0.005, 2.675, -0.015], start 0.00:
+- +0.125 -> 0.125 -> 0.12 (2 even)
+- +0.125 -> 0.245 -> 0.24 (4 even)
+- -0.005 -> 0.235 -> 0.24 (halfway 0.235; the pair digit is 3 odd -> up to 4)
+- +2.675 -> 2.915 -> 2.92 (1 odd -> up to even 2)
+- -0.015 -> 2.905 -> 2.90 (0 even)
+final_c = 2.90.
+
+Divergence for A (compare stepwise balance_k vs round(exact cumulative sum of first k, 2)):
+exact cumulative: 0.10, 0.30, 0.305->0.30, 0.310->0.31, 0.315->0.32
+stepwise:          0.10, 0.30, 0.30,        0.30,        0.30
+Steps 1-3 match; at step 4 stepwise 0.30 vs exact-rounded 0.31 differ. diverge_step_a = 4.
+
+Divergence for C:
+exact cumulative: 0.125->0.12, 0.250->0.25, 0.245->0.24, 2.920->2.92, 2.905->2.90
+stepwise:          0.12,        0.24,        0.24,        2.92,        2.90
+Step 1 matches (0.12 vs 0.12); step 2 stepwise 0.24 vs exact-rounded 0.25 differ. diverge_step_c = 2.
+
+```json
+{"final_a": 0.30, "final_b": 1.04, "final_c": 2.90, "naive_b": 1.03, "diverge_step_a": 4, "diverge_step_c": 2}
+```

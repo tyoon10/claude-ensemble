@@ -1,0 +1,16 @@
+You are given two lists `A` and `B` of closed INTEGER intervals. Within each list the intervals are pairwise disjoint and sorted in strictly ascending order. An interval `[s, e]` (with `s <= e`) denotes the set of INTEGER points `{s, s+1, ..., e}` — that is, it covers exactly `e - s + 1` integer points. Single-point intervals like `[7, 7]` are allowed and cover exactly 1 point. Either list may be empty.
+
+Write `symmetric_difference_length(A, B)` that returns the number of INTEGER points covered by exactly one of the two lists (i.e. covered by A or by B, but not by both). Equivalently, treating each list as the set of integer points it covers, return the size of the symmetric difference of those two sets.
+
+IMPORTANT — this is integer-point counting, NOT real-line length:
+- The count contributed by an interval `[s, e]` is `e - s + 1`, never `e - s`.
+- Two integer intervals overlap only where they share integer points. `[1, 3]` and `[4, 6]` are ADJACENT but share no integer point, so their symmetric-difference contribution is all `3 + 3 = 6` points. But `[1, 3]` and `[3, 6]` share the single point `3`, so that point belongs to both and is excluded.
+- Nested example: `A = [[1, 10]]`, `B = [[3, 5]]`. Points in exactly one = `{1,2,6,7,8,9,10}` = 7.
+
+Examples:
+- `symmetric_difference_length([[2,5],[10,12]], [[2,5],[10,12]]) == 0`
+- `symmetric_difference_length([[7,7]], [[9,9]]) == 2`
+- `symmetric_difference_length([[1,3]], [[3,6]]) == 5`
+- `symmetric_difference_length([], [[3,4]]) == 2`
+
+Your final answer MUST contain exactly one ```-python code block defining symmetric_difference_length(A, B); the last python block is graded.

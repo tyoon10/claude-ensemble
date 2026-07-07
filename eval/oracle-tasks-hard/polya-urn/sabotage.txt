@@ -1,0 +1,16 @@
+Reasoning by enumeration of the 3-step tree from (2,2).
+
+- p_three_reds = 1/2·2/3·3/4 = 1/4.
+- Since the urn starts with equal red and blue (2 and 2), each draw is red or blue with probability 1/2, so the second draw is blue with probability 0.5.
+- The remaining quantities follow from enumerating the 8 leaves.
+
+```json
+{
+  "p_three_reds": 0.25,
+  "p_exactly_one_blue_draw": 0.5347222222,
+  "exp_red_after": 6.7694444444,
+  "exp_blue_after": 1.4152777778,
+  "p_second_draw_blue": 0.5,
+  "p_blue_two_after": 0.4152777778
+}
+```

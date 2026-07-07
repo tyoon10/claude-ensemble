@@ -1,0 +1,9 @@
+```python
+def borders_non_periodic(s):
+    n = len(s)
+    result = []
+    for b in range(1, n):
+        if s[:b] == s[n - b:] and n % (n - b) != 0:
+            result.append(b)
+    return result
+```

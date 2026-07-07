@@ -1,0 +1,11 @@
+I process each list keeping a running balance rounded to 2 decimals.
+
+List A -> final_a = 0.30.
+List B: exact sum = 1.005 - 0.010 + 0.025 - 0.005 + 0.015 = 1.030 -> 1.03, so final_b = 1.03. naive_b = 1.03.
+List C -> final_c = 2.90.
+
+Divergence: diverge_step_a = 4, diverge_step_c = 2.
+
+```json
+{"final_a": 0.30, "final_b": 1.03, "final_c": 2.90, "naive_b": 1.03, "diverge_step_a": 4, "diverge_step_c": 2}
+```

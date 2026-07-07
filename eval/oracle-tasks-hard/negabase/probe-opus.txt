@@ -1,0 +1,20 @@
+Computed via the flooring-division algorithm and verified each by expanding weights.
+
+- neg_6: 100→11010, check 16−8−2=6 ✓
+- neg_neg6: 1110, check −8+4−2=−6 ✓
+- neg_neg25: 111011, check −32+16−8−2+1=−25 ✓
+- val_1101: −8+4+1=−3
+- val_11011: 16−8−2+1=7
+- 100→110100100 (9 digits), check 256−128−32+4=100 ✓
+
+```json
+{
+  "neg_6": "11010",
+  "neg_neg6": "1110",
+  "neg_neg25": "111011",
+  "neg_0": "0",
+  "val_1101": -3,
+  "val_11011": 7,
+  "len_neg_100": 9
+}
+```

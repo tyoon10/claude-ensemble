@@ -1,0 +1,10 @@
+```json
+{
+  "p_three_reds": 0.25,
+  "p_exactly_one_blue_draw": 0.5347222222222222,
+  "exp_red_after": 6.769444444444444,
+  "exp_blue_after": 1.4152777777777778,
+  "p_second_draw_blue": 0.2916666666666667,
+  "p_blue_two_after": 0.4152777777777778
+}
+```

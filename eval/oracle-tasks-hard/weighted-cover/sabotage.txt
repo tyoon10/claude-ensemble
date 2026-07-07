@@ -1,0 +1,20 @@
+Reasoning: I break the line at every distinct coordinate. On each open sub-interval between consecutive breakpoints the covering segments are constant, so I accumulate their weights and keep the interval if the total reaches k.
+
+```python
+def measure_at_least(segments, k):
+    if not segments:
+        return 0.0
+    xs = sorted(set([s for s, e, w in segments] + [e for s, e, w in segments]))
+    total = 0.0
+    for i in range(len(xs) - 1):
+        a, b = xs[i], xs[i + 1]
+        acc = 0
+        covered = False
+        for s, e, w in segments:
+            if s <= a and e >= b:
+                acc += w
+                covered = True
+        if covered and acc >= k:
+            total += (b - a)
+    return float(total)
+```

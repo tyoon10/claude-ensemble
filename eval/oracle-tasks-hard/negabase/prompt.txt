@@ -1,0 +1,24 @@
+You will work in the NEGABINARY (base -2) number system. This looks like binary but is not — read the definition carefully, because the base-2 template gives wrong answers here.
+
+DEFINITION. A negabinary string is a string of digits, each 0 or 1, read most-significant-first. The integer VALUE of a negabinary string d_{k-1} d_{k-2} ... d_1 d_0 is:
+
+    value = sum over i of  d_i * (-2)^i
+
+i.e. the rightmost digit has weight (-2)^0 = 1, the next has weight (-2)^1 = -2, then (-2)^2 = 4, then (-2)^3 = -8, and so on (weights alternate sign). Note (-2)^i, NOT 2^i.
+
+CANONICAL FORM. Every integer (positive, negative, or zero) has a UNIQUE negabinary representation using only digits 0 and 1 with NO minus sign and NO leading zeros — except that the integer 0 is written exactly as the single character "0". "Canonical negabinary of n" means this unique minimal-length string. There is never a leading '0' (for n != 0) and never a sign character; negative integers are encoded purely by the alternating weights.
+
+A standard conversion (given for reference): repeatedly take r = n mod (-2) and n = n div (-2) using flooring division; if the remainder came out negative, add 2 to it and add 1 to n; collect remainders least-significant-first. Stop when n reaches 0.
+
+DELIVERABLES. Produce these seven values:
+- neg_6:      canonical negabinary string of the integer 6
+- neg_neg6:   canonical negabinary string of the integer -6
+- neg_neg25:  canonical negabinary string of the integer -25
+- neg_0:      canonical negabinary string of the integer 0
+- val_1101:   the integer VALUE of the negabinary string "1101"
+- val_11011:  the integer VALUE of the negabinary string "11011"
+- len_neg_100: the number of digits in the canonical negabinary string of the integer 100
+
+The neg_* deliverables must be strings; val_* and len_neg_100 must be integers.
+
+Your final answer MUST contain exactly one ```json block with exactly these keys: neg_6, neg_neg6, neg_neg25, neg_0, val_1101, val_11011, len_neg_100. The last json block is graded.

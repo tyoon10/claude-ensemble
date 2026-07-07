@@ -1,0 +1,17 @@
+Reasoning by full enumeration of the 3-step tree from (r,b)=(2,2). Draw prob P(red)=r/(r+b). Rules: RED -> (r+2,b); BLUE -> (r+1,b-1) if a blue remains, else (r,b+1).
+
+There are 8 leaf paths. Key computations:
+- p_three_reds: R,R,R = (2/4)·(4/6)·(6/8) = 1/2·2/3·3/4 = 1/4 = 0.25.
+- p_second_draw_blue: first=R (1/2) -> (4,2), P(B)=2/6=1/3 gives 1/6; first=B (1/2) -> (3,1), P(B)=1/4 gives 1/8; total 1/6+1/8 = 7/24 ≈ 0.2916666667.
+- Enumerating all leaves for the rest: p_exactly_one_blue_draw = 77/144 ≈ 0.5347222222; exp_red_after = 2437/360 ≈ 6.7694444444; exp_blue_after = 1019/720 ≈ 1.4152777778; p_blue_two_after = 299/720 ≈ 0.4152777778. (Blue can never hit 0 due to the last-blue refill; it ends at either 1 or 2.)
+
+```json
+{
+  "p_three_reds": 0.25,
+  "p_exactly_one_blue_draw": 0.5347222222,
+  "exp_red_after": 6.7694444444,
+  "exp_blue_after": 1.4152777778,
+  "p_second_draw_blue": 0.2916666667,
+  "p_blue_two_after": 0.4152777778
+}
+```

@@ -1,0 +1,20 @@
+Implement a function `measure_at_least(segments, k)`.
+
+You are given `segments`, a list of `[start, end, weight]` entries. Each entry describes a closed interval `[start, end]` on the real number line carrying an integer `weight`. Segments may overlap arbitrarily, may be nested, may touch only at endpoints, and may be degenerate (`start == end`, i.e. a single point). Coordinates and `weight` may be negative; `start <= end` always holds. `k` is an integer threshold.
+
+For every real point `x`, define its **level** to be the MAXIMUM weight among all segments that cover `x` (a segment `[s, e, w]` covers `x` iff `s <= x <= e`). If no segment covers `x`, `x` has no level.
+
+`measure_at_least(segments, k)` must return the total LENGTH (Lebesgue measure) of the set of points whose level is `>= k`. Return a float.
+
+READ CAREFULLY — this is NOT the usual coverage/merge-intervals problem:
+- The level of a point is the MAX of covering weights, never the SUM. If two weight-1 segments overlap, the overlap region still has level 1, not 2.
+- "Length" is a measure: isolated points contribute ZERO length. A degenerate segment `[p, p, w]`, or a region where the `>= k` condition holds only at a single boundary point, adds nothing to the total.
+- Because you are measuring length, whether interval endpoints are treated as open or closed does not change the answer (a single point has measure 0). In particular, two same-weight segments that touch at exactly one endpoint (e.g. `[0,5,w]` and `[5,10,w]`) cover the whole span with no gap.
+- If `segments` is empty, return `0.0`.
+
+Examples:
+- `measure_at_least([[0,10,1],[2,4,5]], 3)` == `2.0` (only the nested region [2,4] reaches level 5 >= 3).
+- `measure_at_least([[0,4,1],[2,6,1]], 2)` == `0.0` (max level is 1 everywhere; summing to 2 would be wrong).
+- `measure_at_least([[0,10,1],[5,5,9]], 9)` == `0.0` (level 9 holds only at the single point x=5).
+
+Your final answer MUST contain exactly one ```-python code block defining measure_at_least(segments, k); the last python block is graded.

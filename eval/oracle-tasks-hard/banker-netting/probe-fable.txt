@@ -1,0 +1,10 @@
+```json
+{
+  "final_a": 0.30,
+  "final_b": 1.04,
+  "final_c": 2.90,
+  "naive_b": 1.03,
+  "diverge_step_a": 4,
+  "diverge_step_c": 2
+}
+```

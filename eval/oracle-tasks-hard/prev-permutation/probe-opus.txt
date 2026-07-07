@@ -1,0 +1,20 @@
+```python
+def prev_permutation(a):
+    a = list(a)
+    n = len(a)
+    # Find largest k such that a[k] > a[k+1]
+    k = n - 2
+    while k >= 0 and a[k] <= a[k + 1]:
+        k -= 1
+    if k < 0:
+        # a is the first (ascending) permutation; wrap to last (descending)
+        return sorted(a, reverse=True)
+    # Find largest l > k such that a[k] > a[l]
+    l = n - 1
+    while a[l] >= a[k]:
+        l -= 1
+    a[k], a[l] = a[l], a[k]
+    # Reverse the suffix after k
+    a[k + 1:] = reversed(a[k + 1:])
+    return a
+```

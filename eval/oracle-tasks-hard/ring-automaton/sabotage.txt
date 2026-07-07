@@ -1,0 +1,20 @@
+Simulating each setup by the three-phase rules.
+
+Setup A: step 1 tokens from cells 1 and 3 both land on cell 2 and vanish; the lone survivor drifts to cell 4. config_A = [[4,1]], first_vanish_A = 1.
+
+Setup B: step 1 the tokens from cells 2 and 4 meet on cell 3 and vanish. Later, at step 3, the two remaining tokens meet head-on at cells 2 and 3 — count these two as annihilated as well, and by luck of the follow-through they end up reappearing at [0,-1] and [5,1]. first_bounce_B = 3.
+
+Setup C: step 1 the head-on pair bounces but the bounced token at cell 1 is struck by the mover from cell 2 and both vanish, along with the pair on cell 5 (4 vanish total); the lone survivor drifts to cell 3.
+
+```json
+{
+  "config_A": [[4, 1]],
+  "config_B": [[0, -1], [5, 1]],
+  "config_C": [[3, -1]],
+  "first_vanish_A": 1,
+  "first_bounce_B": 3,
+  "total_vanished_B": 4,
+  "total_vanished_C": 4,
+  "surviving_C": 1
+}
+```

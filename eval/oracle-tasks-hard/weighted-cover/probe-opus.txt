@@ -1,0 +1,19 @@
+Level(x) = max weight among covering segments. That max is `>= k` iff at least one covering segment has weight `>= k`. So the answer is simply the union length of all segments whose weight `>= k` (degenerate ones contribute 0 automatically).
+
+```python
+def measure_at_least(segments, k):
+    ivals = [(s, e) for s, e, w in segments if w >= k and s < e]
+    if not ivals:
+        return 0.0
+    ivals.sort()
+    total = 0.0
+    cur_s, cur_e = ivals[0]
+    for s, e in ivals[1:]:
+        if s > cur_e:
+            total += cur_e - cur_s
+            cur_s, cur_e = s, e
+        elif e > cur_e:
+            cur_e = e
+    total += cur_e - cur_s
+    return float(total)
+```

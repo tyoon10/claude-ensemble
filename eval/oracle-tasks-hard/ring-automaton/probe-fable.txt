@@ -1,0 +1,9 @@
+Hand-verified all three setups against a scripted simulation; both agree.
+
+- **A:** Step 1 has no bounce (no facing-adjacent pair); movers from cells 1 and 3 collide on cell 2 and vanish (first vanish = step 1). The lone survivor drifts 1→2→3→4.
+- **B:** Step 1: movers from 2 and 4 collide on cell 3 (2 vanish). Survivors converge, first head-on bounce at step 3 (cells 2/3), then separate to cells 0 and 5.
+- **C:** Step 1: tokens at 0/1 bounce; mover from 2 lands on the bounced token at cell 1 (both vanish), movers from 4 and 6 collide on cell 5 (both vanish) — 4 vanished in one step. The survivor (0,-1) walks down to cell 3 over steps 2-6.
+
+```json
+{"config_A": [[4, 1]], "config_B": [[0, -1], [5, 1]], "config_C": [[3, -1]], "first_vanish_A": 1, "first_bounce_B": 3, "total_vanished_B": 2, "total_vanished_C": 4, "surviving_C": 1}
+```

@@ -1,0 +1,24 @@
+You will analyze a NON-standard urn process. Read the update rules carefully: this is NOT a classic Polya urn — one color is REINFORCED, the other is (usually) DEPLETED, and there is a special refill rule that fires only when a color is about to vanish.
+
+Setup:
+- The urn starts with exactly 2 red balls and 2 blue balls.
+- You perform exactly 3 draws (3 steps total).
+- On each step you draw ONE ball uniformly at random from ALL balls currently in the urn, so the probability of drawing red is r/(r+b) where (r,b) are the current red and blue counts.
+
+Update rules (applied immediately after each draw, before the next draw):
+- If the drawn ball is RED: return it to the urn AND add 2 additional red balls. State (r,b) -> (r+2, b).
+- If the drawn ball is BLUE: remove that blue ball from the urn (it is NOT returned), then look at how many blue balls remain:
+    - If at least one blue ball still remains: add 1 red ball. State (r,b) -> (r+1, b-1).
+    - If NO blue ball remains after the removal (i.e. you drew the last blue): add 2 blue balls instead. State (r,b) -> (r, b+1).
+
+Note the deviations from the memorized template: blue draws do NOT reinforce blue; instead each blue draw (except the last-blue case) converts one blue into one red, and draws are NOT independent because counts change every step. The last-blue refill rule prevents blue from ever reaching zero.
+
+Compute the following EXACT quantities by full enumeration of the probability tree over the 3 steps (use exact rational arithmetic; report decimals):
+- p_three_reds: probability all three draws are red.
+- p_exactly_one_blue_draw: probability exactly one of the three draws is blue.
+- exp_red_after: expected number of red balls in the urn after the 3 steps.
+- exp_blue_after: expected number of blue balls in the urn after the 3 steps.
+- p_second_draw_blue: probability the SECOND draw is blue.
+- p_blue_two_after: probability the blue count equals exactly 2 after the 3 steps.
+
+Your final answer MUST contain exactly one ```json block with exactly these keys: p_three_reds, p_exactly_one_blue_draw, exp_red_after, exp_blue_after, p_second_draw_blue, p_blue_two_after. The last json block is graded. Report each value as a decimal number accurate to at least 1e-6.
